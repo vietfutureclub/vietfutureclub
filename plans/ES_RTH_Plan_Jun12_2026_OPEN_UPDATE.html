@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ES RTH Plan — Jun 12, 2026 — OPEN UPDATE 08:22 CT</title>
+<style>
+:root{
+  --bg:#fafbfc; --card:#ffffff; --ink:#15212e; --muted:#5d6b7a; --line:#e4e9ef;
+  --navy:#0f3a5f; --bull:#0d7a45; --bullbg:#e8f6ee; --bear:#c0392b; --bearbg:#fceae7;
+  --neut:#8a6d1a; --neutbg:#fbf3da; --accent:#1463a8; --accentbg:#eaf3fb;
+  --mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;padding-bottom:80px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+header.top{background:linear-gradient(180deg,#ffffff,#f3f7fb);border-bottom:1px solid var(--line);padding:26px 0 18px}
+.kicker{font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:27px;font-weight:750;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--muted);font-size:13.5px}
+.snapshot{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;font:12.5px var(--mono)}
+.chip b{font-weight:700}
+.chip.red b{color:var(--bear)} .chip.green b{color:var(--bull)} .chip.amber b{color:var(--neut)}
+.delta{border:1px solid #cfe3d6;background:var(--bullbg);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:13.5px}
+.delta b.t{display:block;font-size:14px;margin-bottom:4px;color:var(--bull)}
+nav.tabs{position:sticky;top:0;z-index:50;background:rgba(250,251,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto;padding:8px 18px}
+.tab{white-space:nowrap;cursor:pointer;border:none;background:transparent;color:var(--muted);font:600 12.5px/1 inherit;padding:9px 12px;border-radius:7px}
+.tab.active{background:var(--accentbg);color:var(--accent)}
+section.panel{display:none;padding:26px 0 10px}
+section.panel.active{display:block}
+h2{font-size:20px;font-weight:750;letter-spacing:-.01em;margin-bottom:4px}
+h2 .num{font:700 12px var(--mono);color:var(--accent);vertical-align:3px;margin-right:8px}
+.lede{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+h3{font-size:15.5px;font-weight:700;margin:22px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+th{background:#f2f5f9;text-align:left;font:600 11px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 9px;border-bottom:1px solid var(--line)}
+td{padding:7px 9px;border-bottom:1px solid #eef2f6;vertical-align:top}
+td.mono,th.mono{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+tr.cluster td{background:#fdf8ec}
+tr.now td{background:var(--accentbg);font-weight:700}
+.tag{display:inline-block;border-radius:5px;padding:2px 7px;font:600 11px var(--mono)}
+.tag.bull{background:var(--bullbg);color:var(--bull)} .tag.bear{background:var(--bearbg);color:var(--bear)}
+.tag.neut{background:var(--neutbg);color:var(--neut)} .tag.info{background:var(--accentbg);color:var(--accent)}
+.stars{color:#d99a14;letter-spacing:1px;font-size:12px;white-space:nowrap}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid rgba(0,0,0,.12)}
+pre.tree{background:#0f1722;color:#d7e3f0;border-radius:12px;padding:18px;font:12.5px/1.6 var(--mono);overflow-x:auto;margin:12px 0}
+pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b{color:#7ec3ff}
+.warn{border-left:4px solid var(--bear);background:var(--bearbg);border-radius:0 10px 10px 0;padding:12px 16px;margin:10px 0}
+.warn.amber{border-left-color:var(--neut);background:var(--neutbg)}
+.warn.blue{border-left-color:var(--accent);background:var(--accentbg)}
+.warn b.t{display:block;font-size:13.5px;margin-bottom:3px}
+.scen{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden;background:#fff}
+.scen .head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:#f7fafc}
+.scen .head .nm{font-weight:750;font-size:14.5px}
+.scen .body{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;font-size:13px}
+.scen .body .blk b{display:block;font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+.ladder{font:12.5px/1.7 var(--mono);background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;overflow-x:auto;white-space:pre}
+.pb{border:1px solid var(--line);border-radius:12px;background:#fff;margin:12px 0;overflow:hidden}
+.pb-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;background:#f7fafc}
+.pb-head:hover{background:#eef4fa}
+.pb-rank{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;font:700 13px var(--mono);display:flex;align-items:center;justify-content:center}
+.pb-name{font-weight:750;font-size:14.5px;flex:1 1 auto}
+.pb-rr{font:700 12px var(--mono);color:var(--accent);white-space:nowrap}
+.pb-caret{flex:0 0 auto;transition:transform .2s;color:var(--muted);font-size:12px}
+.pb.open .pb-caret{transform:rotate(90deg)}
+.pb-body{display:none;border-top:1px solid var(--line)}
+.pb.open .pb-body{display:block}
+.pb-row{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:10px 16px;border-bottom:1px solid #eef2f6;font-size:13px}
+.pb-row:last-child{border-bottom:none}
+.pb-row .lbl{font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding-top:2px}
+.pb-row.hl{background:var(--accentbg)}
+.tgt{display:inline-block;background:#f2f5f9;border:1px solid var(--line);border-radius:6px;padding:2px 8px;font:600 12px var(--mono);margin:2px 6px 2px 0}
+.tgt.t1{border-color:#bfe3c5;background:var(--bullbg)}
+.foot{margin-top:36px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:640px){h1{font-size:22px}.scen .body{grid-template-columns:1fr}.pb-row{grid-template-columns:1fr;gap:3px}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <div class="kicker">ES1! · CME · RTH PLAN · FRIDAY JUN 12, 2026 · OPEN UPDATE 08:22 CT / 09:22 ET</div>
+  <h1>ES RTH Plan — Open Update: ON POC Test Is Live</h1>
+  <div class="sub">Charts: 30-min price action (08:18 CT) + Market Profile/TPO (08:22 CT) · Price has rotated down from the 7,448.50–7,451.50 wall into ON POC/spike-base control ahead of the RTH open.</div>
+  <div class="snapshot">
+    <div class="chip amber">Last <b>7,410.75</b> (+15.25 / +0.21%)</div>
+    <div class="chip">08:22 CT bar <b>O 7,404.50 · H 7,413.50 · L 7,397.00 · C 7,410.75</b></div>
+    <div class="chip amber">Open location <b>inside ON value</b>, near ON POC/spike base</div>
+    <div class="chip">ON range <b>7,374.25 → 7,451.50</b></div>
+    <div class="chip green">ON value: VAH <b>7,421.50</b> · POC <b>7,409.00</b> · VAL <b>7,391.25</b></div>
+    <div class="chip amber">20-EMA ≈<b>7,433–7,436</b> now overhead</div>
+    <div class="chip red">Pre-open rejection <b>7,448.50–7,451.50</b></div>
+    <div class="chip amber">7,337 single print <b>still open</b></div>
+  </div>
+  <div class="delta"><b class="t">▲ Open update — yes, the plan needs an adjustment</b>
+  Price action changed the opening read: instead of opening at the 20-EMA/ON VAH with upside pressure, ES has <b>rotated down from the 7,448.50–7,451.50 wall</b> and is opening <b>at ON POC 7,409 / spike base 7,403.50</b>. The overnight ratification remains valid, but the day is no longer a clean “buy strength” open. It is now a <b>POC-control decision</b>: if 7,403.50–7,409 holds and 7,421.50–7,424.50 is reclaimed, the bull plan resumes toward 7,433–36 then 7,448.50–7,451.50. If 7,403.50 fails and RTH accepts below it, expect the auction to repair into <b>7,396.50–7,391.25</b>; a 30-min close below ON VAL flips the day toward <b>7,374.25 / 7,366.25</b>. <b>Do not chase mid-value at 7,410–7,420</b>; trade the response at the edges.</div>
+</div></header>
+
+<nav class="tabs"><div class="wrap" id="tabbar"></div></nav>
+
+<div class="wrap">
+
+<!-- 01 -->
+<section class="panel" data-tab="1) Top-Down">
+<h2><span class="num">01</span>Top-Down — re-based at 7,410.75 open update</h2>
+<div class="warn amber"><b class="t">08:22 CT / opening adjustment</b>
+The G1 dip-buy zone has been tested before the bell: the latest 30-min bar undercut ON POC to <b>7,397.00</b> and bounced back to <b>7,410.75</b>. That is constructive only if RTH can <b>hold 7,403.50–7,409</b> and reclaim <b>7,421.50–7,424.50</b>. Until then, treat 7,410 as <b>middle of value</b>, not a fresh long entry.</div>
+
+<h3>a) Daily context</h3>
+<div class="card">
+<table>
+<tr><th>Reference</th><th class="mono">Value</th><th class="mono">Distance</th><th>Status</th></tr>
+<tr><td>20-EMA (est.)</td><td class="mono">≈7,433–7,436</td><td class="mono">≈0</td><td><span class="tag neut">AT PRICE</span> — the battle is happening right now; ON already poked through it to 7,451.50 once and was rejected</td></tr>
+<tr><td>50-EMA</td><td class="mono">≈7,300</td><td class="mono">+131</td><td><span class="tag bull">Support</span> inside the Jun-11 POC ZONE</td></tr>
+<tr><td>100-EMA</td><td class="mono">≈7,144</td><td class="mono">+287</td><td><span class="tag bull">Deep support</span></td></tr>
+<tr><td>ATR</td><td class="mono">105.50</td><td class="mono">—</td><td>ON used ~77 pts; a directional RTH still has roughly ⅔ ATR of budget</td></tr>
+</table>
+<p style="font-size:13px"><b>Read:</b> Two consecutive daily reversals up; today's open will print essentially ON the 20-EMA. A daily close above ~7,436 ends the correction formally and re-opens the upper stack (7,448.50 → 7,469.50 → 7,491.50 → 7,508 → 7,527.50/7,532 → your new lines 7,565 / 7,578.25 / 7,591.50 / 7,603.50 → ATH 7,632.25). A Friday close back under 7,394.50 would print a failed-reclaim wick into the weekend — the bears' only decent outcome from here.</p>
+</div>
+
+<h3>b) 30-Min — overnight flow &amp; updated levels</h3>
+<div class="card">
+<table>
+<tr><th>Segment (Jun 11 18:00 → Jun 12 06:29)</th><th>Action</th></tr>
+<tr><td>18:00–22:00</td><td>Spike acceptance, then extension: through 7,424.50 to <b>ON HIGH 7,451.50</b> — first tag of the 7,448.50 shelf rejected</td></tr>
+<tr><td>22:00–03:00</td><td>Repair leg: lost spike base 7,403.50, <b>filled the 7,387 single print</b>, overshot to <b>ON LOW 7,374.25</b> (held above 7,366.25)</td></tr>
+<tr><td>03:00–08:22 CT</td><td>Buy-the-fill response first reclaimed spike base and reached the 7,430s, but the pre-open then rejected below the 20-EMA / wall and rotated back to <b>7,410.75 at ON POC 7,409</b>; latest low 7,397 tested the polarity band from above.</td></tr>
+</table>
+<table style="margin-top:12px">
+<tr><th>Drawn level (30-min, updated)</th><th>Color</th><th class="mono">Price</th><th class="mono">Dist</th></tr>
+<tr><td>Upper fib extension <b>(NEW)</b></td><td><span class="swatch" style="background:#e57373"></span>Red</td><td class="mono">caps the stack above 7,603.50</td><td class="mono">+173+</td></tr>
+<tr><td>Upper stack <b>(NEW lines)</b></td><td>Black / Red</td><td class="mono">7,603.50 / 7,591.50 / 7,578.25 / <b>7,565.00 red</b> / 7,550.50</td><td class="mono">+120→+173</td></tr>
+<tr><td>Known stack</td><td>Black</td><td class="mono">7,527.50 / 7,508.25 / 7,491.50 / 7,469.50</td><td class="mono">+39→+97</td></tr>
+<tr class="cluster"><td>Shelf + ON HIGH</td><td>Black/Label</td><td class="mono">7,448.50 / 7,451.50</td><td class="mono">+18→+21</td></tr>
+<tr class="now"><td><b>CURRENT — ON POC / spike-base decision area</b></td><td><span class="swatch" style="background:#bfe3c5"></span></td><td class="mono">7,410.75 (POC 7,409 · spike base 7,403.50)</td><td class="mono">0</td></tr>
+<tr class="cluster"><td>Pivot + ON VAH</td><td>Black/MP</td><td class="mono">7,424.50 / 7,421.50</td><td class="mono">−6→−9</td></tr>
+<tr class="cluster"><td>ON POC + spike base</td><td>MP/Label</td><td class="mono">7,409.00 / 7,403.50</td><td class="mono">−22→−27</td></tr>
+<tr class="cluster"><td>Polarity band: fib + yClose + ON VAL</td><td><span class="swatch" style="background:#e57373"></span>Red/MP</td><td class="mono">7,396.50 / 7,394.50 / 7,394.00 / 7,391.25</td><td class="mono">−34→−39.5</td></tr>
+<tr><td>Filled single print + cyan MA</td><td>MP/<span class="swatch" style="background:#26c6da"></span>Cyan</td><td class="mono">7,387.00 / 7,383.25</td><td class="mono">−44→−47.5</td></tr>
+<tr><td>ON LOW</td><td>Label</td><td class="mono">7,374.25</td><td class="mono">−56.5</td></tr>
+<tr><td>Teal pivot</td><td>Teal</td><td class="mono">7,366.25</td><td class="mono">−64.5</td></tr>
+<tr class="cluster"><td>yVAH + fib</td><td>MP/Red</td><td class="mono">7,348.25 / 7,350.00</td><td class="mono">−80.5→−82.5</td></tr>
+<tr><td>Single print (OPEN)</td><td>MP</td><td class="mono">7,337.00</td><td class="mono">−93.75</td></tr>
+<tr><td>Lower structure</td><td>Various</td><td class="mono">7,320 zone / 7,299.25 / 7,287 / 7,275–80 / 7,258.25 / 7,237.50 / 7,232.25 / 7,206.75</td><td class="mono">−110→−224</td></tr>
+</table>
+</div>
+
+<h3>c) Market Profile — overnight detail</h3>
+<div class="card">
+<table>
+<tr><th>Metric</th><th class="mono">Value</th><th>Read</th></tr>
+<tr><td>ON HIGH / LOW</td><td class="mono">7,451.50 / 7,374.25</td><td>Both-sided 77-pt night; both probes rejected back to the middle</td></tr>
+<tr><td>ON VAH / POC / VAL</td><td class="mono">7,421.50 / 7,409.00 / 7,391.25</td><td><b>Entire ON value above yClose 7,394.50</b> — the market accepted the spike and built value on top of it</td></tr>
+<tr><td>Spike base</td><td class="mono">7,403.50</td><td>Now embedded INSIDE ON value, just under ON POC — upgraded from "binary line" to "value-backed support"</td></tr>
+<tr><td>Single print 7,387</td><td class="mono">FILLED overnight</td><td>Repair complete; 7,383–7,391 now tested, two-way traded structure</td></tr>
+<tr><td>Single print 7,337</td><td class="mono">STILL OPEN</td><td>The only untested air left below — only in play under 7,366/7,350</td></tr>
+<tr><td>Open projection</td><td class="mono">~7,405–7,415</td><td>Opens inside ON value, at ON POC/spike base — bullish structure survives only if 7,403.50–7,409 holds</td></tr>
+</table>
+</div>
+<div class="grid2">
+<div class="ladder"><b>UPDATED STRUCTURE MAP (pre-open)</b>
+7,603.50 / 7,591.50 / 7,578.25 / 7,565.00 ── NEW upper stack + fib cap
+7,527.50–7,532 ── cluster
+7,508.25 / 7,491.50 / 7,469.50 ── shelf ladder
+7,448.50 / 7,451.50 ── <b>shelf + ON HIGH — first wall</b>
+7,433–36 ── daily 20-EMA (now overhead)
+7,421.50 / 7,424.50 ── ON VAH + pivot — first reclaim target
+7,409.00 ── <b>ON POC</b> ◄ <b>YOU ARE HERE (7,410.75)</b>
+7,403.50 ── spike base (value-backed now)
+7,396.50–7,391.25 ── fib + yClose + <b>ON VAL — polarity band</b>
+7,387 / 7,383.25 ── filled print + cyan
+7,374.25 ── ON LOW
+7,366.25 ── teal
+7,350 / 7,348.25 ── fib + yVAH  ◄ deep-repair buy
+7,337 ── <b>OPEN single print</b> ░ air ░
+7,320 → 7,294–7,307 POC ZONE → 7,262 …</div>
+<div>
+<p style="font-size:13px"><b>Profile narrative:</b> Overnight did the two healthiest things a spike can experience: it probed higher (proving demand above), and it repaired its own thin structure (filling 7,387, finding responsive buyers at 7,374.25) — then built a fat, symmetric value distribution on top of yesterday's close. This is textbook ratification. The auction question for RTH is no longer "is the spike real" — it's "can price accept above the 20-EMA / 7,448.50–7,451.50 wall." Failure there produces rotations back through a now well-structured 7,374–7,430 zone (buyable); acceptance opens a clean ladder to 7,469.50/7,491.50 with your new upper-stack lines mapping the path to the ATH zone.</p>
+<p style="font-size:13px;margin-top:8px"><b>VIX/macro carry-over:</b> No updated VIX chart — last 20.42 falling. Iran deal still unsigned, signing "maybe over the weekend": the 2 PM Friday de-risk rule from yesterday's plan stays in force. Confirm VIX sub-20.5 at the bell for the full bull template.</p>
+</div>
+</div>
+</section>
+
+<!-- 02 -->
+<section class="panel" data-tab="2) Key Levels">
+<h2><span class="num">02</span>Key Levels — open update ladder (ref 7,410.75)</h2>
+<div class="card">
+<table>
+<tr><th>Zone</th><th class="mono">Price</th><th>Source</th><th>Type</th><th class="mono">Dist</th><th>★</th></tr>
+<tr><td>R9</td><td class="mono">7,632.25</td><td>D</td><td>ATH</td><td class="mono">+201.5</td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>R8 🔗</td><td class="mono">7,591.50–7,603.50 (+fib cap)</td><td>30m</td><td><b>NEW upper lines + fib extend</b></td><td class="mono">+161→+173</td><td class="stars">★★★</td></tr>
+<tr><td>R7</td><td class="mono">7,565.00 / 7,578.25</td><td>30m</td><td><b>NEW red major + line</b></td><td class="mono">+134/+147.5</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R6 🔗</td><td class="mono">7,527.50–7,532 / 7,550.50</td><td>30m+D</td><td>Cluster + line</td><td class="mono">+97→+120</td><td class="stars">★★★★</td></tr>
+<tr><td>R5</td><td class="mono">7,491.50 / 7,508.25</td><td>30m</td><td>Swing high / line</td><td class="mono">+61/+77.5</td><td class="stars">★★★</td></tr>
+<tr><td>R4</td><td class="mono">7,469.50</td><td>30m</td><td>Shelf — day target on acceptance</td><td class="mono">+38.75</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>R3 🔗</td><td class="mono">7,448.50–7,451.50</td><td>30m+MP</td><td><b>Shelf + ON HIGH — the wall, already rejected once</b></td><td class="mono">+18→+21</td><td class="stars">★★★★★</td></tr>
+<tr><td>R2</td><td class="mono">≈7,433–7,436</td><td>D</td><td><b>20-EMA — at price</b></td><td class="mono">+2→+5</td><td class="stars">★★★★★</td></tr>
+<tr class="now"><td>NOW</td><td class="mono">7,410.75</td><td>—</td><td>At ON POC/spike-base control; 20-EMA is overhead</td><td class="mono">0</td><td class="stars">—</td></tr>
+<tr class="cluster"><td>S1 🔗</td><td class="mono">7,421.50–7,424.50</td><td>MP+30m</td><td>ON VAH + pivot</td><td class="mono">−6→−9</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S2 🔗</td><td class="mono">7,403.50–7,409.00</td><td>MP</td><td><b>ON POC + spike base — value-backed support</b></td><td class="mono">−22→−27</td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>S3 🔗</td><td class="mono">7,391.25–7,396.50</td><td>MP+30m</td><td><b>ON VAL + yClose 7,394.50 + fib — polarity band</b></td><td class="mono">−34→−39.5</td><td class="stars">★★★★★</td></tr>
+<tr><td>S4</td><td class="mono">7,383.25–7,387</td><td>30m+MP</td><td>Cyan + filled print (now tested)</td><td class="mono">−44→−47.5</td><td class="stars">★★★</td></tr>
+<tr><td>S5</td><td class="mono">7,374.25 / 7,366.25</td><td>MP/30m</td><td>ON LOW / teal — last defense before deep repair</td><td class="mono">−56.5/−64.5</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S6 🔗</td><td class="mono">7,348.25–7,350</td><td>MP+30m</td><td>yVAH + fib — deep-repair buy zone</td><td class="mono">−80.5→−82.5</td><td class="stars">★★★★</td></tr>
+<tr><td>S7</td><td class="mono">7,337</td><td>MP</td><td><b>OPEN single print</b> — air below 7,348</td><td class="mono">−93.75</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>S8 🔗</td><td class="mono">7,294.25–7,307.50</td><td>MP+D</td><td>Jun-11 POC ZONE + 50-EMA</td><td class="mono">−123→−136</td><td class="stars">★★★★★</td></tr>
+<tr><td>S9</td><td class="mono">7,262 / 7,258.25 / 7,237.50 / 7,232.25</td><td>MP/30m</td><td>yLow / old spike base / lvn / week low</td><td class="mono">−169→−198</td><td class="stars">★★★</td></tr>
+</table>
+<div class="warn amber"><b class="t">⚑ Today's controlling structure</b>
+<b>7,448.50–7,451.50</b> (shelf + ON HIGH — break = day unlock) · <b>20-EMA ~7,434</b> (at price — the open decides it) · <b>7,403.50–7,409</b> (ON POC + spike base — first real dip-buy) · <b>7,391.25–7,396.50</b> (polarity — bull template lives above this band).</div>
+</div>
+</section>
+
+<!-- 03 -->
+<section class="panel" data-tab="3) Context">
+<h2><span class="num">03</span>Context Into the Friday Open</h2>
+<div class="card">
+<table>
+<tr><th>Dimension</th><th>Reading</th><th>Implication</th></tr>
+<tr><td>Overnight character</td><td>Both-sided ratification: probe up (7,451.50 rejected), repair down (7,374.25 bought), value built above yClose</td><td>Healthiest possible follow-through to a spike close — bull template confirmed</td></tr>
+<tr><td>Open location</td><td class="mono">~7,405–7,415 — inside ON value, at ON POC/spike base</td><td>Open at value control; first 30 minutes vs 7,403.50/7,409 decides POC hold vs ON VAL repair</td></tr>
+<tr><td>ON inventory</td><td><span class="tag neut">Balanced but softened</span> (wall rejected, pre-open sellers pressed into POC)</td><td>No forced inventory correction owed, but opening below VAH means bulls must prove control at 7,403.50–7,409</td></tr>
+<tr><td>Structural repair status</td><td class="mono">7,387 print filled ✓ · 7,374–7,430 two-way tested · 7,337 print still open</td><td>Support below is REAL now; the air pocket only matters under 7,350</td></tr>
+<tr><td>Value relationships</td><td class="mono">ON value 7,391.25–7,421.50 entirely above yClose</td><td>Higher value = trend confirmation; RTH value overlapping-higher extends it</td></tr>
+<tr><td>ATR budget</td><td class="mono">105.5; ON used 77</td><td>Full-bull RTH ≈ 7,490–7,510 reachable; full-bear ≈ 7,340–7,360 — both map to your levels</td></tr>
+<tr><td>Event clock</td><td>Friday; Iran signing "maybe this weekend," unsigned</td><td>2 PM de-risk rule active; MOC direction = weekend-positioning tell</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 04 -->
+<section class="panel" data-tab="4) Scenarios">
+<h2><span class="num">04</span>What-If Scenarios — RTH Friday Jun 12 (OPEN UPDATE)</h2>
+
+<div class="scen"><div class="head"><span class="nm">O1 · ON POC / Spike Base Holds → Reclaim VAH</span><span class="tag bull">BULL base case</span><span class="stars">★★★★ 26%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>RTH opens 7,405–7,415 after a pre-open dip to 7,397 and bounce back through ON POC 7,409.</div>
+<div class="blk"><b>Narrative</b>Opening sellers fail to push value lower. Price accepts above 7,409, reclaims 7,421.50–7,424.50, then tests the 20-EMA 7,433–36. Only after that does the wall 7,448.50–7,451.50 come back into play.</div>
+<div class="blk"><b>Setup</b>Long only on hold/reclaim: 7,405–7,412 after 5–15 min acceptance above 7,409 or a pullback that holds 7,403.50. Stop 7,396. T1 7,421.50/7,424.50 · T2 7,433–36 · T3 7,448.50.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: first 30-min close above 7,409 and preferably above 7,421.50. Invalid: 30-min close below 7,403.50 → O2.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">O2 · POC Fails → ON VAL / Polarity Repair</span><span class="tag bear">BEAR rotation</span><span class="stars">★★★ 22%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opening trade cannot hold 7,403.50–7,409 and begins accepting under the spike base.</div>
+<div class="blk"><b>Narrative</b>Pre-open bounce becomes only inventory relief. Auction repairs through 7,397 into 7,396.50–7,391.25. If ON VAL holds, the day can still rotate back to POC; if ON VAL fails, target ON LOW 7,374.25 / 7,366.25.</div>
+<div class="blk"><b>Setup</b>Short/scalp under 7,403.50 after failed reclaim, stop 7,412, T1 7,396.50, T2 7,391.25, T3 7,374.25. Prefer covering into ON VAL unless headline/VIX confirms.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: 30-min close below 7,403.50, then no fast reclaim. Invalid: reclaim 7,409 → back to O1/O3.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">O3 · Inside-Value Rotation Day</span><span class="tag neut">NEUTRAL</span><span class="stars">★★★ 22%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Price spends the first hour between ON VAL 7,391.25 and ON VAH 7,421.50 / pivot 7,424.50.</div>
+<div class="blk"><b>Narrative</b>The market is not rejecting the spike, but it is also not accepting above the 20-EMA. Expect chop around POC 7,409; fade edges, avoid the middle.</div>
+<div class="blk"><b>Setup</b>Long 7,392–7,397 with stop below 7,387; short/fade 7,421–7,424 if no acceptance above, stop 7,433. Targets return to POC 7,409.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: repeated rotations through 7,409 without range expansion. Invalid: 30-min close above 7,424.50 or below 7,391.25.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">O4 · VAH / 20-EMA Reclaim → Wall Retest</span><span class="tag bull">BULL continuation</span><span class="stars">★★ 14%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>POC holds cleanly and buyers quickly reclaim 7,421.50–7,424.50.</div>
+<div class="blk"><b>Narrative</b>Then the prior plan resumes, but with one extra hurdle: 7,433–36 must be reclaimed before a tradeable push into 7,448.50–7,451.50. A breakout above the wall still unlocks 7,469.50/7,491.50.</div>
+<div class="blk"><b>Setup</b>Add only after acceptance above 7,424.50; breakout long 7,452–7,455 still requires acceptance over 7,451.50. Stop under the wall on breakout or under 7,421.50 on shallow-pullback entry.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: breadth/VIX supportive and first hour value developing above 7,421.50. Invalid: failure back below 7,409.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">O5 · ON VAL Failure → ON LOW / 7,337 Trapdoor</span><span class="tag bear">BEAR tail</span><span class="stars">★★ 10%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>30-min close below 7,391.25, especially with VIX bid or negative headline.</div>
+<div class="blk"><b>Narrative</b>Rotation extends to 7,374.25 / 7,366.25. Under 7,348.25 the still-open 7,337 single print becomes the magnet, then 7,320 and the Jun-11 POC zone 7,294.25–7,307.50.</div>
+<div class="blk"><b>Setup</b>Short failed reclaim of 7,391.25, stop 7,403.50, T1 7,374.25, T2 7,366.25, T3 7,348.25/7,337. Responsive longs only at 7,365–68 or 7,349–53 after a turn.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: headline + volume. Invalid: fast reclaim of 7,403.50.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">O6 · Friday-Afternoon De-Risk Overlay</span><span class="tag neut">TIME-BASED</span><span class="stars">★ 6%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>By 2 PM CT/ET? keep the original clock discipline: no signing confirmation into the afternoon.</div>
+<div class="blk"><b>Narrative</b>Weekend risk can cap gains or accelerate a late failure from value. Any long taken from POC should be paid and trailed by then.</div>
+<div class="blk"><b>Setup</b>Trim to ¼-size core by the afternoon if unconfirmed; no new full-size longs late Friday.</div>
+<div class="blk"><b>Confirm / invalid</b>Invalid: confirmed signing headline + ES holding above 7,451.50.</div>
+</div></div>
+</section>
+
+<!-- 05 -->
+<section class="panel" data-tab="5) Probability">
+<h2><span class="num">05</span>Probability Matrix — OPEN UPDATE</h2>
+<div class="card">
+<table>
+<tr><th>Rank</th><th>Scenario</th><th>Direction</th><th>Prob</th><th>★</th></tr>
+<tr><td>1</td><td>O1 ON-POC/spike-base hold → VAH/20-EMA retest</td><td><span class="tag bull">Bull</span></td><td class="mono">26%</td><td class="stars">★★★★</td></tr>
+<tr><td>2</td><td>O2 POC fails → ON VAL / polarity repair</td><td><span class="tag bear">Bear rotation</span></td><td class="mono">22%</td><td class="stars">★★★</td></tr>
+<tr><td>3</td><td>O3 Inside-value rotation around POC</td><td><span class="tag neut">Neutral</span></td><td class="mono">22%</td><td class="stars">★★★</td></tr>
+<tr><td>4</td><td>O4 VAH + 20-EMA reclaim → wall retest/break</td><td><span class="tag bull">Bull continuation</span></td><td class="mono">14%</td><td class="stars">★★</td></tr>
+<tr><td>5</td><td>O5 ON VAL failure → ON LOW / 7,337 trapdoor</td><td><span class="tag bear">Bear tail</span></td><td class="mono">10%</td><td class="stars">★★</td></tr>
+<tr><td>6</td><td>O6 Afternoon de-risk overlay</td><td><span class="tag neut">Time-based</span></td><td class="mono">6%</td><td class="stars">★</td></tr>
+</table>
+<table><tr><th>Combined</th><th class="mono" style="color:var(--bull)">Bull 40%</th><th class="mono">Neutral 28%</th><th class="mono" style="color:var(--bear)">Bear 32%</th></tr></table>
+<div class="warn blue"><b class="t">Base case changed</b>The bullish structure is not cancelled, but it has been <b>downgraded from “open near VAH/20-EMA” to “open at POC control.”</b> Best edge is no longer chasing upside; it is waiting for either (1) 7,403.50–7,409 to hold and reclaim 7,421.50–7,424.50, or (2) a failure into ON VAL/polarity where responsive buyers appear.</div>
+</div>
+</section>
+
+<!-- 06 -->
+<section class="panel" data-tab="6) Decision Map">
+<h2><span class="num">06</span>Decision Map — updated</h2>
+<pre class="tree">FRIDAY RTH OPEN UPDATE ~7,405–7,415 (inside ON value · ON POC 7,409 · spike base 7,403.50)
+│
+├─► ACCEPTANCE ABOVE <span class="y">7,403.50–7,409</span>
+│     ├─ reclaim <span class="y">7,421.50–7,424.50 (ON VAH + pivot)</span>
+│     │     └─ <span class="g">O1/O4 LONG</span> → 7,433–36 20-EMA → <span class="y">WALL 7,448.50–7,451.50</span>
+│     │            ├─ rejected again → <span class="y">O3 range</span> fade back to POC
+│     │            └─ <span class="g">broken + held</span> → 7,469.50 → 7,491.50
+│     └─ cannot reclaim 7,421.50 → <span class="y">inside-value chop</span>, avoid mid-value longs
+│
+├─► FAILURE BELOW <span class="r">7,403.50</span>
+│     ├─ failed reclaim of 7,409 → <span class="r">O2 scalp short/repair</span> → 7,396.50 → <span class="y">7,391.25 ON VAL</span>
+│     └─ <span class="r">30-min close &lt; 7,391.25</span> → O5
+│            └─ 7,383/7,387 → <span class="y">ON LOW 7,374.25</span> → 7,366.25
+│                   ├─ <span class="g">BUY responsive turn only</span> 7,365–68 / 7,349–53 → 7,391/7,409
+│                   └─ <span class="r">7,348 fails</span> → 7,337 single print → 7,320 → POC ZONE 7,294–7,307
+│
+└─► FIRST MOVE UP BUT STALLS AT <span class="y">7,421.50–7,424.50</span>
+      └─ no acceptance above VAH = fade back to 7,409; only breakout trade is after 7,451.50 acceptance
+
+TIME RULE: afternoon without signing confirmation → trim to ¼ core, tighten trails, no late full-size longs</pre>
+<div class="card">
+<table>
+<tr><th class="mono">Level</th><th>Holds</th><th>Breaks</th></tr>
+<tr><td class="mono">7,448.50–7,451.50 wall</td><td>Range day G3; fade with stop 7,458</td><td>Day unlock → 7,469.50 → 7,491.50; weekly close strong</td></tr>
+<tr><td class="mono">20-EMA ~7,434</td><td>Chop magnet at the open</td><td>(reclaim) momentum confirms; (loss) rotation to ON POC</td></tr>
+<tr><td class="mono">7,421.50–7,424.50</td><td>Shallow dip — bullish tell</td><td>ON POC 7,409 next</td></tr>
+<tr><td class="mono">7,403.50–7,409</td><td><b>Primary long trigger</b></td><td>Polarity band test 7,391.25–7,396.50</td></tr>
+<tr><td class="mono">7,391.25 ON VAL</td><td>Bull template intact</td><td>G4: 7,374.25 → 7,366.25 → 7,348–50</td></tr>
+<tr><td class="mono">7,348.25–7,350</td><td><b>Deep-repair core long</b></td><td>7,337 print fills → headline regime → POC ZONE</td></tr>
+<tr><td class="mono">7,294.25–7,307.50</td><td>50-EMA defense; Monday rebuild</td><td>7,262 → bull thesis suspended into the weekend</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 07 -->
+<section class="panel" data-tab="7) Bias Flips">
+<h2><span class="num">07</span>Bias Flip Conditions — updated</h2>
+<div class="card">
+<table>
+<tr><th>Starting bias</th><th>Flip to</th><th class="mono">Trigger</th><th>Action</th></tr>
+<tr><td><span class="tag bull">Bull (default)</span></td><td><span class="tag bull">Trend confirm</span></td><td class="mono">Two 30-min closes &gt; 7,451.50</td><td>Runners to 7,469.50/7,491.50; trail under 7,448.50</td></tr>
+<tr><td><span class="tag bull">Bull</span></td><td><span class="tag neut">Range mode</span></td><td class="mono">Second clean rejection of 7,448.50–7,451.50</td><td>G3: fade edges 7,391↔7,451, both directions scalps</td></tr>
+<tr><td><span class="tag bull">Bull</span></td><td><span class="tag neut">Neutral / repair</span></td><td class="mono">30-min close &lt; 7,391.25</td><td>Flatten longs; bid plan moves to 7,365–68 / 7,348–53</td></tr>
+<tr><td><span class="tag neut">Repair</span></td><td><span class="tag bull">Bull restored</span></td><td class="mono">Reclaim 7,403.50</td><td>Resume dip-buy template</td></tr>
+<tr><td><span class="tag neut">Repair</span></td><td><span class="tag bear">Bear</span></td><td class="mono">30-min close &lt; 7,348.25 (esp. headline)</td><td>G5 short to 7,337/7,320; no longs until POC ZONE</td></tr>
+<tr><td><span class="tag bull">Any long</span></td><td><span class="tag neut">De-risk</span></td><td class="mono">2 PM, no signing confirmation</td><td>G6: trim to ¼, tighten all trails into MOC</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 08 -->
+<section class="panel" data-tab="8) Playbook">
+<h2><span class="num">08</span>Tactical Playbook — OPEN UPDATE top 3</h2>
+<div class="lede">At 7,410.75 ES is in the middle/control area of overnight value. The edge is confirmation at POC or waiting for a better edge at ON VAL / VAH.</div>
+
+<div class="pb open">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#1</div><div class="pb-name">POC Hold / Spike-Base Reclaim Long</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to ~3.8R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,405–7,412 only after acceptance above 7,409</b>, or on a pullback that holds 7,403.50 and immediately reclaims 7,409. No blind long if price is slipping under 7,403.50.</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,396 or tighter under the opening low if structure allows; hard invalidation is acceptance below 7,391.25.</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,421.50/7,424.50</span><span class="tgt">T2 7,433–36</span><span class="tgt">T3 7,448.50/7,451.50</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>Pay yourself at VAH because the open has shifted lower; only hold runners if 7,424.50 becomes support.</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close below 7,403.50 or failed reclaim after testing 7,397 → exit; expect ON VAL repair.</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#2</div><div class="pb-name">POC Failure Scalp Short to ON VAL</div>
+  <span class="tag bear">SHORT</span><span class="pb-rr">2R–3R scalp</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Short failed reclaim of 7,403.50–7,409</b> after RTH opens, especially if price accepts below 7,397.</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,412–7,416, or above the failed-reclaim swing.</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,396.50</span><span class="tgt">T2 7,391.25 ON VAL</span><span class="tgt">T3 7,374.25 only if ON VAL breaks</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>Cover most at ON VAL; do not overstay a short into first test of the value low unless VIX/headline confirms.</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>Fast reclaim of 7,409/7,412 → flat; revert to #1.</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#3</div><div class="pb-name">Responsive Long at ON VAL / Deep Repair</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 5R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,392–7,397</b> only on rejection/tail at ON VAL/polarity. If ON VAL fails, stand aside until <b>7,365–7,368</b> or <b>7,349–7,353</b> responsive turn.</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">For ON VAL long: below 7,387/7,383. For deep repair: 7,340 hard stop.</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,409</span><span class="tgt">T2 7,421.50/7,424.50</span><span class="tgt">T3 7,433–36</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at POC; ON VAL longs are repair trades until POC is reclaimed.</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close below 7,391.25 with no rejection, or any headline sell program → do not catch falling knife.</div></div>
+</div>
+</div>
+
+<div class="warn blue"><b class="t">What changed tactically</b>The prior #2 breakout over 7,451.50 is demoted until price first reclaims 7,421.50–7,424.50 and the 20-EMA. Current location 7,410.75 is value control, so size should be smaller and entries conditional. Best longs are either confirmed POC hold or responsive value-low/deep-repair turns.</div>
+</section>
+
+<!-- 09 -->
+<section class="panel" data-tab="9) Warnings">
+<h2><span class="num">09</span>Structural Warnings — updated</h2>
+<div class="warn amber"><b class="t">⚠ The wall 7,448.50–7,451.50 — second test today</b>ON already rejected there once. Second tests with rising value below usually break, but the break needs RTH volume and a 30-min close above to be tradeable — don't front-run it with full size on a Friday.</div>
+<div class="warn blue"><b class="t">ℹ 7,387 single print FILLED — warning cleared</b>The overnight repaired the upper ladder and two-way traded 7,374–7,430. That zone is now legitimate support structure; the old "speed zone" caution between 7,383–7,396 is lifted.</div>
+<div class="warn"><b class="t">⚠ 7,337 single print STILL OPEN</b>The only untested air left below. It is irrelevant above 7,366 — but if 7,348.25 gives way, it fills fast and drags price toward 7,320/POC ZONE. Structure stops above it (7,340), never inside it.</div>
+<div class="warn amber"><b class="t">⚠ 20-EMA at price at the bell</b>The open will print essentially on the daily 20-EMA (~7,434). Expect magnet chop around it in the first rotations — the cleaner trades are at the edges (7,403.50–7,409 below, 7,448.50–7,451.50 above), not in the middle.</div>
+<div class="warn"><b class="t">⚠ Unsigned deal + weekend = the only real bear catalyst</b>Price structure alone no longer supports a bear case above 7,348. The G5 path requires a headline. Equally: holding full-size longs over the weekend is a news bet — the 2 PM trim rule is the discipline line today.</div>
+<div class="warn blue"><b class="t">ℹ New upper-stack roadmap</b>Your new lines 7,565.00 / 7,578.25 / 7,591.50 / 7,603.50 (+fib cap) chart the path from 7,508/7,527.50 toward the ATH 7,632.25 — next week's map if the wall and 7,469/7,491 clear on a signed deal.</div>
+</section>
+
+<!-- 10 -->
+<section class="panel" data-tab="10) Transition">
+<h2><span class="num">10</span>Session Transition — Friday close → next week</h2>
+<div class="card">
+<table>
+<tr><th>If Friday closes at…</th><th>Implication</th><th>Next-week lean</th></tr>
+<tr><td class="mono">&gt; 7,469.50</td><td>Wall + shelf cleared with value</td><td>Bull continuation: 7,491 → 7,508 → 7,527.50/7,532; new lines 7,565–7,603.50 map the ATH approach on signing</td></tr>
+<tr><td class="mono">7,451.50–7,469.50</td><td>Wall broken, correction over</td><td>Buy-dips regime; 7,448.50 = weekly pivot</td></tr>
+<tr><td class="mono">7,391.25–7,451.50 (in ON value/range)</td><td>Constructive weekend wait; value overlapping-higher</td><td>Signing = gap up through the wall; delay = retest 7,374/7,348 first, still buyable</td></tr>
+<tr><td class="mono">7,348.25–7,391.25</td><td>Polarity lost into the weekend — caution wick</td><td>Monday must reclaim 7,391 quickly or 7,337 fills</td></tr>
+<tr><td class="mono">&lt; 7,348.25</td><td>News leg unwinding into the close</td><td>POC ZONE auction 7,294–7,307 Monday; bear template re-armed below 7,294</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 11 -->
+<section class="panel" data-tab="11) Summary">
+<h2><span class="num">11</span>Final Summary — RTH Friday Jun 12 (OPEN UPDATE 08:22 CT)</h2>
+<div class="card">
+<table>
+<tr><th>Item</th><th>Call</th></tr>
+<tr><td>Do we update?</td><td><b>Yes.</b> Price has rotated from the 20-EMA/VAH area down to ON POC/spike base before the bell. The plan changes from “buy strength / wall assault” to “trade the POC-control decision.”</td></tr>
+<tr><td>Macro bias</td><td><span class="tag bull">Still bullish structurally</span> while above ON VAL 7,391.25 and especially above 7,403.50–7,409.</td></tr>
+<tr><td>Intraday bias</td><td><span class="tag neut">Bullish-neutral at open</span> — inside value, not above value. Need reclaim of 7,421.50–7,424.50 to restore clean bull momentum.</td></tr>
+<tr><td>Base case</td><td>Opening test of 7,403.50–7,409. Hold/reclaim → 7,421.50/7,424.50 then 7,433–36. Fail → 7,396.50–7,391.25 repair.</td></tr>
+<tr><td>Primary trade</td><td><b>Long 7,405–7,412 only after acceptance above 7,409</b>; stop 7,396; targets 7,421.50/7,424.50 → 7,433–36 → 7,448.50.</td></tr>
+<tr><td>Short scalp</td><td><b>Short failed reclaim under 7,403.50–7,409</b>; cover 7,396.50 / 7,391.25 unless ON VAL breaks.</td></tr>
+<tr><td>Responsive alternate</td><td><b>Long 7,392–7,397</b> only on ON VAL rejection; if no rejection, wait for 7,365–68 or 7,349–53.</td></tr>
+<tr><td>Key bull trigger</td><td class="mono">Reclaim/hold 7,421.50–7,424.50; then 7,433–36 and 7,448.50–7,451.50.</td></tr>
+<tr><td>Key bear trigger</td><td class="mono">30-min close below 7,403.50 shifts to repair; 30-min close below 7,391.25 flips toward ON LOW / 7,366.</td></tr>
+<tr><td>Day-type expectation</td><td>POC hold/reclaim 26% · POC fail/repair 22% · inside-value rotation 22% · VAH/20-EMA reclaim continuation 14% · bear tail 10% · de-risk overlay 6%.</td></tr>
+</table>
+</div>
+</section>
+
+</div>
+
+<div class="wrap"><div class="foot">ES RTH Plan · OPEN UPDATE Friday Jun 12, 2026 08:22 CT / 09:22 ET · Last 7,410.75 · Latest bar O 7,404.50 / H 7,413.50 / L 7,397.00 / C 7,410.75 · ON: H 7,451.50 / L 7,374.25 / VAH 7,421.50 / POC 7,409.00 / VAL 7,391.25 · Spike base 7,403.50 now the opening decision line · 7,337 open · Not financial advice.</div></div>
+
+<script>
+const TABS=["1) Top-Down","2) Key Levels","3) Context","4) Scenarios","5) Probability","6) Decision Map","7) Bias Flips","8) Playbook","9) Warnings","10) Transition","11) Summary"];
+let curTab=0;
+const tabbar=document.getElementById('tabbar');
+TABS.forEach((t,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');b.textContent=t;b.onclick=()=>setTab(i);tabbar.appendChild(b);});
+function render(){
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',i===curTab));
+  document.querySelectorAll('.panel').forEach((s,i)=>s.classList.toggle('active',i===curTab));
+}
+function setTab(i){curTab=i;render();window.scrollTo({top:document.querySelector('nav.tabs').offsetTop,behavior:'smooth'});}
+render();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

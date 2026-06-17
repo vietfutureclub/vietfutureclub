@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ES Trading Plan — Jun 17, 2026 — ETH + RTH (Overnight Repair · Warsh FOMC)</title>
+<style>
+:root{
+  --bg:#fafbfc; --card:#ffffff; --ink:#15212e; --muted:#5d6b7a; --line:#e4e9ef;
+  --navy:#0f3a5f; --bull:#0d7a45; --bullbg:#e8f6ee; --bear:#c0392b; --bearbg:#fceae7;
+  --neut:#8a6d1a; --neutbg:#fbf3da; --accent:#1463a8; --accentbg:#eaf3fb;
+  --mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;padding-bottom:80px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+header.top{background:linear-gradient(180deg,#ffffff,#f3f7fb);border-bottom:1px solid var(--line);padding:26px 0 18px}
+.kicker{font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:27px;font-weight:750;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--muted);font-size:13.5px}
+.snapshot{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;font:12.5px var(--mono)}
+.chip b{font-weight:700}
+.chip.red b{color:var(--bear)} .chip.green b{color:var(--bull)} .chip.amber b{color:var(--neut)}
+.delta{border:1px solid #cfe3d6;background:var(--bullbg);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:13.5px}
+.delta b.t{display:block;font-size:14px;margin-bottom:4px;color:var(--bull)}
+.planswitch{display:flex;gap:8px;margin-top:16px}
+.planbtn{flex:0 0 auto;cursor:pointer;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:10px 22px;font-weight:700;font-size:14px;color:var(--muted)}
+.planbtn.active{border-color:var(--navy);background:var(--navy);color:#fff}
+nav.tabs{position:sticky;top:0;z-index:50;background:rgba(250,251,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto;padding:8px 18px}
+.tab{white-space:nowrap;cursor:pointer;border:none;background:transparent;color:var(--muted);font:600 12.5px/1 inherit;padding:9px 12px;border-radius:7px}
+.tab.active{background:var(--accentbg);color:var(--accent)}
+section.panel{display:none;padding:26px 0 10px}
+section.panel.active{display:block}
+h2{font-size:20px;font-weight:750;letter-spacing:-.01em;margin-bottom:4px}
+h2 .num{font:700 12px var(--mono);color:var(--accent);vertical-align:3px;margin-right:8px}
+.lede{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+h3{font-size:15.5px;font-weight:700;margin:22px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+th{background:#f2f5f9;text-align:left;font:600 11px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 9px;border-bottom:1px solid var(--line)}
+td{padding:7px 9px;border-bottom:1px solid #eef2f6;vertical-align:top}
+td.mono,th.mono{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+tr.cluster td{background:#fdf8ec}
+tr.now td{background:var(--accentbg);font-weight:700}
+.tag{display:inline-block;border-radius:5px;padding:2px 7px;font:600 11px var(--mono)}
+.tag.bull{background:var(--bullbg);color:var(--bull)} .tag.bear{background:var(--bearbg);color:var(--bear)}
+.tag.neut{background:var(--neutbg);color:var(--neut)} .tag.info{background:var(--accentbg);color:var(--accent)}
+.stars{color:#d99a14;letter-spacing:1px;font-size:12px;white-space:nowrap}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid rgba(0,0,0,.12)}
+pre.tree{background:#0f1722;color:#d7e3f0;border-radius:12px;padding:18px;font:12.5px/1.6 var(--mono);overflow-x:auto;margin:12px 0}
+pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b{color:#7ec3ff}
+.warn{border-left:4px solid var(--bear);background:var(--bearbg);border-radius:0 10px 10px 0;padding:12px 16px;margin:10px 0}
+.warn.amber{border-left-color:var(--neut);background:var(--neutbg)}
+.warn.blue{border-left-color:var(--accent);background:var(--accentbg)}
+.warn.green{border-left-color:var(--bull);background:var(--bullbg)}
+.warn b.t{display:block;font-size:13.5px;margin-bottom:3px}
+.scen{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden;background:#fff}
+.scen .head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:#f7fafc}
+.scen .head .nm{font-weight:750;font-size:14.5px}
+.scen .body{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;font-size:13px}
+.scen .body .blk b{display:block;font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+.ladder{font:12.5px/1.7 var(--mono);background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;overflow-x:auto;white-space:pre}
+.pb{border:1px solid var(--line);border-radius:12px;background:#fff;margin:12px 0;overflow:hidden}
+.pb-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;background:#f7fafc}
+.pb-head:hover{background:#eef4fa}
+.pb-rank{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;font:700 13px var(--mono);display:flex;align-items:center;justify-content:center}
+.pb-name{font-weight:750;font-size:14.5px;flex:1 1 auto}
+.pb-rr{font:700 12px var(--mono);color:var(--accent);white-space:nowrap}
+.pb-caret{flex:0 0 auto;transition:transform .2s;color:var(--muted);font-size:12px}
+.pb.open .pb-caret{transform:rotate(90deg)}
+.pb-body{display:none;border-top:1px solid var(--line)}
+.pb.open .pb-body{display:block}
+.pb-row{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:10px 16px;border-bottom:1px solid #eef2f6;font-size:13px}
+.pb-row:last-child{border-bottom:none}
+.pb-row .lbl{font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding-top:2px}
+.pb-row.hl{background:var(--accentbg)}
+.tgt{display:inline-block;background:#f2f5f9;border:1px solid var(--line);border-radius:6px;padding:2px 8px;font:600 12px var(--mono);margin:2px 6px 2px 0}
+.tgt.t1{border-color:#bfe3c5;background:var(--bullbg)}
+.foot{margin-top:36px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:640px){h1{font-size:22px}.scen .body{grid-template-columns:1fr}.pb-row{grid-template-columns:1fr;gap:3px}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <div class="kicker">ES1! · CME · PLAN FOR JUN 17, 2026 · BUILT JUN 17 ~06:00 ET (PRE-RTH)</div>
+  <h1>ES Trading Plan — Jun 17 ETH &amp; RTH</h1>
+  <div class="sub">Charts: TPO profile + 30-min (06:00 ET) · Prior RTH Jun 16 = <b>distribution day, closed below value</b> · Overnight <b>repaired the weak close</b> and balanced · Catalyst: first <b>Warsh FOMC</b> (decision ~2:00 PM ET) — consensus hold, dots/SEP/presser the wildcard</div>
+  <div class="snapshot">
+    <div class="chip">Last (pre-open) <b>7,596</b></div>
+    <div class="chip red">Jun 15 RTH... → <b>Jun 16 RTH</b>: O <b>7,627.75</b> · H <b>7,648.75</b> · C <b>7,587.75</b> (below value)</div>
+    <div class="chip">ON: HIGH <b>7,612.75</b> · POC <b>7,604.00</b> · VAL <b>7,592.75</b> · LOW <b>7,577.75</b></div>
+    <div class="chip">yVAH <b>7,622.75</b> · yPOC <b>7,607.25</b> · yVAL <b>7,599.00</b></div>
+    <div class="chip green">vs 20-EMA 7,527 <b>+69</b> · above ALL MAs</div>
+    <div class="chip amber">ATH <b>7,694.75</b> <b>+99</b> overhead · ATR <b>103</b></div>
+    <div class="chip">VIX <b>18.35</b> (sub-19, prior chart)</div>
+  </div>
+  <div class="delta"><b class="t">▲ What changed overnight (Jun 16 RTH close → Jun 17 pre-open) — the weak close got bought back</b>
+  Jun 16 RTH printed a <b>distribution day</b>: opened <b>7,627.75</b>, tagged the <b>7,648.75 poor high</b> and rejected, sold the rest of the session and closed <b>7,587.75 — below the value area</b> (a weak, bearish-looking close). The expectation was downside follow-through. Instead, <b>overnight did not continue lower</b>: price based at <b>7,577.75</b> (just under the close), balanced, and built fresh value back <b>up</b> — ON value <b>7,592.75–7,607.75</b>, <b>POC 7,604.00</b>, high <b>7,612.75</b> — rotating back into the lower half of yesterday's value (ON POC 7,604 sits between yVAL 7,599 and yPOC 7,607). <b>Responsive buyers defended the weak close</b>, so the immediate bearish edge is gone; the setup is now <b>balanced/neutral</b> into the Fed rather than breaking down. Price coils ~<b>7,596</b> between <b>ON VAL 7,592.75</b> and <b>ON POC 7,604</b>, still capped by <b>yVAH 7,622.75</b> and the <b>7,648.75 poor high</b>. The day's direction now hinges on the <b>2pm Warsh decision</b>: coil before, expansion after.</div>
+  <div class="planswitch">
+    <button class="planbtn" id="btnETH" onclick="setPlan('ETH')">🌙 ETH OVERNIGHT (RECAP)</button>
+    <button class="planbtn active" id="btnRTH" onclick="setPlan('RTH')">☀️ RTH WED PLAN</button>
+  </div>
+</div></header>
+
+<nav class="tabs"><div class="wrap" id="tabbar"></div></nav>
+
+<!-- ==================== ETH PLAN (OVERNIGHT RECAP) ==================== -->
+<div class="plan" id="plan-ETH" style="display:none">
+<div class="wrap">
+
+<section class="panel" data-tab="1) Top-Down">
+<h2><span class="num">01</span>Top-Down — Overnight Recap</h2>
+<div class="lede">The overnight (Jun 16 18:00 → Jun 17 06:00 ET) is essentially complete. Its job was to digest the weak Jun 16 close — and it did so constructively, basing at 7,577.75 and rebuilding value up to a 7,604 POC.</div>
+
+<h3>a) Daily — context (carried; no fresh Daily attached this round)</h3>
+<div class="card">
+<table>
+<tr><th>MA</th><th class="mono">Value</th><th class="mono">Dist</th><th>Status</th></tr>
+<tr><td><span class="swatch" style="background:#ef5350"></span>20-EMA</td><td class="mono">7,527.00</td><td class="mono" style="color:var(--bull)">+69</td><td><span class="tag bull">RISING</span> — first dynamic support; the line that defines the swing</td></tr>
+<tr><td><span class="swatch" style="background:#ff9800"></span>50-EMA</td><td class="mono">7,388.75</td><td class="mono" style="color:var(--bull)">+207</td><td><span class="tag bull">Rising</span></td></tr>
+<tr><td><span class="swatch" style="background:#43a047"></span>200-EMA</td><td class="mono">7,029.50</td><td class="mono" style="color:var(--bull)">+566</td><td><span class="tag bull">Rising</span> — heavy-volume shelf well below</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>Daily read:</b> Still a full bull stack (price above 20&gt;50&gt;100&gt;200&gt;300). Jun 16's distribution candle pulled back from the 7,648.75 high but did not break structure; only the <b>ATH 7,694.75</b> is overhead. Slow-moving MA values carried from the prior Daily chart (not re-attached this round).</p>
+</div>
+
+<h3>b) 30-Min — overnight flow</h3>
+<div class="card">
+<table>
+<tr><th>Session</th><th class="mono">High</th><th class="mono">Low</th><th class="mono">Close≈</th><th>Character</th></tr>
+<tr><td>Jun 16 RTH</td><td class="mono">7,648.75</td><td class="mono">~7,578</td><td class="mono">7,587.75</td><td>Distribution: tag poor high, reject, close below value</td></tr>
+<tr><td><b>Jun 16→17 ON</b></td><td class="mono"><b>7,612.75</b></td><td class="mono"><b>7,577.75</b></td><td class="mono">~7,596</td><td><b>Repair/balance:</b> based under the close, rebuilt value up to POC 7,604</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>30-min read:</b> The overnight is a <b>responsive-buy balance</b>. It defended 7,577.75, pushed back to 7,612.75 (back above yVAL/yPOC briefly), and settled around 7,596 with POC 7,604. No reclaim of yVAH 7,622.75 — so balanced, not bullishly resolved.</p>
+</div>
+
+<h3>c) Profile — overnight TPO</h3>
+<div class="card">
+<table>
+<tr><th>Metric</th><th class="mono">Value</th><th>Read</th></tr>
+<tr><td>ON HIGH / LOW</td><td class="mono">7,612.75 / 7,577.75</td><td>35-pt overnight range — contained</td></tr>
+<tr><td>ON VAH / POC / VAL</td><td class="mono">7,607.75 / <b>7,604.00</b> / 7,592.75</td><td>Value rebuilt UP into the lower half of yesterday's value</td></tr>
+<tr><td>vs yesterday</td><td class="mono">ON POC 7,604 between yVAL 7,599 &amp; yPOC 7,607</td><td>Overlap = acceptance back inside value (repair)</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>Profile read:</b> Overnight value overlaps the bottom third of Jun 16's value — the market accepted prices back <b>inside</b> the range it rejected at the close. That is a repair, and it neutralizes the weak-close downside tell heading into RTH.</p>
+</div>
+
+<h3>d) VIX</h3>
+<p style="font-size:13px"><b>No VIX chart attached this round.</b> Last reading <b>VX1! 18.35</b> (sub-19, downtrending) — a risk-on backdrop. Treat as context only; watch for an intraday pop &gt; 20–21 on a hawkish Fed as the risk-off tell.</p>
+</section>
+
+<section class="panel" data-tab="2) Key Levels">
+<h2><span class="num">02</span>Key Levels — Overnight (ref ~7,596)</h2>
+<div class="card">
+<table>
+<tr><th>Zone</th><th class="mono">Price</th><th>Source</th><th class="mono">Dist</th><th>★</th></tr>
+<tr class="cluster"><td>R 🔗</td><td class="mono">7,621.75–7,622.75</td><td>fib + yVAH</td><td class="mono">+26</td><td class="stars">★★★★★</td></tr>
+<tr><td>R</td><td class="mono">7,612.75</td><td>ON HIGH</td><td class="mono">+17</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>R 🔗</td><td class="mono">7,604.00–7,607.75</td><td>ON POC / yPOC / ON VAH</td><td class="mono">+8→+12</td><td class="stars">★★★★</td></tr>
+<tr><td>R</td><td class="mono">7,599.00</td><td>yVAL</td><td class="mono">+3</td><td class="stars">★★★</td></tr>
+<tr class="now"><td>NOW</td><td class="mono">~7,596</td><td>pre-open</td><td class="mono">0</td><td class="stars">—</td></tr>
+<tr><td>S</td><td class="mono">7,592.75</td><td>ON VAL</td><td class="mono">−3</td><td class="stars">★★★★</td></tr>
+<tr><td>S</td><td class="mono">7,587.75</td><td>y.close</td><td class="mono">−8</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S 🔗</td><td class="mono">7,577.75–7,578.25</td><td>ON LOW + 30m line</td><td class="mono">−18</td><td class="stars">★★★★</td></tr>
+<tr><td>S</td><td class="mono">7,565.00</td><td>fib</td><td class="mono">−31</td><td class="stars">★★★★</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="3) Context">
+<h2><span class="num">03</span>Context — Overnight</h2>
+<div class="card">
+<table>
+<tr><th>Dimension</th><th>Reading</th><th>Implication</th></tr>
+<tr><td>Overnight character</td><td><span class="tag neut">Balance / repair</span></td><td>Weak close bought back; downside follow-through did NOT occur</td></tr>
+<tr><td>Value vs prior</td><td class="mono">ON POC 7,604 inside Jun 16 value</td><td>Acceptance back in value — neutralizes the bearish close tell</td></tr>
+<tr><td>Open lean for RTH</td><td class="mono">~7,596 = mid overnight value</td><td>Balanced entry into the cash session; Fed decides direction</td></tr>
+<tr><td>Macro</td><td>Warsh FOMC ~2pm ET</td><td>Pre-Fed coil expected; expansion after the print</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="4) Scenarios">
+<h2><span class="num">04</span>What-If — Pre-RTH (06:00 → 09:30 open)</h2>
+<div class="scen"><div class="head"><span class="nm">O1 · Hold overnight balance</span><span class="tag neut">NEUTRAL</span><span class="stars">★★★★ 50%</span></div>
+<div class="body">
+<div class="blk"><b>Zone</b>7,592–7,612 around ON POC 7,604.</div>
+<div class="blk"><b>Narrative</b>Quiet pre-Fed drift; price coils inside overnight value into the open. Fade 7,612, buy 7,592.</div>
+<div class="blk"><b>Into open</b>Most likely → RTH opens in-value (R1).</div>
+</div></div>
+<div class="scen"><div class="head"><span class="nm">O2 · Drift to ON VAL / low</span><span class="tag bear">SOFT</span><span class="stars">★★★ 28%</span></div>
+<div class="body">
+<div class="blk"><b>Zone</b>7,592.75 → 7,587.75 → 7,577.75.</div>
+<div class="blk"><b>Narrative</b>Slips under ON VAL toward the close and ON low; responsive bid expected at 7,577.</div>
+<div class="blk"><b>Into open</b>Opens 7,578–7,592 → dip-buy watch (R3 if 7,577 fails).</div>
+</div></div>
+<div class="scen"><div class="head"><span class="nm">O3 · Push to value top</span><span class="tag bull">FIRM</span><span class="stars">★★ 22%</span></div>
+<div class="body">
+<div class="blk"><b>Zone</b>7,607 → 7,612.75 → 7,621.75.</div>
+<div class="blk"><b>Narrative</b>Reclaims yPOC/ON VAH, probes yVAH — pre-arms a repair into RTH.</div>
+<div class="blk"><b>Into open</b>Opens &gt; 7,612 → R2 bull repair in play.</div>
+</div></div>
+</section>
+
+<section class="panel" data-tab="5) Probability">
+<h2><span class="num">05</span>Probability — Pre-RTH</h2>
+<div class="card">
+<table>
+<tr><th>Rank</th><th>Path</th><th>Dir</th><th>Prob</th></tr>
+<tr><td>1</td><td>O1 Hold balance 7,592–7,612</td><td><span class="tag neut">Neutral</span></td><td class="mono">50%</td></tr>
+<tr><td>2</td><td>O2 Drift to ON VAL/low</td><td><span class="tag bear">Soft</span></td><td class="mono">28%</td></tr>
+<tr><td>3</td><td>O3 Push to value top</td><td><span class="tag bull">Firm</span></td><td class="mono">22%</td></tr>
+</table>
+<div class="warn blue"><b class="t">Base case (pre-RTH)</b>Balance inside overnight value into the open. The overnight repair means RTH most likely <b>opens in value (~7,592–7,612)</b> and waits for the Fed — see the RTH plan.</div>
+</div>
+</section>
+
+<section class="panel" data-tab="6) Decision Map">
+<h2><span class="num">06</span>Decision Map — Pre-RTH</h2>
+<pre class="tree">ON balance ~7,596 (value 7,592–7,612 · POC 7,604)
+│
+├─► holds 7,592 → drift to open in value → <span class="b">RTH R1</span>
+├─► reclaims 7,607/7,612 → <span class="g">RTH R2</span> repair lean
+└─► loses 7,587 → test <span class="y">ON LOW 7,577.75</span>
+      ├─ bought → back to value
+      └─ fails → <span class="r">RTH R3</span> → 7,565 fib</pre>
+</section>
+
+<section class="panel" data-tab="7) Bias Flips">
+<h2><span class="num">07</span>Bias Flips — Overnight</h2>
+<div class="card">
+<table>
+<tr><th>From</th><th>To</th><th class="mono">Trigger</th><th>Action</th></tr>
+<tr><td><span class="tag neut">Balance</span></td><td><span class="tag bull">Firm</span></td><td class="mono">Accept &gt; 7,607</td><td>Lean R2 into the open</td></tr>
+<tr><td><span class="tag neut">Balance</span></td><td><span class="tag bear">Soft</span></td><td class="mono">Lose 7,587.75</td><td>Watch 7,577.75 for the dip-buy / breakdown decision</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="8) Playbook">
+<h2><span class="num">08</span>Playbook — Pre-RTH (light)</h2>
+<div class="warn blue"><b class="t">Pre-Fed = small or flat</b>The overnight is a coil and the Fed is hours away. Best practice into the open: keep size light, fade the overnight edges (buy 7,592 / sell 7,612) only as scalps, and <b>save the real risk for the RTH plan and the post-2pm move.</b></div>
+</section>
+
+<section class="panel" data-tab="9) Warnings">
+<h2><span class="num">09</span>Warnings — Overnight</h2>
+<div class="warn green"><b class="t">✓ Overnight repaired the weak close</b>Responsive buyers defended 7,577.75 and rebuilt value to 7,604 — the bearish close tell is neutralized. Don't carry yesterday's bear bias blindly into RTH.</div>
+<div class="warn amber"><b class="t">⚠ Still capped</b>No reclaim of yVAH 7,622.75 or the 7,648.75 poor high. Balanced, not bullish — and the Fed can break it either way.</div>
+</section>
+
+<section class="panel" data-tab="10) Transition">
+<h2><span class="num">10</span>Transition — Overnight → RTH open</h2>
+<div class="card">
+<table>
+<tr><th>If at the open price is…</th><th>RTH implication</th></tr>
+<tr><td class="mono">&gt; 7,612</td><td>Above overnight value → bull repair lean (R2)</td></tr>
+<tr><td class="mono">7,592–7,612</td><td>In value → balance/coil, Fed decides (R1) — most likely</td></tr>
+<tr><td class="mono">7,577–7,592</td><td>Lower edge → dip-buy watch; 7,577 must hold</td></tr>
+<tr><td class="mono">&lt; 7,577</td><td>Below ON low → breakdown risk (R3) toward 7,565</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="11) Summary">
+<h2><span class="num">11</span>Summary — Overnight</h2>
+<div class="card">
+<table>
+<tr><th>Item</th><th>Call</th></tr>
+<tr><td>Overnight result</td><td><span class="tag neut">Balance / repair</span> — based 7,577.75, rebuilt value to POC 7,604</td></tr>
+<tr><td>Effect on bias</td><td>Neutralized the weak Jun 16 close; RTH enters balanced, not bearish</td></tr>
+<tr><td>Open lean</td><td>Most likely opens in value 7,592–7,612 → see RTH plan</td></tr>
+<tr><td>Key level</td><td class="mono">7,577.75 (ON low) holds = constructive · loses = 7,565 gap-fill path</td></tr>
+</table>
+</div>
+</section>
+
+</div>
+</div>
+
+<!-- ==================== RTH PLAN ==================== -->
+<div class="plan" id="plan-RTH">
+<div class="wrap">
+
+<section class="panel" data-tab="1) Top-Down">
+<h2><span class="num">01</span>Top-Down Analysis — RTH (Wed Jun 17, Fed-day)</h2>
+<div class="lede">Reference: pre-open ~7,596, inside overnight value (7,592–7,612), below yVAH 7,622.75 and the 7,648.75 poor high. Jun 16 closed weak but the overnight bought it back — so RTH enters <b>balanced into the 2pm Warsh decision</b>, with the daily uptrend still intact beneath.</div>
+
+<h3>a) Daily — MA stack &amp; drawn levels (carried; no fresh Daily this round)</h3>
+<div class="card">
+<table>
+<tr><th>MA</th><th class="mono">Value</th><th class="mono">Distance</th><th>Status</th></tr>
+<tr><td><span class="swatch" style="background:#ef5350"></span>20-EMA</td><td class="mono">7,527.00</td><td class="mono" style="color:var(--bull)">+69</td><td><span class="tag bull">RISING</span> — only dynamic support that matters intraday; the swing line</td></tr>
+<tr><td><span class="swatch" style="background:#ff9800"></span>50-EMA</td><td class="mono">7,388.75</td><td class="mono" style="color:var(--bull)">+207</td><td><span class="tag bull">Rising</span> — not in play barring a multi-day reversal</td></tr>
+<tr><td><span class="swatch" style="background:#f5e642"></span>100-EMA</td><td class="mono">7,229.00</td><td class="mono" style="color:var(--bull)">+367</td><td><span class="tag bull">Rising</span></td></tr>
+<tr><td><span class="swatch" style="background:#43a047"></span>200-EMA</td><td class="mono">7,029.50</td><td class="mono" style="color:var(--bull)">+566</td><td><span class="tag bull">Rising</span> — heavy-volume shelf</td></tr>
+<tr><td><span class="swatch" style="background:#1e54c9"></span>300-EMA</td><td class="mono">6,864.25</td><td class="mono" style="color:var(--bull)">+732</td><td><span class="tag bull">Rising</span></td></tr>
+</table>
+<table style="margin-top:10px">
+<tr><th>Drawn (Daily)</th><th class="mono">Price</th><th class="mono">Dist</th><th>Note</th></tr>
+<tr><td>ATH / swing high</td><td class="mono">7,694.75</td><td class="mono">+99</td><td>The only overhead structure — upside magnet</td></tr>
+<tr><td>fib extend</td><td class="mono">7,621.75</td><td class="mono">+26</td><td>Clusters with yVAH 7,622.75 — the balance top</td></tr>
+<tr><td>fib extend</td><td class="mono">7,565.00</td><td class="mono">−31</td><td>Gate to the gap-fill path</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>Daily narrative:</b> Full bull MA stack (20&gt;50&gt;100&gt;200&gt;300, all rising), price above all of them, +69 over the 20-EMA. Jun 16's distribution candle was a pullback from the 7,648.75 high, not a structural break. The only overhead reference is the <b>ATH 7,694.75</b>; the 20-EMA 7,527 is the line that turns an intraday pullback into a swing question — far below, so most RTH outcomes are <b>bullish-to-neutral</b>. (Daily values carried from the prior session's chart; no fresh Daily attached this round.)</p>
+</div>
+
+<h3>b) 30-Min — session flow &amp; drawn levels</h3>
+<div class="card">
+<table>
+<tr><th>Session</th><th class="mono">High</th><th class="mono">Low</th><th class="mono">Close≈</th><th>Character</th><th>Value</th></tr>
+<tr><td>Jun 14 ON</td><td class="mono">~7,520</td><td class="mono">~7,500</td><td class="mono">~7,508</td><td>Base before the Sunday push</td><td>▲ low</td></tr>
+<tr><td>Jun 15 RTH</td><td class="mono">7,648.75</td><td class="mono">~7,550</td><td class="mono">~7,630</td><td>Trend-up to the high</td><td>▲ value up</td></tr>
+<tr><td><b>Jun 16 RTH</b></td><td class="mono"><b>7,648.75</b></td><td class="mono"><b>~7,578</b></td><td class="mono"><b>7,587.75</b></td><td><b>Distribution:</b> tag poor high, reject, sell, close below value</td><td>▼ rejected high</td></tr>
+<tr><td><b>Jun 16→17 ON</b></td><td class="mono"><b>7,612.75</b></td><td class="mono"><b>7,577.75</b></td><td class="mono"><b>~7,596</b></td><td><b>Repair/balance:</b> rebuilt value to POC 7,604</td><td>◀▶ back in value</td></tr>
+</table>
+<table style="margin-top:12px">
+<tr><th>Drawn level (30-min)</th><th class="mono">Price</th><th class="mono">Dist</th></tr>
+<tr><td>fib extend (top)</td><td class="mono">7,694.00</td><td class="mono">+98</td></tr>
+<tr><td>Line</td><td class="mono">7,673.50</td><td class="mono">+77.5</td></tr>
+<tr><td>Line</td><td class="mono">7,654.50</td><td class="mono">+58.5</td></tr>
+<tr><td>Swing High</td><td class="mono">7,648.75</td><td class="mono">+52.75</td></tr>
+<tr><td>Line</td><td class="mono">7,632.25</td><td class="mono">+36.25</td></tr>
+<tr class="cluster"><td>fib extend + yVAH</td><td class="mono">7,621.75 / 7,622.75</td><td class="mono">+26</td></tr>
+<tr><td>ON HIGH</td><td class="mono">7,612.75</td><td class="mono">+16.75</td></tr>
+<tr class="cluster"><td>Line / yPOC / ON VAH</td><td class="mono">7,605.50 / 7,607.25 / 7,607.75</td><td class="mono">+9.5→+11.75</td></tr>
+<tr><td>ON POC</td><td class="mono">7,604.00</td><td class="mono">+8</td></tr>
+<tr><td>yVAL</td><td class="mono">7,599.00</td><td class="mono">+3</td></tr>
+<tr class="now"><td><b>Current (pre-open)</b></td><td class="mono"><b>~7,596</b></td><td class="mono">0</td></tr>
+<tr><td>ON VAL</td><td class="mono">7,592.75</td><td class="mono">−3.25</td></tr>
+<tr><td>Line</td><td class="mono">7,591.50</td><td class="mono">−4.5</td></tr>
+<tr><td>y.close</td><td class="mono">7,587.75</td><td class="mono">−8.25</td></tr>
+<tr class="cluster"><td>ON LOW + line</td><td class="mono">7,577.75 / 7,578.25</td><td class="mono">−18</td></tr>
+<tr><td>fib extend</td><td class="mono">7,565.00</td><td class="mono">−31</td></tr>
+<tr><td>Line</td><td class="mono">7,550.50</td><td class="mono">−45.5</td></tr>
+<tr class="cluster"><td>Line + 20-EMA</td><td class="mono">7,527.50 / 7,527.00</td><td class="mono">−68.5</td></tr>
+<tr><td>Line</td><td class="mono">7,508.25</td><td class="mono">−87.75</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>30-min narrative:</b> The tape is a <b>failed-breakout (Jun 16) → overnight repair</b> sequence. Overhead the caps stack tight: <b>7,604 (ON POC) → 7,607–7,608 (yPOC/ON VAH) → 7,612.75 (ON HIGH) → 7,621.75–7,622.75 (yVAH/fib) → 7,648.75 (poor high)</b> — a resistance ladder into the highs. Below, support is well-defined and value-backed: <b>7,592.75 (ON VAL) → 7,587.75 (y.close) → 7,577.75 (ON low) → 7,565 (fib) → 7,527 (20-EMA)</b>. Current ~7,596 sits at the lower-middle of overnight value, between ON VAL and ON POC.</p>
+</div>
+
+<h3>c) Market Profile — Jun 16 RTH + overnight</h3>
+<div class="card">
+<table>
+<tr><th>Metric</th><th class="mono">Value</th><th>Read</th></tr>
+<tr><td>Jun 16 O / H / C</td><td class="mono">7,627.75 / 7,648.75 / 7,587.75</td><td>Open upper third, tag poor high, close below value = distribution</td></tr>
+<tr><td>Jun 16 VAH / POC / VAL</td><td class="mono">7,622.75 / 7,607.25 / 7,599.00</td><td>Value high; close fell out the bottom of it</td></tr>
+<tr><td>ON HIGH / LOW</td><td class="mono">7,612.75 / 7,577.75</td><td>35-pt overnight range — contained</td></tr>
+<tr><td>ON VAH / POC / VAL</td><td class="mono">7,607.75 / <b>7,604.00</b> / 7,592.75</td><td>Value rebuilt UP into the lower half of Jun 16 value</td></tr>
+<tr><td>Poor / unfinished high</td><td class="mono">7,648.75</td><td>Rejected once — magnet AND cap; repair needs a HELD break</td></tr>
+<tr><td>Shape (Jun 16)</td><td class="mono">b-variant / distribution (open high, close low)</td><td>Late-session selling; the soft tell that overnight then repaired</td></tr>
+</table>
+</div>
+<div class="grid2">
+<div class="ladder"><b>STRUCTURE MAP (pre-RTH)</b>
+7,694.75 ── <b>ATH</b>  ◄ magnet above
+7,648.75 ── <b>JUN 16 HIGH</b> (poor / unfinished)
+7,632.25 ── 30m line
+7,627.75 ── y.open
+7,622.75 ── <b>yVAH</b> / 7,621.75 fib  ◄ balance top / gate
+7,612.75 ── <b>ON HIGH</b>
+7,607.75 ── ON VAH / 7,607.25 <b>yPOC</b>
+7,605.50 ── 30m line
+7,604.00 ── <b>ON POC</b>  ◄ value magnet
+7,599.00 ── <b>yVAL</b>
+7,596.00 ◄◄ <b>YOU ARE HERE (pre-open)</b>
+7,592.75 ── <b>ON VAL</b>
+7,587.75 ── <b>y.close</b> (weak close / Jun 14 POC area)
+7,578.25 ── 30m line / 7,577.75 <b>ON LOW</b>
+7,565.00 ── fib extend  ░ gap-fill gate ░
+7,550.50 ── 30m line
+7,527.50 / 7,527.00 ── 30m line + <b>daily 20-EMA</b></div>
+<div>
+<p style="font-size:13px"><b>Profile narrative:</b> Two stacked frames — Jun 16's value (7,599–7,622.75) sitting on the overnight's value (7,592.75–7,607.75). The key event is that overnight built <b>acceptance back inside</b> the lower half of yesterday's range (ON POC 7,604 between yVAL and yPOC). Translation: the weak Jun 16 close was <b>responsively bought</b> overnight, so RTH does not inherit a clean downside continuation. The market is <b>balanced</b>: bulls need to reclaim and hold <b>7,607–7,608</b> to press the 7,612 → 7,622 → 7,648 ladder; bears need to lose <b>7,592.75 → 7,587.75</b> and accept below to open the 7,577 → 7,565 path. The <b>2pm Fed</b> is the catalyst that resolves the coil.</p>
+</div>
+</div>
+
+<h3>d) VIX + macro context</h3>
+<p style="font-size:13px"><b>No VIX chart attached this round;</b> last reading <b>VX1! 18.35</b> (sub-19, downtrend) — a risk-on, melt backdrop. <b>Macro:</b> the dominant catalyst is the <b>first Warsh FOMC (decision ~2:00 PM ET)</b> — consensus is a hold; the move comes from the <b>dot plot, SEP, and presser tone</b>. Secondary: a <b>rotation out of tech</b> (NQ heavy, semis weak) with cyclicals firmer — a narrowing tape that makes ES upside lower-quality if NQ keeps lagging; oil &lt; $80 supporting bonds. <b>A brief MOC note from yesterday's close</b> (side not specified): S&amp;P ~$2.20B / NQ ~$1.36B / Dow ~$577M — moderate; if it was sell-side it fits the weak Jun 16 close, but the overnight already bought it back. Watch a VIX pop &gt; 20–21 intraday as the risk-off tell.</p>
+</section>
+
+<section class="panel" data-tab="2) Key Levels">
+<h2><span class="num">02</span>Unified Key Levels — RTH (ref ~7,596)</h2>
+<div class="card">
+<table>
+<tr><th>Zone</th><th class="mono">Price</th><th>Source</th><th>Type</th><th>Color</th><th class="mono">Dist</th><th>★</th></tr>
+<tr class="cluster"><td>R8 🔗</td><td class="mono">7,694.00–7,694.75</td><td>30m+D</td><td><b>fib + ATH</b> — day-terminal magnet</td><td><span class="swatch" style="background:#c0392b"></span>red fib</td><td class="mono">+98→+99</td><td class="stars">★★★★★</td></tr>
+<tr><td>R7</td><td class="mono">7,654.50 / 7,673.50</td><td>30m</td><td>Lines above the high</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">+58.5→+77.5</td><td class="stars">★★</td></tr>
+<tr class="cluster"><td>R6 🔗</td><td class="mono">7,648.75</td><td>MP+30m</td><td><b>Jun 16 HIGH / poor high</b> — breakout gate</td><td><span class="swatch" style="background:#7ea6d6"></span>blue hi</td><td class="mono">+52.75</td><td class="stars">★★★★★</td></tr>
+<tr><td>R5</td><td class="mono">7,627.75 / 7,632.25</td><td>MP+30m</td><td>y.open + line</td><td><span class="swatch" style="background:#c0392b"></span>red/blk</td><td class="mono">+31.75→+36.25</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R4 🔗</td><td class="mono">7,621.75–7,622.75</td><td>30m+MP</td><td><b>fib + yVAH</b> — the balance top</td><td><span class="swatch" style="background:#c0392b"></span>red</td><td class="mono">+25.75→+26.75</td><td class="stars">★★★★★</td></tr>
+<tr><td>R3</td><td class="mono">7,612.75</td><td>MP(ON)</td><td><b>ON HIGH</b> — overnight cap</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">+16.75</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>R2 🔗</td><td class="mono">7,604.00–7,607.75</td><td>MP+30m</td><td><b>ON POC + yPOC + ON VAH + line</b> — value magnet to reclaim</td><td><span class="swatch" style="background:#1463a8"></span>blk/blue</td><td class="mono">+8→+11.75</td><td class="stars">★★★★★</td></tr>
+<tr><td>R1</td><td class="mono">7,599.00</td><td>MP</td><td>yVAL — first overhead</td><td><span class="swatch" style="background:#c0392b"></span>red</td><td class="mono">+3</td><td class="stars">★★★</td></tr>
+<tr class="now"><td>NOW</td><td class="mono">~7,596 (mid ON value)</td><td>30m</td><td>Pre-open reference</td><td><span class="swatch" style="background:#1463a8"></span>blue</td><td class="mono">0</td><td class="stars">—</td></tr>
+<tr><td>S1</td><td class="mono">7,592.75 / 7,591.50</td><td>MP+30m</td><td><b>ON VAL</b> + line — overnight floor</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">−3.25→−4.5</td><td class="stars">★★★★</td></tr>
+<tr><td>S2</td><td class="mono">7,587.75</td><td>MP</td><td><b>y.close</b> (Jun 14 POC area) — bull must hold</td><td><span class="swatch" style="background:#c0392b"></span>red</td><td class="mono">−8.25</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S3 🔗</td><td class="mono">7,577.75–7,578.25</td><td>MP+30m</td><td><b>ON LOW + line</b> — loss = breakdown</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">−18→−18.5</td><td class="stars">★★★★★</td></tr>
+<tr><td>S4</td><td class="mono">7,565.00</td><td>30m</td><td><b>fib</b> — gate to gap-fill</td><td><span class="swatch" style="background:#c0392b"></span>red fib</td><td class="mono">−31</td><td class="stars">★★★★</td></tr>
+<tr><td>S5</td><td class="mono">7,550.50</td><td>30m</td><td>Line</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">−45.5</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>S6 🔗</td><td class="mono">7,527.00–7,527.50</td><td>D+30m</td><td><b>20-EMA + line</b> — the swing line / deep dip-buy</td><td><span class="swatch" style="background:#ef5350"></span>red/blk</td><td class="mono">−68.5</td><td class="stars">★★★★★</td></tr>
+<tr><td>S7</td><td class="mono">7,508.25</td><td>30m</td><td>Line</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">−87.75</td><td class="stars">★★★</td></tr>
+</table>
+<div class="warn amber"><b class="t">⚑ Controlling clusters for Jun 17</b>
+<b>7,604–7,608</b> (ON POC + yPOC + ON VAH — value to reclaim &amp; hold) · <b>7,621.75–7,622.75</b> (fib + yVAH — the breakout gate) · <b>7,648.75</b> (poor high) · <b>7,694</b> (fib + ATH — terminal) · <b>7,592.75 / 7,587.75</b> (ON VAL / weak close — bull must hold) · <b>7,577.75</b> (ON low — loss opens the gap-fill) · <b>7,527</b> (20-EMA — the swing line).</div>
+</div>
+</section>
+
+<section class="panel" data-tab="3) Context">
+<h2><span class="num">03</span>Context Summary — for Wed RTH</h2>
+<div class="card">
+<table>
+<tr><th>Dimension</th><th>Reading</th><th>Implication for RTH</th></tr>
+<tr><td>Prior day type</td><td><span class="tag bear">Distribution / down</span> (Jun 16: open high, close below value)</td><td>Bearish tell — BUT overnight repaired it; don't carry it blindly</td></tr>
+<tr><td>Settlement location</td><td class="mono">Jun 16 closed 7,587.75 below value; ON rebuilt to POC 7,604</td><td>Weak close bought back overnight = balanced entry</td></tr>
+<tr><td>Profile shape</td><td>b/distribution (Jun 16) → balance (overnight)</td><td>Two-sided; resistance ladder above, value-backed support below</td></tr>
+<tr><td>Value migration</td><td class="mono">Jun 16 POC 7,607 → ON POC 7,604 (flat/overlap)</td><td>Value stopped migrating up — neither side has control yet</td></tr>
+<tr><td>Price vs POC/VAH/VAL</td><td class="mono">~7,596: below yPOC/ON POC, above ON VAL</td><td>Mid-value; balanced, not extended</td></tr>
+<tr><td>Distance from POC</td><td class="mono">−8 to −11 vs value (7,604–7,607)</td><td>Session-balanced; HTF still extended above the heavy-volume shelf</td></tr>
+<tr><td>Daily MA context</td><td class="mono">Full bull stack; 20-EMA 7,527 (+69)</td><td>Trend support far below — most outcomes bullish/neutral</td></tr>
+<tr><td>ATR / range</td><td class="mono">ATR 103; ON range 35 (coiled)</td><td>Expect an RTH expansion on the 2pm print</td></tr>
+<tr><td>Catalyst</td><td>First Warsh FOMC ~2pm ET</td><td>Coil before, expansion after; the print sets direction</td></tr>
+<tr><td>Internals</td><td>Tech rotation (NQ/semis heavy, cyclicals firmer)</td><td>ES upside lower-quality if NQ lags — watch for confirmation</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="4) Scenarios">
+<h2><span class="num">04</span>What-If Scenarios — RTH (open-location + Fed)</h2>
+
+<div class="scen"><div class="head"><span class="nm">R1 · Pre-Fed Balance / In-Value Rotation — 7,592–7,622</span><span class="tag neut">NEUTRAL</span><span class="stars">★★★★ 30%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Opens inside overnight value (7,592–7,612), two-sided around ON POC 7,604 / yPOC 7,607 ahead of 2pm.</div>
+<div class="blk"><b>Narrative</b>Rotation between ON VAL 7,592 and the yVAH 7,622 cap; buy 7,592–7,599 dips, fade 7,612–7,622. The base-case AM until the Fed breaks it.</div>
+<div class="blk"><b>Setup</b>Long 7,594–7,597 (mid-value) · Stop 7,586 (under y.close) · T1 7,604 (+8) · T2 7,612 (+16) · T3 7,622 (+26) · <b>R:R 0.9→3.0</b>. Scalp short 7,620–7,622 · Stop 7,629 · T 7,608/7,604.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: rejection wicks at 7,612–7,622 + bids at 7,592. Invalid: clean break either edge → R2 / R3.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">R2 · Value Reclaim → Poor-High Repair — 7,608 → 7,648</span><span class="tag bull">BULL</span><span class="stars">★★★ 22%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Accepts above 7,607–7,608 (yPOC/ON VAH), clears 7,612.75 (ON HIGH).</div>
+<div class="blk"><b>Narrative</b>The overnight repair extends: grind to 7,621.75–7,622.75 (yVAH/fib), then the 7,648.75 poor high. A held break &gt; 7,648.75 puts the ATH 7,694 in play. The weak close becomes a pre-Fed shakeout.</div>
+<div class="blk"><b>Setup</b>Long 7,608–7,610 on the reclaim/hold · Stop 7,599 (back under yVAL) · T1 7,612.75 (+4) · T2 7,622 (+13) · T3 7,648 (+39) · <b>R:R 0.4→4.3</b>; runner only on a held break &gt; 7,648.75.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: NQ firms / leads; 2× 30-min closes hold &gt; 7,608. Invalid: rejection at 7,622 + back &lt; 7,604 → R1.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">R3 · Below-Value Breakdown — 7,592 → 7,577 → 7,565</span><span class="tag bear">BEAR — real short</span><span class="stars">★★★ 20%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Loses ON VAL 7,592.75 and y.close 7,587.75, accepts below.</div>
+<div class="blk"><b>Narrative</b>The overnight repair fails — sellers reclaim control: 7,587.75 → ON LOW 7,577.75 → 7,565 fib. <b>A directional short, not a dip-buy locator.</b></div>
+<div class="blk"><b>Setup</b>Short 7,588–7,591 on a failed retest of 7,592/7,599 (or short the 7,577 break) · Stop 7,601 (back above yVAL) · T1 7,577.75 (−12) · T2 7,565 (−25) · T3 7,550 (−40) · <b>R:R 1.0→3.5</b>.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: acceptance &lt; 7,587.75 (30-min close). Invalid: reclaim &gt; 7,599 → flat / flip to R1.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">R4 · Fed-Flush Dip-Buy (trend defense) — 7,527</span><span class="tag bull">BULL</span><span class="stars">★★ 13%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>A hawkish 2pm knee-jerk flushes through 7,565 to the 20-EMA 7,527.</div>
+<div class="blk"><b>Narrative</b>Buyers defend the daily trend at the 20-EMA — the higher-TF edge. This is the deep, value-supported long, taken only after the print with a response/absorption signal.</div>
+<div class="blk"><b>Setup</b>Long 7,527–7,531 on a response · Stop 7,508 (size down — wide) · T1 7,550 (+20) · T2 7,565 (+35) · T3 7,578 (+48) · <b>R:R ~1.0→2.3</b>.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: bid/absorption at 7,527 post-Fed. Invalid: daily close &lt; 7,527 → R5, stand down.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">R5 · Hawkish Breakdown — &lt; 7,527</span><span class="tag bear">BEAR TAIL</span><span class="stars">★ 10%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Hawkish dots/SEP; VIX pops &gt; 21; accept below the 20-EMA.</div>
+<div class="blk"><b>Narrative</b>The swing-top scenario activates: 7,527 → 7,508 → 7,491. This is where the daily uptrend is genuinely questioned.</div>
+<div class="blk"><b>Setup</b>No fresh shorts into the hole; short only on a failed retest of 7,527 from below · or pre-stage responsive longs lower. <b>R:R</b> situational.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: VIX &gt; 21, 30-min accept &lt; 7,527. Invalid: reclaim &gt; 7,550 → back to range.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">R6 · Dovish Melt-Up → ATH — &gt; 7,648</span><span class="tag bull">BULL OUTLIER</span><span class="stars">★ 5%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Dovish Fed surprise; held break of the 7,648.75 poor high.</div>
+<div class="blk"><b>Narrative</b>Open-air to the ATH 7,694.75 same session; measured-move risk above if the ATH gives way.</div>
+<div class="blk"><b>Setup</b>Don't chase — buy the first pullback holding 7,648.75 from above · Stop 7,640 · T1 7,673.50 · T2 7,694 · <b>R:R</b> high. First ATH tag usually rejects — trim hard.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: volume expansion + VIX &lt; 18. Invalid: back under 7,640 → fade.</div>
+</div></div>
+</section>
+
+<section class="panel" data-tab="5) Probability">
+<h2><span class="num">05</span>Probability Matrix — RTH</h2>
+<div class="card">
+<table>
+<tr><th>Rank</th><th>Scenario</th><th>Direction</th><th>Prob</th><th>★</th></tr>
+<tr><td>1</td><td>R1 Pre-Fed balance / in-value rotation 7,592–7,622</td><td><span class="tag neut">Neutral</span></td><td class="mono">30%</td><td class="stars">★★★★</td></tr>
+<tr><td>2</td><td>R2 Value reclaim → poor-high repair → 7,648</td><td><span class="tag bull">Bull</span></td><td class="mono">22%</td><td class="stars">★★★</td></tr>
+<tr><td>3</td><td>R3 Below-value breakdown → 7,577/7,565</td><td><span class="tag bear">Bear</span></td><td class="mono">20%</td><td class="stars">★★★</td></tr>
+<tr><td>4</td><td>R4 Fed-flush dip-buy at 20-EMA 7,527</td><td><span class="tag bull">Bull</span></td><td class="mono">13%</td><td class="stars">★★</td></tr>
+<tr><td>5</td><td>R5 Hawkish breakdown &lt; 7,527</td><td><span class="tag bear">Bear tail</span></td><td class="mono">10%</td><td class="stars">★</td></tr>
+<tr><td>6</td><td>R6 Dovish melt-up → ATH 7,694</td><td><span class="tag bull">Bull outlier</span></td><td class="mono">5%</td><td class="stars">★</td></tr>
+</table>
+<table><tr><th>Combined</th><th class="mono" style="color:var(--bull)">Bull 40%</th><th class="mono" style="color:var(--bear)">Bear 30%</th><th class="mono" style="color:var(--neut)">Neutral 30%</th></tr></table>
+<div class="warn blue"><b class="t">Base case (RTH)</b>A <b>pre-Fed two-sided coil between ~7,592 and 7,622</b> around ON POC 7,604 / yPOC 7,607, then the <b>2pm Warsh decision sets direction</b>. Reasoning: the overnight repair removed the immediate bearish edge (responsive buying defended the weak close), the daily trend is up, and price is mid-value — so the lean is <b>neutral-to-constructive</b>, not bearish. Bulls need to reclaim &amp; hold <b>7,607–7,608</b> to press 7,612 → 7,622 → 7,648; bears need <b>acceptance below 7,587.75</b> to open 7,577 → 7,565. Trade the <b>second move</b> after 2pm, not the knee-jerk.</div>
+</div>
+</section>
+
+<section class="panel" data-tab="6) Decision Map">
+<h2><span class="num">06</span>Decision Map — RTH</h2>
+<pre class="tree">RTH OPEN ~7,596 (ON value 7,592–7,612 · POC 7,604 · yVAH 7,622 cap · poor high 7,648 · ATH 7,694)
+│
+├─► ACCEPTS &gt; 7,608 (reclaims yPOC / ON VAH)
+│     ├─ clears 7,612.75 ON HIGH → tag <span class="y">yVAH 7,621.75–7,622.75</span>
+│     │     ├─ rejected → fade back to 7,604 / 7,599
+│     │     └─ <span class="g">accepts &gt; 7,622.75 → R2/R6</span> → 7,648 poor high → fib 7,694 / ATH
+│     └─ stalls under 7,612 → rotate in value 7,592–7,612
+│
+├─► OPENS 7,592–7,608 (inside value — most likely)
+│     ├─ holds ON POC 7,604 → <span class="b">R1 balance</span> → Fed breaks the tie
+│     └─ loses 7,592.75 ON VAL → test <span class="y">y.close 7,587.75</span>
+│            ├─ holds 7,587 → responsive bid → back to value
+│            └─ <span class="r">closes &lt; 7,587.75 → R3</span> → <span class="y">ON LOW 7,577.75</span>
+│                  ├─ <span class="g">7,577 bought</span> → 7,592 / 7,604
+│                  └─ <span class="r">&lt; 7,577 → 7,565 fib</span> → 7,550 → <span class="r">20-EMA 7,527</span>
+│
+└─► OPENS &lt; 7,577 (gap-down headline)
+      → <span class="r">R3/R4</span> → 7,565 → 7,550 → buy the <span class="g">20-EMA 7,527 shelf</span>, not the hole</pre>
+<div class="card">
+<table>
+<tr><th class="mono">Level</th><th>Holds</th><th>Breaks</th></tr>
+<tr><td class="mono">7,694.75 (ATH)</td><td>Day-one cap — fade</td><td>Open air → measured move</td></tr>
+<tr><td class="mono">7,648.75 (poor high)</td><td>Resistance — rotate</td><td>Trend leg → 7,673 → ATH</td></tr>
+<tr><td class="mono">7,621.75–7,622.75 (yVAH/fib)</td><td>Balance top — fade to value</td><td>Press to 7,648 (R2)</td></tr>
+<tr><td class="mono">7,604–7,608 (value)</td><td>Reclaim = bull control; buy dips</td><td>Slip to ON VAL / yVAL</td></tr>
+<tr><td class="mono">7,592.75 (ON VAL)</td><td>Overnight floor — dip held</td><td>Test y.close 7,587.75</td></tr>
+<tr><td class="mono">7,587.75 (y.close)</td><td>Bull intact — responsive bid</td><td>R3 → ON low 7,577.75</td></tr>
+<tr><td class="mono">7,577.75 (ON low)</td><td>Repair holds — major dip-buy</td><td>Gap-fill: 7,565 → 7,550 → 20-EMA 7,527</td></tr>
+<tr><td class="mono">7,527 (20-EMA)</td><td>Trend defense — buy the shelf</td><td>Swing question → 7,508/7,491 (R5)</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="7) Bias Flips">
+<h2><span class="num">07</span>Bias Flip Conditions — RTH</h2>
+<div class="card">
+<table>
+<tr><th>Starting bias</th><th>Flip to</th><th class="mono">Trigger</th><th>Action</th></tr>
+<tr><td><span class="tag neut">Neutral (default)</span></td><td><span class="tag bull">Bull</span></td><td class="mono">Accept &gt; 7,608 (2× 30-min)</td><td>Long; target 7,612 → 7,622 → 7,648; trail under 7,604</td></tr>
+<tr><td><span class="tag bull">Bull</span></td><td><span class="tag bull">Breakout bull</span></td><td class="mono">Held break &gt; 7,648.75</td><td>Add; target fib 7,694 / ATH; trail under 7,632</td></tr>
+<tr><td><span class="tag neut">Neutral</span></td><td><span class="tag bear">Bear</span></td><td class="mono">30-min close &lt; 7,587.75</td><td>R3 short → 7,577.75 / 7,565; no longs above value</td></tr>
+<tr><td><span class="tag bear">Bear</span></td><td><span class="tag bear">Bear (deeper)</span></td><td class="mono">Accept &lt; 7,527 + VIX &gt; 21</td><td>Gap-fill / swing-top; pre-stage longs lower, no chasing shorts</td></tr>
+<tr><td><span class="tag bear">Bear</span></td><td><span class="tag bull">Repair</span></td><td class="mono">Reclaim &gt; 7,604</td><td>Back to balance / R2 lean toward 7,622</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="8) Playbook">
+<h2><span class="num">08</span>Tactical Playbook — RTH (Top 3)</h2>
+
+<div class="pb open">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#1</div><div class="pb-name">In-Value Dip-Buy / Reclaim (R1→R2) — base-case long</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 4.3R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,594–7,597</b> (mid-value) on a hold, or <b>7,608–7,610</b> on a reclaim of yPOC/ON VAH</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,586 (under y.close) for the dip · 7,599 for the reclaim · risk 8–11 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,604 (+8)</span><span class="tgt">T2 7,612 (+16)</span><span class="tgt">T3 7,622 (+26)</span> then 7,648 on a held break</div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at ON POC 7,604 · ¼ at ON HIGH 7,612 · runner to yVAH 7,622; add-back on a held break &gt; 7,622</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">~1.0R / 2.0R / 3.0R (→4.3R into 7,648)</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,587.75 → flat, wait for the 7,577.75 shelf (R3)</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#2</div><div class="pb-name">Below-Value Breakdown (R3) — the real short</div>
+  <span class="tag bear">SHORT</span><span class="pb-rr">up to 3.5R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Short 7,588–7,591</b> on a failed retest of 7,592/7,599 from below (or short the 7,577 break-retest)</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,601 (back above yVAL) · risk 10–13 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,577.75 (−12)</span><span class="tgt">T2 7,565 (−25)</span><span class="tgt">T3 7,550 (−40)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at ON low 7,577.75 · ¼ at fib 7,565 · cover the rest at 7,550 (don't press into the 7,527 dip-buy zone)</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.0R / 2.1R / 3.5R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>Reclaim &gt; 7,599 (30-min close) → flat, flip to #1</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#3</div><div class="pb-name">Fed-Flush Trend-Defense (R4) — deep dip long</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 2.3R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,527–7,531</b> (20-EMA) on a post-FOMC flush with a response/absorption signal</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,508 · risk 19–23 pts — size down hard</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,550 (+20)</span><span class="tgt">T2 7,565 (+35)</span><span class="tgt">T3 7,578 (+48)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>⅓ at T1 · ⅓ at 7,565 · runner to 7,578; the value-supported, highest-quality location of the three</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">~1.0R / 1.7R / 2.3R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>Daily close &lt; 7,527 → exit; swing-top regime (R5), stand down</div></div>
+</div>
+</div>
+
+<div class="warn blue"><b class="t">Position size vs ATR — applies to all three</b>ATR 103 on a <b>Fed day</b>: run <b>~½ normal size</b> and <b>don't carry a fresh position through 2pm</b> — a single FOMC candle can cover the whole expected day's range. Let the print clear, then engage the <b>second move</b>. Full-to-70% size only on the value-supported dip-buys (#1, #3); the breakout add (&gt; 7,622 / &gt; 7,648) is ¼-size until a confirmed close.</div>
+</section>
+
+<section class="panel" data-tab="9) Warnings">
+<h2><span class="num">09</span>Structural Warnings — RTH</h2>
+<div class="warn green"><b class="t">✓ Overnight repaired the weak close — don't carry a stale bear bias</b>Jun 16 closed below value (bearish), but the overnight <b>responsively bought it back</b> and rebuilt value to POC 7,604. RTH enters <b>balanced</b>, not breaking down. The first instinct to "short the weak close" is already late.</div>
+<div class="warn amber"><b class="t">⚠ Resistance ladder 7,604 → 7,612 → 7,622 → 7,648</b>Four caps stacked into the highs. The day must grind through each to reach the poor high. Don't buy mid-ladder; buy the value dips (7,592–7,599) and let acceptance prove itself before chasing 7,622/7,648.</div>
+<div class="warn amber"><b class="t">⚠ Poor / unfinished high 7,648.75</b>Rejected once. It's a magnet that can pull price up (don't get trapped short under it) but the first re-tag usually rejects (don't get trapped long into it). Trade the <b>held break</b>, not the touch.</div>
+<div class="warn"><b class="t">⚠ 2pm Fed = vol expansion</b>The knee-jerk is frequently faded. Stand aside through the initial spike; <b>trade the second leg</b>. Cut size into the print. ATR 103 means one candle can be the whole day.</div>
+<div class="warn"><b class="t">⚠ Tech rotation / narrowing bid</b>NQ/semis heavy while cyclicals firm = lower-quality breadth. If ES presses up but NQ lags again, distrust the move. NQ reclaiming leadership re-validates R2.</div>
+<div class="warn blue"><b class="t">ℹ 7,527 (20-EMA) is the swing line</b>Above it, the daily uptrend is intact and deep dips are buys (R4). A <b>daily close below 7,527</b> would be the first real character change since the rally — the swing-bear trigger (R5), not intraday wobble.</div>
+</section>
+
+<section class="panel" data-tab="10) Transition">
+<h2><span class="num">10</span>Session Transition — RTH open outcomes</h2>
+<div class="card">
+<table>
+<tr><th>If at the open price is…</th><th>Implication</th><th>Likely day type</th></tr>
+<tr><td class="mono">&gt; 7,622</td><td>Above the balance top / yVAH</td><td>Breakout-up attempt → 7,648 test (beware first-tag rejection)</td></tr>
+<tr><td class="mono">7,608–7,622</td><td>Reclaimed value, gate pending</td><td>Bull-lean rotation; buy dips, yVAH the pivot (R2)</td></tr>
+<tr><td class="mono">7,592–7,608 (in value)</td><td>Balanced around ON POC / yPOC</td><td>Two-sided rotation; Fed breaks the tie (R1) — most likely</td></tr>
+<tr><td class="mono">7,587–7,592</td><td>Lower value edge</td><td>Dip-buy watch; 7,587.75 / 7,577.75 must hold</td></tr>
+<tr><td class="mono">7,565–7,587</td><td>Below the close / ON low broken</td><td>Down-trend-day risk; sell rallies to 7,592 (R3)</td></tr>
+<tr><td class="mono">&lt; 7,565</td><td>Gap-fill open</td><td>Flush to 20-EMA 7,527, then dip-buy response (R4)</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="11) Summary">
+<h2><span class="num">11</span>Final Summary — RTH Wed Jun 17</h2>
+<div class="card">
+<table>
+<tr><th>Item</th><th>Call</th></tr>
+<tr><td>Macro bias</td><td><span class="tag bull">BULL, pausing</span> — full bull MA stack rising, VIX sub-19; offset by tech rotation + Fed event risk</td></tr>
+<tr><td>Intermediate bias</td><td><span class="tag neut">BULL, digesting</span> — Jun 16 distribution pulled back from 7,648, overnight repaired it; only the ATH 7,694 overhead</td></tr>
+<tr><td>Intraday bias</td><td><span class="tag neut">NEUTRAL → BULL-lean into the Fed</span> — overnight repair removed the bear edge; buy value dips, the Fed decides</td></tr>
+<tr><td>Base case</td><td>Pre-Fed balance 7,592–7,622 around ON POC 7,604 → 2pm sets direction; reclaim 7,608 → 7,622/7,648, lose 7,587 → 7,577/7,565</td></tr>
+<tr><td>Primary trade</td><td class="mono"><b>Long 7,594–7,597</b> (mid-value) / <b>7,608–7,610</b> reclaim, stop 7,586/7,599 → 7,604/7,612/7,622 (R1→R2)</td></tr>
+<tr><td>Best-location alternate</td><td class="mono"><b>Long 7,527–7,531</b> at the 20-EMA on a Fed flush, stop 7,508 → 7,550/7,565/7,578 (R4)</td></tr>
+<tr><td>Real short</td><td class="mono"><b>Short 7,588–7,591</b> on a failed retest after acceptance &lt; 7,587.75, stop 7,601 → 7,577/7,565/7,550 (R3)</td></tr>
+<tr><td>Key bull level</td><td class="mono">7,607–7,608 (yPOC/ON VAH) reclaim → 7,612/7,622; held break &gt; 7,648.75 → ATH 7,694</td></tr>
+<tr><td>Key bear level</td><td class="mono">7,587.75 (y.close) — acceptance below → 7,577.75 / 7,565; 7,527 = the swing line</td></tr>
+<tr><td>Biggest risk</td><td>Fed knee-jerk whipsaw (both ways); the resistance ladder rejects the first push; tech rotation hollowing the bid</td></tr>
+<tr><td>Day-type expectation</td><td>Pre-Fed balance (~30%) · post-Fed trend-up/repair (~40% incl. melt) · below-value breakdown (~20%) · gap-fill/flush (~10%)</td></tr>
+</table>
+</div>
+</section>
+
+</div>
+</div>
+
+<div class="wrap"><div class="foot">ES Plan for Jun 17, 2026 (ETH + RTH) · built Jun 17 ~06:00 ET (pre-RTH) from TPO + 30-min charts · Pre-open ~7,596 · Jun 16 RTH: O 7,627.75 / H 7,648.75 / C 7,587.75 (below value) · Overnight: HIGH 7,612.75 / POC 7,604.00 / VAL 7,592.75 / LOW 7,577.75 · yVAH 7,622.75 · yPOC 7,607.25 · yVAL 7,599.00 · ATH 7,694.75 · ATR 103 · 20-EMA 7,527 (carried) · VIX 18.35 (carried; no VIX chart this round) · Catalyst: first Warsh FOMC ~2pm ET · Not financial advice. Re-anchor R/S to the actual cash open.</div></div>
+
+<script>
+const TABS=["1) Top-Down","2) Key Levels","3) Context","4) Scenarios","5) Probability","6) Decision Map","7) Bias Flips","8) Playbook","9) Warnings","10) Transition","11) Summary"];
+let curPlan='RTH', curTab=0;
+const tabbar=document.getElementById('tabbar');
+TABS.forEach((t,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');b.textContent=t;b.onclick=()=>setTab(i);tabbar.appendChild(b);});
+function render(){
+  document.getElementById('plan-ETH').style.display=curPlan==='ETH'?'block':'none';
+  document.getElementById('plan-RTH').style.display=curPlan==='RTH'?'block':'none';
+  document.getElementById('btnETH').classList.toggle('active',curPlan==='ETH');
+  document.getElementById('btnRTH').classList.toggle('active',curPlan==='RTH');
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',i===curTab));
+  ['ETH','RTH'].forEach(p=>{
+    document.querySelectorAll('#plan-'+p+' .panel').forEach((s,i)=>s.classList.toggle('active',i===curTab));
+  });
+}
+function setTab(i){curTab=i;render();window.scrollTo({top:document.querySelector('nav.tabs').offsetTop,behavior:'smooth'});}
+function setPlan(p){curPlan=p;render();}
+render();
+</script>
+</body>
+</html>
