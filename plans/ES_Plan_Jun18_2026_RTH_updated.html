@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ES Trading Plan — Jun 18, 2026 — RTH UPDATE (post-overnight repair)</title>
+<style>
+:root{
+  --bg:#fafbfc; --card:#ffffff; --ink:#15212e; --muted:#5d6b7a; --line:#e4e9ef;
+  --navy:#0f3a5f; --bull:#0d7a45; --bullbg:#e8f6ee; --bear:#c0392b; --bearbg:#fceae7;
+  --neut:#8a6d1a; --neutbg:#fbf3da; --accent:#1463a8; --accentbg:#eaf3fb;
+  --mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;padding-bottom:80px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+header.top{background:linear-gradient(180deg,#ffffff,#f3f7fb);border-bottom:1px solid var(--line);padding:26px 0 18px}
+.kicker{font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:27px;font-weight:750;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--muted);font-size:13.5px}
+.snapshot{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;font:12.5px var(--mono)}
+.chip b{font-weight:700}
+.chip.red b{color:var(--bear)} .chip.green b{color:var(--bull)} .chip.amber b{color:var(--neut)}
+.delta{border:1px solid #e6cfcf;background:var(--bearbg);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:13.5px}
+.delta b.t{display:block;font-size:14px;margin-bottom:4px;color:var(--bear)}
+.planswitch{display:flex;gap:8px;margin-top:16px}
+.planbtn{flex:0 0 auto;cursor:pointer;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:10px 22px;font-weight:700;font-size:14px;color:var(--muted)}
+.planbtn.active{border-color:var(--navy);background:var(--navy);color:#fff}
+nav.tabs{position:sticky;top:0;z-index:50;background:rgba(250,251,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto;padding:8px 18px}
+.tab{white-space:nowrap;cursor:pointer;border:none;background:transparent;color:var(--muted);font:600 12.5px/1 inherit;padding:9px 12px;border-radius:7px}
+.tab.active{background:var(--accentbg);color:var(--accent)}
+section.panel{display:none;padding:26px 0 10px}
+section.panel.active{display:block}
+h2{font-size:20px;font-weight:750;letter-spacing:-.01em;margin-bottom:4px}
+h2 .num{font:700 12px var(--mono);color:var(--accent);vertical-align:3px;margin-right:8px}
+.lede{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+h3{font-size:15.5px;font-weight:700;margin:22px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+th{background:#f2f5f9;text-align:left;font:600 11px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 9px;border-bottom:1px solid var(--line)}
+td{padding:7px 9px;border-bottom:1px solid #eef2f6;vertical-align:top}
+td.mono,th.mono{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+tr.cluster td{background:#fdf8ec}
+tr.now td{background:var(--accentbg);font-weight:700}
+.tag{display:inline-block;border-radius:5px;padding:2px 7px;font:600 11px var(--mono)}
+.tag.bull{background:var(--bullbg);color:var(--bull)} .tag.bear{background:var(--bearbg);color:var(--bear)}
+.tag.neut{background:var(--neutbg);color:var(--neut)} .tag.info{background:var(--accentbg);color:var(--accent)}
+.stars{color:#d99a14;letter-spacing:1px;font-size:12px;white-space:nowrap}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid rgba(0,0,0,.12)}
+pre.tree{background:#0f1722;color:#d7e3f0;border-radius:12px;padding:18px;font:12.5px/1.6 var(--mono);overflow-x:auto;margin:12px 0}
+pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b{color:#7ec3ff}
+.warn{border-left:4px solid var(--bear);background:var(--bearbg);border-radius:0 10px 10px 0;padding:12px 16px;margin:10px 0}
+.warn.amber{border-left-color:var(--neut);background:var(--neutbg)}
+.warn.blue{border-left-color:var(--accent);background:var(--accentbg)}
+.warn b.t{display:block;font-size:13.5px;margin-bottom:3px}
+.scen{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden;background:#fff}
+.scen .head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:#f7fafc}
+.scen .head .nm{font-weight:750;font-size:14.5px}
+.scen .body{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;font-size:13px}
+.scen .body .blk b{display:block;font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+.ladder{font:12.5px/1.7 var(--mono);background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;overflow-x:auto;white-space:pre}
+.pb{border:1px solid var(--line);border-radius:12px;background:#fff;margin:12px 0;overflow:hidden}
+.pb-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;background:#f7fafc}
+.pb-head:hover{background:#eef4fa}
+.pb-rank{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;font:700 13px var(--mono);display:flex;align-items:center;justify-content:center}
+.pb-name{font-weight:750;font-size:14.5px;flex:1 1 auto}
+.pb-rr{font:700 12px var(--mono);color:var(--accent);white-space:nowrap}
+.pb-caret{flex:0 0 auto;transition:transform .2s;color:var(--muted);font-size:12px}
+.pb.open .pb-caret{transform:rotate(90deg)}
+.pb-body{display:none;border-top:1px solid var(--line)}
+.pb.open .pb-body{display:block}
+.pb-row{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:10px 16px;border-bottom:1px solid #eef2f6;font-size:13px}
+.pb-row:last-child{border-bottom:none}
+.pb-row .lbl{font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding-top:2px}
+.pb-row.hl{background:var(--accentbg)}
+.tgt{display:inline-block;background:#f2f5f9;border:1px solid var(--line);border-radius:6px;padding:2px 8px;font:600 12px var(--mono);margin:2px 6px 2px 0}
+.tgt.t1{border-color:#e6c9c9;background:var(--bearbg)}
+.foot{margin-top:36px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:640px){h1{font-size:22px}.scen .body{grid-template-columns:1fr}.pb-row{grid-template-columns:1fr;gap:3px}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <div class="kicker">ES1! · CME · PLAN FOR JUN 18, 2026 · RTH UPDATE JUN 18 ~05:28 ET (post-overnight)</div>
+  <h1>ES Trading Plan — Jun 18 RTH (updated)</h1>
+  <div class="sub">Updated from overnight TPO + 30-min + VX1! (05:26–05:28 ET) · The FOMC flush has been FULLY REPAIRED overnight: ES round-tripped from 7,472 back to 7,563 and is now testing yVAL/yPOC from below · Catalyst spent (hawkish hold priced); focus shifts to whether the void fully fills</div>
+  <div class="snapshot">
+    <div class="chip green">Last <b>7,562.25–7,563.50</b> (pre-mkt +70)</div>
+    <div class="chip">Jun 17 RTH: O <b>7,595.50</b> · H <b>7,605.75</b> · L <b>7,472.00</b> · C <b>7,492.00</b></div>
+    <div class="chip">yPOC <b>7,582.00</b> · yVAH <b>7,600.75</b> · yVAL <b>7,540.50</b></div>
+    <div class="chip green">ON VAH <b>7,563.50</b> · ON POC <b>7,556.25</b> · ON VAL <b>7,539.75</b></div>
+    <div class="chip amber">ON single prints <b>7,533.75 / 7,528.75</b> · spike base <b>7,497</b></div>
+    <div class="chip green">vs 20-EMA 7,518.25 <b>+44</b> · vs 50-EMA 7,390.25 <b>+172</b></div>
+    <div class="chip green">VIX <b>18.50 ▼</b> (−3.92%) · ATR <b>106.75</b></div>
+  </div>
+  <div class="delta"><b class="t">▲ Overnight update (Jun 17 18:25 → Jun 18 05:28) — repair complete, now at the decision</b>
+  The base-case repair played out cleanly and then some. ES held the single-print band, reclaimed the <b>spike base 7,497</b>, filled the entire down-leg void, and built a fresh <b>overnight balance</b> right at yesterday's value lower edge: <b>ON VAH 7,563.50 · ON POC 7,556.25 · ON VAL 7,539.75</b> (ON VAL sitting on yVAL 7,540.50). Price is now <b>7,562.25–7,563.50</b>, pressing the <b>fib extend 7,565</b> and the underside of <b>yVAL 7,540.50 / yPOC 7,582</b>. So the FOMC flush is fully unwound overnight — but the market has <b>stalled exactly under yesterday's value</b>, leaving fresh <b>ON single prints at 7,533.75 / 7,528.75</b> below as the new speed zone. <b>VIX 18.50 (−3.92%)</b> stayed orderly. The question for RTH is no longer "does it repair" (done) but "<b>does it accept back INTO yesterday's value (7,540–7,600) or reject at yPOC 7,582 and roll back to the ON single prints / spike base</b>." The −$2.5B sell MOC supply still sits overhead at yPOC/yVAH — that's the wall this open has to clear.</div>
+  <div class="planswitch">
+    <button class="planbtn" id="btnETH" onclick="setPlan('ETH')">🌙 ETH PLAN (superseded)</button>
+    <button class="planbtn active" id="btnRTH" onclick="setPlan('RTH')">☀️ RTH THURSDAY PLAN ★</button>
+  </div>
+</div></header>
+
+<nav class="tabs"><div class="wrap" id="tabbar"></div></nav>
+
+<!-- ==================== ETH PLAN ==================== -->
+<div class="plan" id="plan-ETH" style="display:none">
+<div class="wrap">
+
+<section class="panel" data-tab="1) Top-Down">
+<h2><span class="num">01</span>Top-Down Analysis</h2>
+<div class="lede">Reference: last 7,528.50–7,529.00, sitting on the new single-print band and the daily 20-EMA, ~37 pts above the RTH close — the overnight has already repaired most of the FOMC flush.</div>
+
+<h3>a) Daily — MA stack &amp; drawn levels</h3>
+<div class="card">
+<table>
+<tr><th>MA</th><th class="mono">Value</th><th class="mono">Distance</th><th>Status</th></tr>
+<tr><td><span class="swatch" style="background:#ef5350"></span>20-EMA</td><td class="mono">7,518.25</td><td class="mono" style="color:var(--bull)">+10.25</td><td><span class="tag neut">PINNED ON IT</span> — flattening/rolling over; the day's pivot — close above = bull intact, close below = momentum lost</td></tr>
+<tr><td><span class="swatch" style="background:#ff9800"></span>50-EMA</td><td class="mono">7,390.25</td><td class="mono" style="color:var(--bull)">+138.25</td><td><span class="tag bull">RECLAIMED</span> — rising; first major dynamic support far below</td></tr>
+<tr><td><span class="swatch" style="background:#f5e642"></span>100-EMA</td><td class="mono">7,233.00</td><td class="mono" style="color:var(--bull)">+295.50</td><td><span class="tag bull">Rising</span> — no near-term magnet</td></tr>
+<tr><td><span class="swatch" style="background:#43a047"></span>200-EMA</td><td class="mono">7,033.50</td><td class="mono" style="color:var(--bull)">+495.00</td><td><span class="tag bull">Rising</span></td></tr>
+<tr><td><span class="swatch" style="background:#1e54c9"></span>300-EMA</td><td class="mono">6,868.00</td><td class="mono" style="color:var(--bull)">+660.50</td><td><span class="tag bull">Rising</span></td></tr>
+</table>
+<table style="margin-top:10px">
+<tr><th>Drawn level (Daily)</th><th>Color</th><th class="mono">Price</th><th class="mono">Distance</th><th>Note</th></tr>
+<tr><td>Range High (label)</td><td>Label</td><td class="mono">7,694.75</td><td class="mono">+166.25</td><td>Recent swing high / ATH-area reference</td></tr>
+<tr><td>ATR</td><td>Box</td><td class="mono">106.75</td><td class="mono">—</td><td>Full-day budget; today's range 134 = 1.25×</td></tr>
+<tr><td>Range Low (label)</td><td>Label</td><td class="mono">6,415.75</td><td class="mono">−1,112</td><td>Macro reference (Apr flush low)</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>Daily narrative:</b> Today printed a wide-range bearish candle (close 7,492 from a 7,605.75 high) on volume 14.87K — a clear FOMC distribution day that engulfed the prior two sessions, but the wick into 7,472 was bought and ETH has clawed back to 7,528.50. Structurally the daily is at an <b>inflection</b>: price closed the RTH session below the 20-EMA but the overnight has reclaimed it. The full MA stack (50/100/200/300) is still rising well below, so the larger uptrend is intact — this is a <b>momentum-loss / value-correction</b>, not a trend break. The tell is whether price <b>accepts above 7,518.25</b> (20-EMA) or rolls back under it toward the 50-EMA shelf. The whole post-flush rally left no value between 7,540 and 7,580 — a void that cuts both ways.</p>
+</div>
+
+<h3>b) 30-Min RTH+ETH — session flow &amp; drawn levels</h3>
+<div class="card">
+<table>
+<tr><th>Session</th><th class="mono">High</th><th class="mono">Low</th><th class="mono">Close≈</th><th>Character</th><th>Value migration</th></tr>
+<tr><td>Jun 13/14 ON</td><td class="mono">7,508.25</td><td class="mono">~7,440</td><td class="mono">~7,505</td><td>Balance / base build</td><td>Value 7,448–7,508</td></tr>
+<tr><td>Jun 15</td><td class="mono">7,648.75</td><td class="mono">~7,560</td><td class="mono">~7,632</td><td>Trend up to range high</td><td>▲ sharp +120</td></tr>
+<tr><td>Jun 16</td><td class="mono">7,632.25</td><td class="mono">~7,578</td><td class="mono">~7,600</td><td>Balance under highs (poor high 7,648)</td><td>≈ flat, 7,578–7,632</td></tr>
+<tr><td><b>Jun 17 RTH</b></td><td class="mono"><b>7,605.75</b></td><td class="mono"><b>7,472.00</b></td><td class="mono"><b>7,492.00</b></td><td><b>FOMC trend-day-down:</b> held value to 2 PM, then one-time-frame flush −134 through POC/VAL, spike-base close</td><td>▼ value 7,540–7,600, breaking down</td></tr>
+<tr><td>Jun 17 ETH (now)</td><td class="mono">7,529.00</td><td class="mono">~7,491</td><td class="mono">7,528.50</td><td>V-recovery off 7,491; reclaimed both single prints, testing 20-EMA</td><td>Rebuilding up toward VAL 7,540.50</td></tr>
+</table>
+<table style="margin-top:12px">
+<tr><th>Drawn level (30-min)</th><th>Color</th><th class="mono">Price</th><th class="mono">Dist</th></tr>
+<tr><td>Upper stack</td><td>Black</td><td class="mono">7,673.50 / 7,654.50 / 7,648.75(H) / 7,632.25</td><td class="mono">+103→+145</td></tr>
+<tr><td>Fib extend (NEW)</td><td><span class="swatch" style="background:#e57373"></span>Red</td><td class="mono">7,621.75</td><td class="mono">+92.75</td></tr>
+<tr><td>Black band</td><td>Black</td><td class="mono">7,605.50 / 7,600.00 / 7,591.50 / 7,578.25</td><td class="mono">+49→+77</td></tr>
+<tr><td>Fib extend (NEW)</td><td><span class="swatch" style="background:#e53935"></span>Red</td><td class="mono">7,565.00</td><td class="mono">+36</td></tr>
+<tr><td>Pivot pair</td><td>Black</td><td class="mono">7,550.50 / VAL 7,540.50</td><td class="mono">+11→+22</td></tr>
+<tr class="now"><td><b>Green zone (price inside)</b></td><td><span class="swatch" style="background:#bfe3c5"></span>Green box</td><td class="mono">≈7,508.25–7,527.50</td><td class="mono">0</td></tr>
+<tr class="cluster"><td>20-EMA / line</td><td><span class="swatch" style="background:#ef5350"></span>Red / Black</td><td class="mono">7,518.25 / 7,527.50</td><td class="mono">−1→−10.25</td></tr>
+<tr><td>Single prints</td><td>Label</td><td class="mono">7,513.50 / 7,505.25</td><td class="mono">−15→−23</td></tr>
+<tr class="cluster"><td>Spike base + close</td><td><span class="swatch" style="background:#e57373"></span>Red / Label</td><td class="mono">7,497.00 / 7,492.00</td><td class="mono">−31→−37</td></tr>
+<tr><td>Pivot / green zone</td><td>Black / Green</td><td class="mono">7,491.50 / 7,469.50</td><td class="mono">−37→−59</td></tr>
+<tr><td>TODAY LOW</td><td>Label</td><td class="mono">7,472.00</td><td class="mono">−56.50</td></tr>
+<tr><td>Green zone (lower)</td><td><span class="swatch" style="background:#bfe3c5"></span>Green box</td><td class="mono">≈7,440.00–7,455.00 (7,448.50)</td><td class="mono">−74→−88</td></tr>
+<tr><td>Pivot</td><td>Black</td><td class="mono">7,421.25</td><td class="mono">−107</td></tr>
+<tr><td>Green zone / fib extend (NEW)</td><td><span class="swatch" style="background:#e53935"></span>Green / Red</td><td class="mono">≈7,400.00–7,410 / fib 7,396.50</td><td class="mono">−119→−132</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>30-min narrative:</b> The week ran balance (7,448–7,508) → trend up to a <b>poor high 7,648.75</b> → balance under the highs → today's FOMC liquidation. The 2 PM leg was one-time-frame down through every shelf (7,578 / 7,565 / 7,550 / VAL 7,540) with no pause until 7,472, leaving thin/single-print structure 7,505–7,513. ETH then V-recovered straight back into the <b>green zone 7,508–7,527</b> and is pinned under the 20-EMA 7,518.25 with the 7,527.50 line capping. Above is a <b>void back to VAL 7,540.50</b> then the fib 7,565; below, the spike base 7,497 is the line in the sand before the 7,472 low and the deeper 7,448.50 green zone.</p>
+</div>
+
+<h3>c) Market Profile — Jun 17 session</h3>
+<div class="card">
+<table>
+<tr><th>Metric</th><th class="mono">Value</th><th>Read</th></tr>
+<tr><td>OPEN / CLOSE</td><td class="mono">7,595.50 / 7,492.00</td><td>Opened inside value → closed −103.5 on the FOMC flush (spike close)</td></tr>
+<tr><td>TODAY HIGH / LOW</td><td class="mono">7,605.75 / 7,472.00</td><td>133.75-pt range (1.25× ATR)</td></tr>
+<tr><td>VAH / POC / VAL</td><td class="mono">7,600.75 / <b>7,582.00</b> / 7,540.50</td><td>Value still anchored to the pre-FOMC upper distribution — close printed 48.5 BELOW VAL (downside spike unbacked by value)</td></tr>
+<tr><td><b>Spike base (labeled)</b></td><td class="mono"><b>7,497.00</b></td><td>Late-day capitulation base; Dalton spike rules govern tomorrow's open (inverted — bear spike)</td></tr>
+<tr><td><b>Single prints (labeled)</b></td><td class="mono"><b>7,513.50 and 7,505.25</b></td><td>Two one-TPO ladders from the flush — speed zone now being repaired from below by ETH</td></tr>
+<tr><td>Shape</td><td class="mono">P-base + vertical down-leg (double distribution)</td><td>Fat upper balance 7,578–7,605, thin elevator down to 7,472</td></tr>
+</table>
+</div>
+<div class="grid2">
+<div class="ladder"><b>STRUCTURE MAP (Jun 17 close → ETH 7,528.50)</b>
+7,582.00 ── <b>POC</b>  ◄ value magnet above the void
+7,565.00 ── fib extend (red)
+7,550.50 ── pivot
+7,540.50 ── <b>VAL</b>  ◄ first big test above
+7,529.00 ── 30m last / 7,527.50 line
+7,528.50 ◄◄ <b>YOU ARE HERE (ETH)</b>
+7,518.25 ── daily 20-EMA  ◄ the pivot
+7,513.50 ── <b>SINGLE PRINT</b> ░ speed ░
+7,505.25 ── <b>SINGLE PRINT</b> ░ speed ░
+7,497.00 ── <b>SPIKE BASE</b>  ◄ tonight's line in the sand
+7,492.00 ── RTH CLOSE
+7,491.50 ── 30m pivot
+7,472.00 ── <b>TODAY LOW</b>
+7,469.50 ── pivot / green zone edge
+7,448.50 ── green zone (7,440–7,455)
+7,421.25 ── pivot
+7,396.50–7,410 ── fib extend / lower green zone</div>
+<div>
+<p style="font-size:13px"><b>Profile narrative:</b> Classic FOMC distribution: a P-shaped upper balance held all morning (POC 7,582, VAL 7,540.50) until Warsh's "price stability" framing triggered a vertical leg that built <b>no value</b> below VAL. The 7,492 settlement sits <b>48.5 pts under VAL</b> with two single-print ladders (7,513.50 / 7,505.25) and a spike base at 7,497. The inversion vs the template: this is a <b>bear spike close</b>, so spike rules run the other way — if ETH/RTH <b>holds above 7,497–7,513</b>, the market is repairing the flush (mean-revert up toward VAL 7,540 / POC 7,582 = the void fill); if it <b>loses 7,497</b>, the spike is being accepted lower and 7,472 / 7,448.50 come into play. ETH has already reclaimed both single prints — early repair signal — but the −$2.5B sell MOC says institutions exited size, so chase nothing into the void.</p>
+<h3>d) VIX + macro context</h3>
+<p style="font-size:13px"><b>VX1! 18.95 (−1.58%)</b>, low 18.20 — notably, VIX <b>FELL</b> on an equity-down day, an unusual risk-off/vol-down split that argues the selloff was a <b>positioning/rate-repricing event</b> (orderly de-risk) rather than a fear spike. Vol has been grinding lower from the April 31+ highs all quarter; sub-19 keeps the larger melt regime technically alive. <b>Macro:</b> FOMC held rates (4th straight hold) but the SEP dots split sharply — nine officials see ≥1 hike in 2026, six of those two-plus; nine see flat/lower; new Chair <b>Kevin Warsh gave no dot</b> and stressed "price stability," dismissing any move off the 2% target. Markets now <b>fully price a hike by October</b> and two hikes by Q1 2027; 2-yr yields +16 bp to 4.21%, dollar firmer. <b>MOC: S&amp;P −$2,505.8M, NDX −$2,372.8M, Dow −$554.9M, Mag7 −$686.9M sell imbalances</b> — broad institutional de-risk. The asymmetry: a hawkish hold is now <b>priced</b>, so the marginal surprise risk shifts to <b>dovish Fedspeak / soft data</b> (squeeze fuel) — but any hot inflation print or hawkish follow-through re-arms the downside.</p>
+</div>
+</div>
+</section>
+
+<section class="panel" data-tab="2) Key Levels">
+<h2><span class="num">02</span>Unified Key Levels (ref 7,528.50)</h2>
+<div class="card">
+<table>
+<tr><th>Zone</th><th class="mono">Price</th><th>Source</th><th>Type</th><th class="mono">Dist</th><th>★</th></tr>
+<tr><td>R9</td><td class="mono">7,694.75</td><td>D</td><td>Range high / ATH-area</td><td class="mono">+166.25</td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>R8 🔗</td><td class="mono">7,648.75–7,654.50</td><td>30m</td><td><b>Poor high</b> 7,648.75 + line 7,654.50</td><td class="mono">+120→+126</td><td class="stars">★★★★</td></tr>
+<tr><td>R7</td><td class="mono">7,632.25 / 7,673.50</td><td>30m</td><td>Swing pivots</td><td class="mono">+104/+145</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R6 🔗</td><td class="mono">7,600.00–7,605.75</td><td>MP+30m</td><td><b>VAH 7,600.75 + TODAY HIGH 7,605.75</b></td><td class="mono">+71→+77</td><td class="stars">★★★★★</td></tr>
+<tr><td>R5</td><td class="mono">7,591.50 / 7,595.50</td><td>30m+MP</td><td>Line + open</td><td class="mono">+63/+67</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R4 🔗</td><td class="mono">7,578.25–7,582.00</td><td>MP+30m</td><td><b>POC 7,582</b> + line 7,578.25 — value magnet</td><td class="mono">+50→+53.5</td><td class="stars">★★★★★</td></tr>
+<tr><td>R3</td><td class="mono">7,565.00</td><td>30m</td><td><b>Fib extend (NEW red)</b></td><td class="mono">+36.5</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>R2 🔗</td><td class="mono">7,540.50–7,550.50</td><td>MP+30m</td><td><b>VAL 7,540.50</b> + pivot 7,550.50 — first overhead test / void edge</td><td class="mono">+12→+22</td><td class="stars">★★★★★</td></tr>
+<tr><td>R1</td><td class="mono">7,527.50–7,529.00</td><td>30m</td><td>Line / 30m last — immediate cap</td><td class="mono">−1→+0.5</td><td class="stars">★★★</td></tr>
+<tr class="now"><td>NOW</td><td class="mono">7,528.50 (green zone 7,508–7,527)</td><td>30m</td><td>ETH repairing into single prints</td><td class="mono">0</td><td class="stars">—</td></tr>
+<tr class="cluster"><td>S1 🔗</td><td class="mono">7,505.25–7,518.25</td><td>D+MP</td><td><b>Daily 20-EMA 7,518.25 + single prints 7,513.50 / 7,505.25</b></td><td class="mono">−10→−23</td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>S2 🔗</td><td class="mono">7,492.00–7,497.00</td><td>MP</td><td><b>SPIKE BASE 7,497 + RTH close 7,492</b> — polarity line</td><td class="mono">−31→−37</td><td class="stars">★★★★★</td></tr>
+<tr><td>S3</td><td class="mono">7,491.50</td><td>30m</td><td>Pivot (overlaps close)</td><td class="mono">−37</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>S4 🔗</td><td class="mono">7,469.50–7,472.00</td><td>MP+30m</td><td><b>TODAY LOW 7,472</b> + pivot 7,469.50 — must-hold</td><td class="mono">−56.5→−59</td><td class="stars">★★★★★</td></tr>
+<tr><td>S5</td><td class="mono">7,440.00–7,455.00</td><td>30m</td><td>Green zone (7,448.50) — deep dip-buy</td><td class="mono">−74→−88</td><td class="stars">★★★★</td></tr>
+<tr><td>S6</td><td class="mono">7,421.25</td><td>30m</td><td>Pivot</td><td class="mono">−107</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>S7 🔗</td><td class="mono">7,396.50–7,410.00</td><td>30m</td><td>Lower green zone + <b>fib extend 7,396.50</b></td><td class="mono">−119→−132</td><td class="stars">★★★★</td></tr>
+<tr><td>S8</td><td class="mono">7,390.25</td><td>D</td><td>50-EMA — major dynamic support</td><td class="mono">−138.25</td><td class="stars">★★★★</td></tr>
+</table>
+<div class="warn amber"><b class="t">⚑ Controlling clusters for Jun 18</b>
+<b>7,505.25–7,518.25</b> (20-EMA + single prints — where price sits now, the immediate decision) · <b>7,492–7,497</b> (spike base + close — the polarity line; lose it and the flush re-arms) · <b>7,540.50–7,550.50</b> (VAL + pivot — first big upside test / void edge) · <b>7,578–7,582</b> (POC — the void-fill magnet) · <b>7,469.50–7,472</b> (today's low — must-hold for the repair thesis).</div>
+</div>
+</section>
+
+<section class="panel" data-tab="3) Context">
+<h2><span class="num">03</span>Context Summary — Jun 17 session</h2>
+<div class="card">
+<table>
+<tr><th>Dimension</th><th>Reading</th><th>Implication</th></tr>
+<tr><td>Day type</td><td><span class="tag bear">News-driven trend day DOWN</span> (P-base + vertical leg + spike close)</td><td>Inverted spike rules govern the open; flushes are typically followed by acceptance-or-repair, rarely immediate re-trend</td></tr>
+<tr><td>Settlement location</td><td class="mono">7,492 RTH close / ETH 7,528.50 — 48.5 BELOW VAL but back at the 20-EMA</td><td>Weak settle, strong recovery — the overnight is voting repair; value placement Thursday is the tell</td></tr>
+<tr><td>Profile shape</td><td>Double distribution: fat upper balance 7,578–7,605, thin down-leg, single prints 7,513.50 &amp; 7,505.25, spike 7,497</td><td>Void above (7,513→7,540) fills fast in either direction</td></tr>
+<tr><td>Value migration</td><td class="mono">POC 7,582, but close −90 below POC</td><td>Value far ABOVE price — repair pulls toward 7,540/7,582; rejection there confirms distribution</td></tr>
+<tr><td>Price vs POC</td><td class="mono">−53.5 below POC (ETH)</td><td>Below value — mean-reversion UP is the base path unless a fresh hawkish catalyst</td></tr>
+<tr><td>Daily MA context</td><td class="mono">Pinned on 20-EMA 7,518.25; 138 above rising 50-EMA</td><td>20-EMA = the day's binary; broader uptrend intact below</td></tr>
+<tr><td>ATR / range</td><td class="mono">ATR 106.75; today's range 134 (1.25×)</td><td>Expanded regime; size discipline on</td></tr>
+<tr><td>VIX</td><td class="mono">18.95 falling (−1.58%)</td><td>Vol-down on an equity-down day = orderly rate-repricing, not panic — supports the repair read</td></tr>
+<tr><td>Macro overhang</td><td>Hawkish-hold FOMC; hike priced by Oct; Warsh "price stability"; split dots</td><td>Hawkish surprise now PRICED — next surprise risk skews dovish/squeeze; hot data re-arms downside</td></tr>
+<tr><td>Flows</td><td class="mono">MOC −$2,505.8M SPX sell; 2yr +16bp to 4.21%</td><td>Heavy institutional de-risk into the bell — overhead supply is real; respect rejections at VAL/POC</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="4) Scenarios">
+<h2><span class="num">04</span>What-If Scenarios — ETH (Jun 17 → Jun 18)</h2>
+
+<div class="scen"><div class="head"><span class="nm">N1 · Void-Fill Repair — Grind to VAL 7,540 / POC 7,582</span><span class="tag bull">BULL repair</span><span class="stars">★★★★ 30%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>ETH holds the single-print band (7,505–7,518) and one-time-frames up through 7,527.50; current trajectory.</div>
+<div class="blk"><b>Narrative</b>The thin down-leg fills fast — VAL 7,540.50 first, then the fib 7,565 and the POC 7,582 magnet. This is mean-reversion into value, not a new uptrend; expect supply at VAL/POC.</div>
+<div class="blk"><b>Setup</b>Long 7,514–7,520 on holds of the single-print band / 20-EMA · Stop 7,505 (under lower single print) · T1 7,540.50 (+22) · T2 7,565 (+47) · T3 7,582 (+66) · <b>R:R 1.5→4.7</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: 30-min closes hold ≥ 7,513.50. Invalid: close &lt; 7,497 → N3.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N2 · 20-EMA Rejection — Range Inside the Void</span><span class="tag neut">NEUTRAL fade</span><span class="stars">★★★ 22%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Price stalls under 7,527.50–7,529, fails to take VAL 7,540.50; chops 7,497–7,529.</div>
+<div class="blk"><b>Narrative</b>Overnight balances the spike: the −$2.5B sell MOC weighs, VAL caps, and the single-print band acts as a magnet. Two-sided rotation until RTH gives direction.</div>
+<div class="blk"><b>Setup</b>Fade edges: short 7,527–7,531 stop 7,538 → T 7,510/7,498; long 7,499–7,505 stop 7,491 → T 7,518/7,527 · <b>R:R ~1.6→3.0 per rotation</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: two failed pushes through 7,529. Invalid: 30-min close outside 7,497–7,540.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N3 · Spike Acceptance Lower — Lose 7,497, Retest 7,472</span><span class="tag bear">BEAR continuation</span><span class="stars">★★★ 20%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>ETH loses the spike base 7,497 and the 7,492 close; the V-bounce fails.</div>
+<div class="blk"><b>Narrative</b>Fresh hawkish Fedspeak or Asia de-risk pushes price back to the 7,472 low. A clean hold there = double-bottom long; a break = the deeper 7,448.50 green zone opens.</div>
+<div class="blk"><b>Setup</b>Short 7,495 on loss of 7,497 · Stop 7,506 · T1 7,492 (+3) · T2 7,472 (+23) then assess · <b>R:R scalp</b> — PREFER to USE the retest as a long at 7,472–7,475, stop 7,464, T 7,497/7,513/7,527 (R:R up to 4.7)</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: no bid on the 7,500 retest. Invalid for the dip-long: 30-min close &lt; 7,469.50 → N4.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N4 · Deep Repair — 7,448.50 Green-Zone Buy</span><span class="tag bear">BEAR rotation</span><span class="stars">★★ 13%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>7,472 fails; the whole flush extends toward the next demand shelf.</div>
+<div class="blk"><b>Narrative</b>Price air-pockets to the 7,440–7,455 green zone (7,448.50) — the prior week's balance base and a major responsive-buy location ahead of Thursday RTH.</div>
+<div class="blk"><b>Setup</b>Responsive long 7,445–7,452 at the green zone · Stop 7,436 · T1 7,472 (+24) · T2 7,492 (+44) · T3 7,513 (+65) · <b>R:R 2.4→6.5</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: VIX still ≤ 20 (orderly). Invalid: 30-min close &lt; 7,440 → N5 regime.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N5 · Hawkish Follow-Through — Toward 7,421 / Fib 7,396.50</span><span class="tag bear">BEAR tail</span><span class="stars">★ 8%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Overnight hawkish headline (Fedspeak, hot Asian/EU print, yields breaking higher) breaks the 7,440 green zone.</div>
+<div class="blk"><b>Narrative</b>Risk-off extends: 7,421.25 pivot → lower green zone / fib 7,396.50 → 50-EMA 7,390.25. The full week's gains compress toward the rising 50-EMA.</div>
+<div class="blk"><b>Setup</b>No fresh shorts into the hole. Pre-stage responsive longs 7,398–7,408 (fib + 50-EMA confluence) · Stop 7,388 · T1 7,421 · T2 7,448 · <b>R:R 2.0→4.5</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: yields ripping, VIX &gt; 21. Invalid: 50-EMA fails → 7,360/7,340, stand down.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N6 · Dovish Squeeze — Full Void Fill &gt; POC, Reclaim 7,600</span><span class="tag bull">BULL outlier</span><span class="stars">★ 7%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Dovish overnight headline (Fed source walk-back, soft data); VIX breaks under 18.</div>
+<div class="blk"><b>Narrative</b>The whole FOMC flush is unwound: one-time-frame up through VAL 7,540 → POC 7,582 → VAH 7,600.75; today's distribution rejected entirely.</div>
+<div class="blk"><b>Setup</b>Don't chase; buy the first 30-min pullback holding 7,540 from above · Stop 7,530 · T1 7,565 · T2 7,582 · T3 7,600.75 · <b>R:R 1.4→4.0</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: volume expansion on the headline. Invalid: back under 7,527.50.</div>
+</div></div>
+</section>
+
+<section class="panel" data-tab="5) Probability">
+<h2><span class="num">05</span>Probability Matrix — ETH</h2>
+<div class="card">
+<table>
+<tr><th>Rank</th><th>Scenario</th><th>Direction</th><th>Prob</th><th>★</th></tr>
+<tr><td>1</td><td>N1 Void-fill repair → VAL 7,540 / POC 7,582</td><td><span class="tag bull">Bull-repair</span></td><td class="mono">30%</td><td class="stars">★★★★</td></tr>
+<tr><td>2</td><td>N2 20-EMA rejection → range 7,497–7,529</td><td><span class="tag neut">Neutral</span></td><td class="mono">22%</td><td class="stars">★★★</td></tr>
+<tr><td>3</td><td>N3 Lose 7,497 → 7,472 retest</td><td><span class="tag bear">Bear-shallow</span></td><td class="mono">20%</td><td class="stars">★★★</td></tr>
+<tr><td>4</td><td>N4 Deep repair → 7,448.50 buy</td><td><span class="tag bear">Bear-rotation</span></td><td class="mono">13%</td><td class="stars">★★</td></tr>
+<tr><td>5</td><td>N5 Hawkish follow-through → 7,396/50-EMA</td><td><span class="tag bear">Bear tail</span></td><td class="mono">8%</td><td class="stars">★</td></tr>
+<tr><td>6</td><td>N6 Dovish squeeze → reclaim 7,600</td><td><span class="tag bull">Bull outlier</span></td><td class="mono">7%</td><td class="stars">★</td></tr>
+</table>
+<table><tr><th>Combined</th><th class="mono" style="color:var(--bull)">Bull/repair 37%</th><th class="mono" style="color:var(--bear)">Bear 41%</th><th class="mono">Neutral 22%</th></tr></table>
+<div class="warn blue"><b class="t">Base case (ETH)</b>Repair-then-stall: ETH holds the single-print band (7,505–7,518) and fills the void up toward <b>VAL 7,540.50</b>, where the −$2.5B sell MOC and overhead supply cap the first attempt, setting up a two-sided RTH decision vs the 20-EMA 7,518.25 and the 7,492–7,497 spike base. Reasoning: price closed below value with value sitting above (mean-reversion pulls up), VIX fell (orderly), and ETH already reclaimed both single prints. The counterweight — heavy institutional sell MOC and a freshly hawkish Fed — argues this is a <b>repair, not a trend resumption</b>; fade the first VAL/POC tag rather than chasing the void.</div>
+</div>
+</section>
+
+<section class="panel" data-tab="6) Decision Map">
+<h2><span class="num">06</span>Decision Map — ETH</h2>
+<pre class="tree">ETH @ 7,528.50 (spike base 7,497 below · 20-EMA 7,518.25 · VAL 7,540.50 above)
+│
+├─► HOLDS ≥ 7,505 single-print band (repair — current state)
+│     ├─ pushes &gt; 7,529 → fills void to <span class="g">VAL 7,540.50</span>
+│     │      ├─ rejected at VAL/7,565 → <span class="y">N2 range</span> fade back to 7,513/7,497
+│     │      └─ <span class="g">accepts &gt; 7,550 → N1/N6</span> → POC 7,582 → VAH 7,600
+│     └─ stalls under 7,529 → <span class="y">N2 range 7,497–7,529</span>
+│
+└─► LOSES 7,505 → tests <span class="y">spike base 7,497 / close 7,492</span>
+      ├─ holds 7,492–97 → repair intact, rotation only
+      └─ <span class="r">closes &lt; 7,497 → N3</span> → retest <span class="y">TODAY LOW 7,472</span>
+            ├─ <span class="g">7,472 BOUGHT (preferred long)</span> → back to 7,497/7,513
+            └─ <span class="r">7,469.50 fails → N4</span> → <span class="y">green zone 7,448.50</span>
+                  ├─ cluster holds → strong Thursday dip-buy launch
+                  └─ <span class="r">7,440 fails → N5</span> → 7,421 → <span class="r">fib 7,396.50 / 50-EMA 7,390</span></pre>
+<div class="card">
+<table>
+<tr><th class="mono">Level</th><th>Holds</th><th>Breaks</th></tr>
+<tr><td class="mono">7,578–7,582 POC</td><td>Void-fill complete — fade zone</td><td>Full reversal: 7,600.75 VAH → 7,632</td></tr>
+<tr><td class="mono">7,540.50–7,550 VAL</td><td>First-tag rejection — range continues</td><td>POC 7,582 magnet next</td></tr>
+<tr><td class="mono">7,527.50–7,529</td><td>Capped — fade back toward 7,505</td><td>Void opens to VAL 7,540.50</td></tr>
+<tr><td class="mono">7,513.50–7,518.25 (20-EMA+SP)</td><td>Repair bid intact — buy dips</td><td>7,505 single print → 7,497 spike base</td></tr>
+<tr><td class="mono">7,492–7,497 spike base</td><td>Polarity holds — repair on</td><td>7,472 retest in minutes (speed)</td></tr>
+<tr><td class="mono">7,469.50–7,472 low</td><td>Double-bottom — major long</td><td>7,448.50 green zone → 7,421</td></tr>
+<tr><td class="mono">7,440 green zone</td><td>Deep dip-buy holds — rally rebuilds</td><td>Hawkish regime: 7,421 → 7,396.50 → 50-EMA</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="7) Bias Flips">
+<h2><span class="num">07</span>Bias Flip Conditions — ETH</h2>
+<div class="card">
+<table>
+<tr><th>Starting bias</th><th>Flip to</th><th class="mono">Trigger</th><th>Action</th></tr>
+<tr><td><span class="tag neut">Neutral-repair (default)</span></td><td><span class="tag bull">Bull-repair</span></td><td class="mono">Acceptance &gt; 7,529 → fill toward VAL 7,540</td><td>Hold longs to VAL/POC; trail under 7,513.50</td></tr>
+<tr><td><span class="tag bull">Bull-repair</span></td><td><span class="tag bull">Strong bull</span></td><td class="mono">Acceptance &gt; 7,550 (above VAL)</td><td>Extend to POC 7,582 / VAH 7,600; trail under 7,540</td></tr>
+<tr><td><span class="tag neut">Neutral</span></td><td><span class="tag bear">Bear-rotation</span></td><td class="mono">30-min close &lt; 7,497 (spike base)</td><td>Flatten longs; let single prints reverse; bid 7,472</td></tr>
+<tr><td><span class="tag bear">Bear-rotation</span></td><td><span class="tag bear">Hawkish bear</span></td><td class="mono">Close &lt; 7,469.50 + yields/VIX up</td><td>Stand aside to 7,448.50 green zone; responsive longs only</td></tr>
+<tr><td><span class="tag bear">Any bear</span></td><td><span class="tag bull">Repair restored</span></td><td class="mono">Reclaim 7,505 after any dip</td><td>Single prints re-bid — resume void-fill longs</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="8) Playbook">
+<h2><span class="num">08</span>Tactical Playbook — ETH top 3</h2>
+<div class="lede">Click a trade to expand. Ranked by edge for the overnight session.</div>
+
+<div class="pb open">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#1</div><div class="pb-name">Single-Print / 20-EMA Void-Fill Long (N1)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 4.7R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,514–7,520</b> on holds of the single-print band / 20-EMA 7,518.25 (or 7,499–7,505 on a deeper wick into the spike base)</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,505 — under the lower single print · risk 9–15 pts (or 7,491 from the deeper entry)</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,540.50 VAL (+22)</span><span class="tgt">T2 7,565 (+47)</span><span class="tgt">T3 7,582 POC (+66)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 (VAL = first rejection risk — take it) · ¼ at T2 · runner to POC only on VAL acceptance</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.5R / 3.1R / 4.7R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,497 → out; switch to #2 location</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#2</div><div class="pb-name">Today-Low Double-Bottom Long at 7,472–7,475 (N3 resolution)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 6.0R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,472–7,475</b> after a loss of 7,497 retests today's low and holds — the highest-quality dip location of the night</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,464 — below the 7,469.50 pivot · risk 8–11 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,492 (+18)</span><span class="tgt">T2 7,505/7,513 (+33→+41)</span><span class="tgt">T3 7,527 (+53)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at T2 (spike-base reclaim 7,497 = add-back signal) · runner to the 20-EMA / VAL</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">2.0R / 4.1R / 6.0R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,469.50 → exit; next bid is the 7,448.50 green zone, not before</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#3</div><div class="pb-name">Deep-Repair Green-Zone Long at 7,445–7,452 (N4)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 6.5R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,445–7,452</b> at the prior-week balance base / green zone 7,448.50 — only on an orderly (non-headline) flush</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,436 — under the green zone · risk 9–16 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,472 (+24)</span><span class="tgt">T2 7,492 (+44)</span><span class="tgt">T3 7,513 (+65)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at T2 · runner to the single-print band, trail under 7,455</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">2.4R / 4.4R / 6.5R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,440 OR a hawkish headline → no longs until fib 7,396.50 / 50-EMA 7,390</div></div>
+</div>
+</div>
+
+<div class="warn blue"><b class="t">Position size vs ATR — applies to all three</b>ATR 106.75, post-FOMC tape, heavy sell MOC: <b>50–60% size on void-fill momentum, 70% on the 7,472 / 7,448.50 responsive buys</b>. No shorts as primary trades — the only short is the N3 scalp (loss of 7,497), and that fill is better used as a long at 7,472. Hard rule: a fresh hawkish/yields-up headline = flat first, read later. Respect VAL/POC rejections — the void cuts both ways.</div>
+</section>
+
+<section class="panel" data-tab="9) Warnings">
+<h2><span class="num">09</span>Structural Warnings</h2>
+<div class="warn"><b class="t">⚠ TWO single-print ladders: 7,513.50 and 7,505.25</b>Today's flush built no value between 7,513 and 7,540. Both ladders are speed zones — moves through them (up or down) will be fast. Don't place passive stops mid-ladder; structure risk at 7,505 / 7,497 / 7,472 instead.</div>
+<div class="warn amber"><b class="t">⚠ Spike base 7,497 — inverted Dalton open rules tomorrow</b>This is a BEAR spike close, so the rules run the other way. Open BELOW 7,492 = spike accepted lower (sell rallies, 7,472 target). Open WITHIN 7,492–7,513 = balancing the spike (two-sided). Open ABOVE 7,513.50 = spike REJECTED (repair confirmed — buy dips toward VAL 7,540 / POC 7,582). This single reference sets Thursday's template.</div>
+<div class="warn"><b class="t">⚠ Structural void above: 7,513 → 7,540 → 7,582</b>The rally built no value here on the way down. Any RTH revisit moves fast and rejections at VAL 7,540.50 / fib 7,565 / POC 7,582 are high-probability on first tag — take profits there, don't assume continuation.</div>
+<div class="warn"><b class="t">⚠ −$2.5B sell MOC = real overhead supply</b>Institutions de-risked size into the close (SPX −$2,505.8M, Mag7 −$686.9M). The repair has to fight that inventory — VAL and POC are where it shows up. This is the strongest argument against chasing the void-fill.</div>
+<div class="warn amber"><b class="t">⚠ Hawkish Fed = priced; the new surprise risk is two-sided</b>A hike by October is now fully discounted, so a dovish walk-back or soft data is squeeze fuel (N6), while a hot inflation print or hawkish Fedspeak re-arms the downside (N5). Headline risk cuts both ways into Thursday.</div>
+<div class="warn blue"><b class="t">ℹ VIX 18.95 — regime gate</b>Vol FELL on a down day (orderly repricing, not panic). Sub-19 keeps the melt regime technically alive and supports the repair read; a break back above 21 would flip the template bearish regardless of price.</div>
+</section>
+
+<section class="panel" data-tab="10) Transition">
+<h2><span class="num">10</span>Session Transition — ETH → Thursday RTH open</h2>
+<div class="card">
+<table>
+<tr><th>If price at zone into RTH open</th><th>Implication</th><th>Likely day type</th></tr>
+<tr><td class="mono">&gt; 7,582 (above POC)</td><td>Full void filled overnight; flush rejected</td><td>Reversal/trend-up; buy dips to VAL 7,540</td></tr>
+<tr><td class="mono">7,540–7,582</td><td>Repair into value — decision at POC</td><td>Normal-variation up; fade POC 7,582 first tag</td></tr>
+<tr><td class="mono">7,513.50–7,540 (in void)</td><td>Spike rejected, repairing toward VAL</td><td>Two-sided; trade the 7,540 VAL / 7,518 20-EMA polarity</td></tr>
+<tr><td class="mono">7,492–7,513.50 (in spike)</td><td>Balancing the spike base — two-sided</td><td>Rotational; trade the 7,497 polarity, watch for direction off the open</td></tr>
+<tr><td class="mono">7,472–7,492</td><td>Spike accepted lower; close zone tested</td><td>Repair day from 7,472; double-bottom long if it holds</td></tr>
+<tr><td class="mono">&lt; 7,472</td><td>Both ladders + low broken — hawkish follow-through</td><td>Trend-down to 7,448.50 → 7,421 → fib 7,396.50</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="11) Summary">
+<h2><span class="num">11</span>Final Summary — ETH</h2>
+<div class="card">
+<table>
+<tr><th>Item</th><th>Call</th></tr>
+<tr><td>Macro bias</td><td><span class="tag bull">BULL (intact, weakened)</span> — full MA stack rising below price; FOMC is a momentum-loss event, not a trend break</td></tr>
+<tr><td>Intermediate bias</td><td><span class="tag neut">NEUTRAL / distributing</span> — poor high 7,648, FOMC distribution day, value far above price; needs to reclaim VAL/POC to repair</td></tr>
+<tr><td>Overnight bias</td><td><span class="tag neut">REPAIR-UP into supply — buy structure, fade VAL/POC, never chase the void</span></td></tr>
+<tr><td>Base case</td><td>Repair-then-stall: hold 7,505–7,518, fill void to VAL 7,540.50, first tag rejected; two-sided into RTH</td></tr>
+<tr><td>Primary trade</td><td><b>Long 7,514–7,520</b> (single-print/20-EMA), stop 7,505, targets 7,540.50 / 7,565 / 7,582</td></tr>
+<tr><td>Best-location alternate</td><td><b>Long 7,472–7,475</b> on a 7,497 loss + low retest, stop 7,464 → 7,492 / 7,513 / 7,527</td></tr>
+<tr><td>Key bull level</td><td class="mono">7,540.50 VAL → 7,582 POC (acceptance = void filled, flush rejected, 7,600 unlocks)</td></tr>
+<tr><td>Key bear level</td><td class="mono">7,497 spike base (loss re-opens 7,472 → 7,448.50 → fib 7,396.50)</td></tr>
+<tr><td>Biggest risk</td><td>Heavy sell MOC + hawkish Fed: void-fill stalls and reverses at VAL/POC into a deeper flush; two-sided headline risk overnight</td></tr>
+<tr><td>Night-type expectation</td><td>Repair to VAL/POC (≈30%) · range in the void 7,497–7,529 (≈22%) · re-test 7,472 (≈20%) · deeper flush (≈21%) · dovish squeeze (≈7%)</td></tr>
+</table>
+</div>
+</section>
+
+</div>
+</div>
+
+<!-- ==================== RTH PLAN ==================== -->
+<div class="plan" id="plan-RTH" style="display:block">
+<div class="wrap">
+
+<section class="panel" data-tab="1) Top-Down">
+<h2><span class="num">01</span>Top-Down — Thursday Jun 18 RTH framing (updated)</h2>
+<div class="lede">Overnight repaired the entire FOMC flush. Reference: last 7,562.25–7,563.50, parked at ON VAH and pressing the underside of yesterday's value (yVAL 7,540.50 reclaimed, yPOC 7,582 overhead). Verify the cash-open print and shift the template accordingly.</div>
+<div class="card">
+<p style="font-size:13.5px"><b>Daily:</b> Yesterday's FOMC distribution candle (close 7,492) has been overwhelmed by the overnight V — price is now <b>+44 above the 20-EMA 7,518.25</b> and back inside the prior multi-day range. The full MA stack (50/100/200/300) rises well below; the larger uptrend never broke. With the daily 20-EMA reclaimed and held, the FOMC day looks like a <b>one-day shakeout</b> — but it is unconfirmed until price closes back inside yesterday's value (above yVAL 7,540, ideally back to yPOC 7,582). ATR 106.75; ATH reference 7,694.</p>
+<p style="font-size:13.5px;margin-top:8px"><b>30-min:</b> Overnight round-tripped 7,472 → 7,563, reclaiming the spike base, both RTH single prints, and filling the lower void. It then balanced in a tight ON range and is now testing <b>fib extend 7,565</b>. Working ladder above: 7,565 (fib) / 7,578.25 / yPOC 7,582 / 7,591.50 / yVAH 7,600.75 / yHigh 7,605.75 / 7,621.75 (fib) / 7,632.25 / poor high 7,648.75. Below: ON VAL 7,539.75 ≈ yVAL 7,540.50, ON single prints 7,533.75 / 7,528.75, 20-EMA 7,518.25, RTH single prints 7,513.50 / 7,505.25, spike base 7,497, low 7,472, green zone 7,448.50.</p>
+<p style="font-size:13.5px;margin-top:8px"><b>Profile:</b> The market built a <b>fresh overnight balance</b> (ON VAH 7,563.50 / ON POC 7,556.25 / ON VAL 7,539.75) docked exactly at yesterday's value lower edge — a textbook "repair-and-pause-under-supply" structure. New <b>ON single prints 7,533.75 / 7,528.75</b> are the fresh speed zone below. Thursday's tell: <b>acceptance back above yVAL 7,540 → yPOC 7,582</b> ratifies the repair (FOMC rejected); <b>rejection at yPOC and a roll back under ON VAL 7,539.75</b> says the bounce was a relief move into supply and the ON single prints / spike base come back into play.</p>
+<p style="font-size:13.5px;margin-top:8px"><b>VIX/macro:</b> VX1 <b>18.50 (−3.92%)</b>, low 18.20 — vol kept falling through the repair, confirming the selloff was orderly rate-repricing, not fear. Sub-18.5 supports the bull-repair read. Macro: the hawkish hold is spent/priced (hike by October discounted); the marginal surprise now skews to dovish Fedspeak / soft data (squeeze fuel) vs a fresh hawkish push or hot print (re-arms downside). Watch the 2-yr yield (4.21%). Yesterday's MOC −$2,505.8M SPX sell = the overhead supply this repair must absorb at yPOC/yVAH.</p>
+</div>
+</section>
+
+<section class="panel" data-tab="2) Key Levels">
+<h2><span class="num">02</span>Key Levels — RTH working ladder (updated, ref 7,563)</h2>
+<div class="lede">Re-anchored to the overnight repair. Price now sits at ON VAH under yesterday's value. Re-confirm at the cash open:</div>
+<div class="card">
+<table>
+<tr><th>Zone</th><th class="mono">Price</th><th>Why it matters Thursday</th><th>★</th></tr>
+<tr><td>R6</td><td class="mono">7,694.00</td><td>ATH (new label) — macro reference</td><td class="stars">★★★★★</td></tr>
+<tr><td>R5</td><td class="mono">7,648.75 / 7,632.25</td><td>Poor high / swing — stretch target on full reclaim</td><td class="stars">★★★</td></tr>
+<tr><td>R4</td><td class="mono">7,621.75</td><td>Fib extend (red)</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R3 🔗</td><td class="mono">7,600.75–7,605.75</td><td><b>yVAH + yHigh</b> — full-repair ceiling</td><td class="stars">★★★★★</td></tr>
+<tr><td>R2</td><td class="mono">7,591.50</td><td>Line — mid-value resistance</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R1 🔗</td><td class="mono">7,578.25–7,582.00</td><td><b>yPOC 7,582 — THE void-fill magnet / prime fade-the-first-tag; sell-MOC supply sits here</b></td><td class="stars">★★★★★</td></tr>
+<tr><td>R0</td><td class="mono">7,565.00</td><td>Fib extend (red) — immediate cap price is testing now</td><td class="stars">★★★★</td></tr>
+<tr class="now"><td>NOW</td><td class="mono">7,562.25–7,563.50 (ON VAH)</td><td>Overnight balance high, under yesterday's value</td><td class="stars">—</td></tr>
+<tr class="cluster"><td>S1 🔗</td><td class="mono">7,539.75–7,556.25</td><td><b>ON POC 7,556.25 + ON VAL 7,539.75 ≈ yVAL 7,540.50</b> — the polarity floor; hold = repair intact</td><td class="stars">★★★★★</td></tr>
+<tr><td>S2</td><td class="mono">7,528.75–7,533.75</td><td><b>ON single prints</b> — fresh speed zone, first repair-failure tell</td><td class="stars">★★★★</td></tr>
+<tr><td>S3</td><td class="mono">7,518.25</td><td>Daily 20-EMA — must hold to keep the FOMC shakeout thesis</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S4 🔗</td><td class="mono">7,505.25–7,513.50</td><td><b>RTH single prints</b> — yesterday's flush speed zone</td><td class="stars">★★★★</td></tr>
+<tr><td>S5</td><td class="mono">7,492.00–7,497.00</td><td>Spike base + RTH close — deep polarity; loss re-arms the flush</td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>S6 🔗</td><td class="mono">7,469.50–7,472.25</td><td><b>yLow — must-hold; double-bottom long location</b></td><td class="stars">★★★★★</td></tr>
+<tr><td>S7</td><td class="mono">7,440.00–7,448.50</td><td>Green zone — deep responsive buy</td><td class="stars">★★★★</td></tr>
+<tr><td>S8</td><td class="mono">7,421.25 / 7,396.50</td><td>Pivot / fib extend — hawkish-extension targets</td><td class="stars">★★★</td></tr>
+</table>
+<div class="warn amber"><b class="t">⚑ Controlling clusters for the RTH open</b>
+<b>7,565–7,582</b> (fib + yPOC — the wall this repair must clear, where the sell-MOC supply lives) · <b>7,539.75–7,556.25</b> (ON POC + ON VAL/yVAL — the polarity floor; the open vs this band sets the day) · <b>7,528.75–7,533.75</b> (ON single prints — first failure tell) · <b>7,492–7,497</b> (spike base — deep line in the sand).</div>
+</div>
+</section>
+
+<section class="panel" data-tab="3) Context">
+<h2><span class="num">03</span>Context Into the Thursday Open (updated)</h2>
+<div class="card">
+<table>
+<tr><th>Dimension</th><th>Reading</th><th>Implication</th></tr>
+<tr><td>Prior day type</td><td>FOMC trend-day DOWN with spike close — now FULLY repaired overnight</td><td>The spike was rejected; the active question is acceptance back into value vs rejection at yPOC</td></tr>
+<tr><td>Open vs structure</td><td class="mono">&gt;7,556 = repair strong · 7,540–7,556 = at ON value edge · &lt;7,539.75 = bounce fading</td><td>The first 30 min vs ON VAL 7,539.75 / yVAL 7,540.50 sets the template</td></tr>
+<tr><td>Value placement</td><td class="mono">ON balance 7,539.75–7,563.50 docked at yVAL; yesterday's value 7,540–7,600 directly above</td><td>RTH must accept &gt; yPOC 7,582 to confirm full repair; stalling under it = relief-into-supply</td></tr>
+<tr><td>Inventory</td><td>ON V-buyers long from 7,472–7,540 in profit; FOMC shorts from 7,540–7,580 squeezed/covering</td><td>Pullbacks toward ON VAL are buyable; but chasing into yPOC risks the short-cover exhaustion point</td></tr>
+<tr><td>Overhead supply</td><td class="mono">−$2,505.8M sell MOC inventory parked at yPOC 7,582 / yVAH 7,600</td><td>The wall: expect the heaviest selling exactly at the void-fill magnet — fade the first tag</td></tr>
+<tr><td>New structure</td><td>ON single prints 7,533.75 / 7,528.75 (speed zone below)</td><td>First repair-failure tell — a fast flush through them re-opens 20-EMA / RTH single prints</td></tr>
+<tr><td>Day-of-week / event</td><td>Thursday, day after FOMC; catalyst spent</td><td>Often a fade/digest day — directional early, lower conviction late; watch yields &amp; Fedspeak</td></tr>
+<tr><td>VIX</td><td class="mono">18.50 (−3.92%), low 18.20 — kept falling through the repair</td><td>Orderly regime intact; supports buy-dips/repair, fade only at supply</td></tr>
+<tr><td>ATR budget</td><td class="mono">106.75 — full-repair day ≈ 7,582–7,600; failure day ≈ 7,500–7,520</td><td>Both map onto yPOC/yVAH above and the single-print band below</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="4) Scenarios">
+<h2><span class="num">04</span>What-If Scenarios — RTH Thursday Jun 18 (updated)</h2>
+
+<div class="scen"><div class="head"><span class="nm">F1 · Acceptance Into Value → yPOC 7,582 Fade</span><span class="tag bull">BULL-repair base case</span><span class="stars">★★★★ 30%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opens 7,550–7,565 (ON value high / fib). Early dip to ON VAL 7,540–7,545 bought, then a push through fib 7,565 into yesterday's value.</div>
+<div class="blk"><b>Narrative</b>Value rebuilds 7,545–7,575; the move runs to the yPOC 7,582 magnet where the sell-MOC supply caps the first attempt. This is the void-fill completing — fade the first yPOC tag, don't assume continuation.</div>
+<div class="blk"><b>Setup</b>Long 7,540–7,548 (ON VAL / yVAL) on a hold · Stop 7,531 (under ON single print) · T1 7,565 (+19) · T2 7,578 (+33) · T3 7,582 (+38) · <b>R:R 1.5→4.0</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: first 30-min holds &gt; 7,539.75. Invalid: 30-min close below 7,533.75 → F3.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F2 · Full Reclaim → yVAH 7,600 / yHigh 7,605</span><span class="tag bull">BULL reversal</span><span class="stars">★★★ 18%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opens &gt; 7,565 and accepts above yPOC 7,582 (dovish Fedspeak / soft data / momentum); VIX &lt; 18.</div>
+<div class="blk"><b>Narrative</b>yPOC reclaimed at the bell; one-time-frame up through 7,591 to yVAH 7,600.75 → yHigh 7,605.75; FOMC distribution fully rejected, range-high 7,632/7,648 back in view.</div>
+<div class="blk"><b>Setup</b>Long first pullback holding 7,582 from above · Stop 7,572 · T1 7,600.75 · T2 7,605.75 · T3 7,621.75 · <b>R:R 1.5→4.2</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: 2× 30-min closes &gt; 7,582. Invalid: re-entry below 7,565 = fade risk back to ON VAL.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F3 · yPOC Rejection → Roll Back to ON Single Prints / 20-EMA</span><span class="tag neut">RELIEF-INTO-SUPPLY fade</span><span class="stars">★★★ 24%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opens/pushes to 7,565–7,582, rejects with a wick; the overnight bounce was relief into the sell-MOC supply.</div>
+<div class="blk"><b>Narrative</b>Loses ON VAL 7,539.75; the fresh ON single prints 7,533.75/7,528.75 fill fast, 20-EMA 7,518.25 tested. Buyers respond at the RTH single prints 7,505–7,513 or the spike base 7,497. Two-sided, lower-skewed digestion.</div>
+<div class="blk"><b>Setup</b>(a) Fade short 7,578–7,582 (yPOC) with a rejection wick · Stop 7,591 · T1 7,556 · T2 7,540 · T3 7,528 · <b>R:R 1.6→4.5</b>. (b) Then responsive long 7,505–7,513 stop 7,496 → T 7,528/7,540.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: rejection wick + ON VAL loss. Invalid for the short: 2× closes &gt; 7,582 → F2.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F4 · Balance Day — Range the ON Distribution</span><span class="tag neut">NEUTRAL fade</span><span class="stars">★★ 16%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opens inside 7,540–7,564; neither yPOC nor ON VAL gives way. Day-after-FOMC digestion.</div>
+<div class="blk"><b>Narrative</b>Thursday brackets the overnight balance 7,539.75–7,565 (with extension to 7,582/7,528): fade both edges, value overlaps as the market absorbs the FOMC. Constructive while ON VAL holds.</div>
+<div class="blk"><b>Setup</b>Short 7,562–7,566 stop 7,573 → T 7,548/7,540; Long 7,540–7,545 stop 7,531 → T 7,556/7,564 · <b>R:R 1.5→3.0 per rotation</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: two failed edge-breaks by midday. Invalid: 30-min close outside 7,528–7,582.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F5 · Repair Fails → Spike Base 7,497 / yLow 7,472</span><span class="tag bear">BEAR re-arm</span><span class="stars">★★ 9%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Hawkish Fedspeak / yields breaking higher; price slices the ON single prints and the 20-EMA.</div>
+<div class="blk"><b>Narrative</b>The overnight V is fully retraced: 7,505–7,513 RTH single prints fill, spike base 7,497 tested, then a run at yLow 7,472. A hold there = double-bottom; a break = 7,448.50 green zone.</div>
+<div class="blk"><b>Setup</b>Short 7,516 on loss of 7,518.25/20-EMA · Stop 7,527 · T1 7,505 (+11) · T2 7,497 (+19) · T3 7,472 (+44) · <b>R:R 1.0→4.0</b>. Then responsive long 7,472–7,475 stop 7,464 → 7,497/7,513.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: yields ripping, VIX &gt; 20. Invalid: reclaim 7,540.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F6 · Day-After-FOMC Chop-and-Drift (overlay)</span><span class="tag neut">LATE-DAY pattern</span><span class="stars">★ 3%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Quiet digestion, no fresh catalyst; price oscillates around ON POC 7,556.</div>
+<div class="blk"><b>Narrative</b>Classic day-after-event: low conviction, tight rotations around 7,540–7,565, value building inside the ON balance. Scalps only; size down.</div>
+<div class="blk"><b>Setup</b>Trade the ON value edges only: long 7,540 / short 7,564, ~12-pt targets, tight stops · <b>R:R ~1.5</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: VIX flat sub-18.5, no expansion. Invalid: 30-min close outside 7,528–7,582 → F1/F3.</div>
+</div></div>
+</section>
+
+<section class="panel" data-tab="5) Probability">
+<h2><span class="num">05</span>Probability Matrix — RTH (updated)</h2>
+<div class="card">
+<table>
+<tr><th>Rank</th><th>Scenario</th><th>Direction</th><th>Prob</th><th>★</th></tr>
+<tr><td>1</td><td>F1 Acceptance into value → yPOC 7,582 fade</td><td><span class="tag bull">Bull-repair</span></td><td class="mono">30%</td><td class="stars">★★★★</td></tr>
+<tr><td>2</td><td>F3 yPOC rejection → roll to ON single prints/20-EMA</td><td><span class="tag neut">Relief-fade</span></td><td class="mono">24%</td><td class="stars">★★★</td></tr>
+<tr><td>3</td><td>F2 Full reclaim → yVAH 7,600 / yHigh 7,605</td><td><span class="tag bull">Bull</span></td><td class="mono">18%</td><td class="stars">★★★</td></tr>
+<tr><td>4</td><td>F4 Balance day — range ON distribution</td><td><span class="tag neut">Neutral</span></td><td class="mono">16%</td><td class="stars">★★</td></tr>
+<tr><td>5</td><td>F5 Repair fails → spike base 7,497 / yLow 7,472</td><td><span class="tag bear">Bear</span></td><td class="mono">9%</td><td class="stars">★★</td></tr>
+<tr><td>6</td><td>F6 Chop-and-drift (overlay)</td><td><span class="tag neut">Late-day</span></td><td class="mono">3%</td><td class="stars">★</td></tr>
+</table>
+<table><tr><th>Combined</th><th class="mono" style="color:var(--bull)">Bull/repair 48%</th><th class="mono" style="color:var(--bear)">Bear 9%</th><th class="mono">Neutral/fade 43%</th></tr></table>
+<div class="warn blue"><b class="t">Base case (RTH, updated)</b>The repair is done — the new battle is at <b>yPOC 7,582</b>. Base path: hold ON VAL 7,539.75, push through fib 7,565, tag <b>yPOC 7,582</b> where the −$2.5B sell-MOC supply rejects the first attempt, then a rotation back toward ON VAL. Reasoning: VIX kept falling (orderly), the daily 20-EMA is reclaimed (+44), and value rebuilt overnight — all pro-repair. But price has <b>stalled exactly under yesterday's value</b> into known supply, so the highest-quality RTH edge is now a <b>two-sided one</b>: buy ON VAL dips toward yPOC, then <b>fade the first yPOC tag</b>. True downside (F5) needs a fresh hawkish catalyst; absent that, the floor is ON VAL → 20-EMA.</div>
+</div>
+</section>
+
+<section class="panel" data-tab="6) Decision Map">
+<h2><span class="num">06</span>Decision Map — RTH (updated)</h2>
+<pre class="tree">THURSDAY RTH OPEN — repair done, now at ON VAH 7,563 under yesterday's value
+(ON VAL 7,539.75 ≈ yVAL 7,540.50 · fib 7,565 · yPOC 7,582 · ON single prints 7,533.75/7,528.75)
+│
+├─► OPEN/PUSH &gt; 7,565 (clearing the fib cap)
+│     ├─ tags <span class="y">yPOC 7,582</span>
+│     │    ├─ <span class="r">rejected (sell-MOC supply) → F3</span> → back to 7,556 → ON VAL 7,540
+│     │    └─ <span class="g">accepts &gt; 7,582 ×2 → F2</span> → yVAH 7,600.75 → yHigh 7,605.75
+│     └─ stalls 7,565–7,578 → <span class="y">F4 range</span> fade to ON VAL
+│
+├─► OPEN 7,540–7,565 (inside ON value — most likely)
+│     ├─ dip 7,540–7,545 (ON VAL/yVAL) BOUGHT → <span class="g">F1 long</span> → 7,565 → <span class="y">yPOC 7,582 (fade first tag)</span>
+│     └─ <span class="r">30-min close &lt; 7,539.75</span> → bounce fading → F3
+│            └─ ON single prints 7,533.75/7,528.75 fill → <span class="y">20-EMA 7,518</span> → <span class="g">BUY RTH single prints 7,505–7,513</span>
+│                   └─ <span class="r">7,497 spike base fails (headline) → F5</span> → yLow 7,472 → 7,448.50
+│
+└─► OPEN &lt; 7,539.75 (gap-down, bounce rejected at the bell)
+      ├─ look-below-and-fail, reclaims 7,540 → <span class="g">strong long</span> → 7,556/7,565
+      └─ acceptance lower → F3/F5 path above; afternoon recovery attempt
+
+WATCH: 2-yr yield (4.21%) &amp; Fedspeak — hawkish push = F5, dovish/soft data = F2</pre>
+<div class="card">
+<table>
+<tr><th class="mono">Level</th><th>Holds (as resistance/support)</th><th>Breaks</th></tr>
+<tr><td class="mono">7,600–7,605 yVAH/yHigh</td><td>Full-repair ceiling — fade</td><td>7,621 fib → range-high 7,632/7,648</td></tr>
+<tr><td class="mono">7,578–7,582 yPOC</td><td><b>Void-fill complete — fade first tag (F1/F3 cap)</b></td><td>Acceptance → F2 → yVAH 7,600</td></tr>
+<tr><td class="mono">7,565 fib</td><td>Caps the open — rotate to ON VAL</td><td>Opens the run to yPOC 7,582</td></tr>
+<tr><td class="mono">7,539.75–7,556 ON VAL/POC</td><td><b>Repair floor — buy dips</b></td><td>ON single prints 7,533/7,528 → 20-EMA</td></tr>
+<tr><td class="mono">7,518.25 20-EMA</td><td>FOMC-shakeout thesis intact</td><td>RTH single prints 7,505–7,513 → spike base</td></tr>
+<tr><td class="mono">7,492–7,497 spike base</td><td>Deep polarity holds</td><td>yLow 7,472 retest (speed) → 7,448.50</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="7) Bias Flips">
+<h2><span class="num">07</span>Bias Flip Conditions — RTH (updated)</h2>
+<div class="card">
+<table>
+<tr><th>Starting bias</th><th>Flip to</th><th class="mono">Trigger</th><th>Action</th></tr>
+<tr><td><span class="tag neut">Repair-at-supply (default)</span></td><td><span class="tag bull">Repair confirmed</span></td><td class="mono">Two 30-min closes &gt; 7,582 (yPOC reclaim)</td><td>Hold runners 7,600/7,605; trail under 7,565</td></tr>
+<tr><td><span class="tag bull">Bull-repair</span></td><td><span class="tag neut">Capped / fade</span></td><td class="mono">Rejection wick at yPOC 7,582 ×2</td><td>Fade back to 7,556/ON VAL 7,540; take longs off</td></tr>
+<tr><td><span class="tag neut">Repair</span></td><td><span class="tag bear">Bounce fading</span></td><td class="mono">30-min close &lt; 7,539.75 (ON VAL)</td><td>Flatten longs; let ON single prints fill; bid 7,505–7,513</td></tr>
+<tr><td><span class="tag bear">Bounce fading</span></td><td><span class="tag bear">Repair fails</span></td><td class="mono">30-min close &lt; 7,497 (esp. yields up)</td><td>F5 toward yLow 7,472 / 7,448.50; no longs until those shelves</td></tr>
+<tr><td><span class="tag bear">Any bear</span></td><td><span class="tag neut">Stabilizing</span></td><td class="mono">Reclaim 7,540 + VIX &lt; 19</td><td>Responsive long 7,541–7,548, half size</td></tr>
+<tr><td><span class="tag neut">Any</span></td><td><span class="tag bull">Breakout</span></td><td class="mono">Accept &gt; 7,605.75 (yHigh)</td><td>Range-high regime: ride to 7,621/7,632/7,648</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="8) Playbook">
+<h2><span class="num">08</span>Tactical Playbook — RTH top 3 (updated)</h2>
+<div class="lede">Click a trade to expand. Re-ranked for the post-overnight, repair-at-supply tape.</div>
+
+<div class="pb open">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#1</div><div class="pb-name">ON VAL Dip-Buy → yPOC (F1)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 4.0R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,540–7,548</b> on the first dip into ON VAL / yVAL that holds (the overnight balance floor)</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,531 — under ON single print 7,533.75 · risk 9–17 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,565 fib (+19)</span><span class="tgt">T2 7,578 (+32)</span><span class="tgt">T3 7,582 yPOC (+38)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at T2 · take the rest into yPOC 7,582 (first-tag rejection risk is high — don't hold for breakout unless 2× closes accept)</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.5R / 3.0R / 4.0R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,539.75 → out; flip to the F3 fade / re-bid at 7,505–7,513</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#2</div><div class="pb-name">yPOC First-Tag Fade Short 7,578–7,582 (F3)</div>
+  <span class="tag bear">SHORT</span><span class="pb-rr">up to 4.5R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Short 7,578–7,582</b> at the yPOC magnet on the FIRST void-fill tag with a clear rejection wick — this is where the −$2.5B sell-MOC supply sits</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,591 — above the 7,591.50 line · risk 9–13 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,565 (+15)</span><span class="tgt">T2 7,556 ON POC (+24)</span><span class="tgt">T3 7,540 ON VAL (+40)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at T2 · runner to ON VAL; this is a fade, not a trend short — cover into the ON balance, don't press</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.2R / 1.8R / 4.5R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>Two 30-min closes &gt; 7,582 → repair won (F2), exit and flip long</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#3</div><div class="pb-name">RTH Single-Print Responsive Long 7,505–7,513 (F3/F5 resolution)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 5.0R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,505–7,513</b> ONLY if the bounce fades — ON VAL lost, ON single prints fill, 20-EMA tested and the RTH single-print band catches; best-location dip-buy if the open disappoints</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,496 — below the spike base 7,497 · risk 9–17 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,528 (+15)</span><span class="tgt">T2 7,540 ON VAL (+27)</span><span class="tgt">T3 7,556 (+43)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at T2 (ON VAL reclaim = add-back) · runner to ON POC, trail under 7,513</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.6R / 2.9R / 5.0R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,497 → exit; next bid is yLow 7,472, not before</div></div>
+</div>
+</div>
+
+<div class="warn blue"><b class="t">Position size vs ATR — applies to all three</b>ATR 106.75, day-after-FOMC, repair into known supply: <b>55–65% size</b>. The tape is now genuinely two-sided — #1 long and #2 short are both tactical (buy ON VAL, fade yPOC); #3 is the disappointment-buy. The yPOC fade (#2) is a SCALP at the supply wall, not a swing short — cover into the ON balance. Hard rule: any hawkish Fedspeak / yields-up headline = flat longs first, reassess for F5.</div>
+</section>
+
+<section class="panel" data-tab="9) Warnings">
+<h2><span class="num">09</span>Structural Warnings — RTH (updated)</h2>
+<div class="warn amber"><b class="t">⚠ Repair stalled exactly under yesterday's value — the supply wall is yPOC 7,582</b>The overnight V filled the whole flush but parked at ON VAH 7,563 under yVAL/yPOC. The −$2,505.8M sell-MOC inventory sits at yPOC 7,582 / yVAH 7,600. Expect the heaviest selling there — fade the first tag; only trust acceptance (2× 30-min closes &gt; 7,582).</div>
+<div class="warn"><b class="t">⚠ Fresh ON single prints 7,533.75 / 7,528.75 — new speed zone below</b>The overnight balance left one-TPO ladders just under ON VAL. A loss of 7,539.75 fills them fast down to the 20-EMA 7,518.25 — that's the first "bounce is fading" tell. Don't place passive stops mid-ladder; structure risk at 7,531 / 7,518 / 7,505.</div>
+<div class="warn"><b class="t">⚠ Two-sided tape — this is no longer a clean buy-dips day</b>Repair is done; price is into supply. The edge is now <b>buy ON VAL / fade yPOC</b>, not chase. Long bias only holds while 7,539.75 holds; below it the day skews to the F3/F5 fade. Respect both edges of the ON balance.</div>
+<div class="warn amber"><b class="t">⚠ Hawkish hold is spent/priced — surprise risk is two-sided</b>The hike-by-October is discounted. A dovish walk-back / soft data = squeeze fuel through yPOC (F2); a hot inflation print or hawkish Fedspeak re-arms the downside (F5). Watch the 2-yr yield (4.21%) for the swing tell.</div>
+<div class="warn amber"><b class="t">⚠ Day-after-FOMC behavior</b>The day after a big event leg is often a fade/digest day — directional early, lower conviction late. With price already round-tripped overnight, beware exhaustion both ways. Take structure-to-structure profits.</div>
+<div class="warn blue"><b class="t">ℹ VIX gate</b>VIX 18.50 and still falling = orderly. &lt; 18.5 = repair regime (favor F1 long / F3 fade) · 18.5–20 = two-sided · &gt; 20 = repair template suspended, F5 in play.</div>
+</section>
+
+<section class="panel" data-tab="10) Transition">
+<h2><span class="num">10</span>Session Transition — Thursday close → Friday (updated)</h2>
+<div class="card">
+<table>
+<tr><th>If Thursday closes at…</th><th>Implication</th><th>Next-day lean</th></tr>
+<tr><td class="mono">&gt; 7,605 (above yHigh)</td><td>Full repair + breakout; FOMC fully rejected</td><td>Range-high regime: 7,621 → 7,632 → poor-high 7,648 → ATH 7,694 in view</td></tr>
+<tr><td class="mono">7,582–7,605</td><td>Accepted back into yesterday's value above yPOC</td><td>Bull-repair confirmed; buy dips to yPOC 7,582 / 7,565</td></tr>
+<tr><td class="mono">7,556–7,582 (under yPOC)</td><td>Repair to value edge but yPOC capped</td><td>Two-sided; yPOC is the pivot — fade tags, buy ON POC dips</td></tr>
+<tr><td class="mono">7,540–7,556 (in ON value)</td><td>Balanced under supply — digestion</td><td>Coiling at the value edge; direction off Friday's open vs 7,540</td></tr>
+<tr><td class="mono">7,518–7,540 (lost ON VAL)</td><td>Bounce faded back to the 20-EMA</td><td>Two-sided/heavy; 7,518 must hold, ON single prints are resistance</td></tr>
+<tr><td class="mono">&lt; 7,497</td><td>Repair failed; spike base lost</td><td>Bear re-arm: yLow 7,472 → 7,448.50 → fib 7,396.50 / 50-EMA</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="11) Summary">
+<h2><span class="num">11</span>Final Summary — RTH Thursday Jun 18 (updated)</h2>
+<div class="card">
+<table>
+<tr><th>Item</th><th>Call</th></tr>
+<tr><td>Macro bias</td><td><span class="tag bull">BULL (intact)</span> — MA stack rising; 20-EMA reclaimed overnight (+44); FOMC now looks like a one-day shakeout</td></tr>
+<tr><td>Intermediate bias</td><td><span class="tag neut">NEUTRAL / repairing into supply</span> — needs acceptance &gt; yPOC 7,582 to confirm; poor high 7,648 still overhead</td></tr>
+<tr><td>Intraday bias</td><td><span class="tag neut">TWO-SIDED — buy ON VAL dips, fade the first yPOC tag; only directional-long above 7,582</span></td></tr>
+<tr><td>Base case</td><td>Hold ON VAL 7,539.75 → push through fib 7,565 → tag yPOC 7,582 → first tag rejected by sell-MOC supply → rotate back to ON VAL</td></tr>
+<tr><td>Primary trade</td><td><b>Long 7,540–7,548</b> (ON VAL/yVAL), stop 7,531, targets 7,565 / 7,578 / 7,582 (F1)</td></tr>
+<tr><td>Counter-trade</td><td><b>Short 7,578–7,582</b> (yPOC first-tag fade) with a rejection wick, stop 7,591 → 7,565 / 7,556 / 7,540 (F3)</td></tr>
+<tr><td>Disappointment-buy</td><td><b>Long 7,505–7,513</b> if the bounce fades through ON VAL, stop 7,496 → 7,528 / 7,540 / 7,556</td></tr>
+<tr><td>Key bull level</td><td class="mono">7,582 yPOC — acceptance (2× closes) confirms full repair, unlocks 7,600.75 / 7,605.75 / 7,632</td></tr>
+<tr><td>Key bear level</td><td class="mono">7,539.75 ON VAL — loss fills ON single prints → 20-EMA 7,518 → 7,505/7,497; below 7,497 re-arms the flush</td></tr>
+<tr><td>Biggest risk</td><td>Relief-into-supply: the overnight bounce exhausts at yPOC and rolls back through the fresh ON single prints; fresh hawkish Fedspeak / yields would accelerate it (F5)</td></tr>
+<tr><td>Day-type expectation</td><td>Acceptance + yPOC fade (≈30%) · yPOC rejection/roll-back (≈24%) · full reclaim to yVAH (≈18%) · balance day (≈16%) · repair fails (≈9%) · chop (≈3%)</td></tr>
+</table>
+</div>
+</section>
+
+</div>
+</div>
+
+<div class="wrap"><div class="foot">ES Plan for Jun 18, 2026 — RTH UPDATE · refreshed Jun 18 ~05:28 ET from overnight TPO + 30-min + VX1! · Last 7,562.25 · Jun 17 RTH: O 7,595.50 / H 7,605.75 / L 7,472 / C 7,492 · ON VAH 7,563.50 / ON POC 7,556.25 / ON VAL 7,539.75 · ON single prints 7,533.75/7,528.75 · yPOC 7,582 / yVAH 7,600.75 / yVAL 7,540.50 · Spike base 7,497 · VIX 18.50 · FOMC flush fully repaired overnight; battle now at yPOC supply · Not financial advice. Re-anchor to the cash open print.</div></div>
+
+<script>
+const TABS=["1) Top-Down","2) Key Levels","3) Context","4) Scenarios","5) Probability","6) Decision Map","7) Bias Flips","8) Playbook","9) Warnings","10) Transition","11) Summary"];
+let curPlan='RTH', curTab=0;
+const tabbar=document.getElementById('tabbar');
+TABS.forEach((t,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');b.textContent=t;b.onclick=()=>setTab(i);tabbar.appendChild(b);});
+function render(){
+  document.getElementById('plan-ETH').style.display=curPlan==='ETH'?'block':'none';
+  document.getElementById('plan-RTH').style.display=curPlan==='RTH'?'block':'none';
+  document.getElementById('btnETH').classList.toggle('active',curPlan==='ETH');
+  document.getElementById('btnRTH').classList.toggle('active',curPlan==='RTH');
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',i===curTab));
+  ['ETH','RTH'].forEach(p=>{
+    document.querySelectorAll('#plan-'+p+' .panel').forEach((s,i)=>s.classList.toggle('active',i===curTab));
+  });
+}
+function setTab(i){curTab=i;render();window.scrollTo({top:document.querySelector('nav.tabs').offsetTop,behavior:'smooth'});}
+function setPlan(p){curPlan=p;render();}
+render();
+</script>
+</body>
+</html>
