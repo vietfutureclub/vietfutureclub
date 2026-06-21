@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ES Trading Plan — Jun 22/23, 2026 — ETH + RTH (Iran Deal / Holiday-Thin Tape)</title>
+<style>
+:root{
+  --bg:#fafbfc; --card:#ffffff; --ink:#15212e; --muted:#5d6b7a; --line:#e4e9ef;
+  --navy:#0f3a5f; --bull:#0d7a45; --bullbg:#e8f6ee; --bear:#c0392b; --bearbg:#fceae7;
+  --neut:#8a6d1a; --neutbg:#fbf3da; --accent:#1463a8; --accentbg:#eaf3fb;
+  --mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;padding-bottom:80px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+header.top{background:linear-gradient(180deg,#ffffff,#f3f7fb);border-bottom:1px solid var(--line);padding:26px 0 18px}
+.kicker{font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:27px;font-weight:750;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--muted);font-size:13.5px}
+.snapshot{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;font:12.5px var(--mono)}
+.chip b{font-weight:700}
+.chip.red b{color:var(--bear)} .chip.green b{color:var(--bull)} .chip.amber b{color:var(--neut)}
+.delta{border:1px solid #e6cfcf;background:var(--bearbg);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:13.5px}
+.delta b.t{display:block;font-size:14px;margin-bottom:4px;color:var(--bear)}
+.planswitch{display:flex;gap:8px;margin-top:16px}
+.planbtn{flex:0 0 auto;cursor:pointer;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:10px 22px;font-weight:700;font-size:14px;color:var(--muted)}
+.planbtn.active{border-color:var(--navy);background:var(--navy);color:#fff}
+nav.tabs{position:sticky;top:0;z-index:50;background:rgba(250,251,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto;padding:8px 18px}
+.tab{white-space:nowrap;cursor:pointer;border:none;background:transparent;color:var(--muted);font:600 12.5px/1 inherit;padding:9px 12px;border-radius:7px}
+.tab.active{background:var(--accentbg);color:var(--accent)}
+section.panel{display:none;padding:26px 0 10px}
+section.panel.active{display:block}
+h2{font-size:20px;font-weight:750;letter-spacing:-.01em;margin-bottom:4px}
+h2 .num{font:700 12px var(--mono);color:var(--accent);vertical-align:3px;margin-right:8px}
+.lede{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+h3{font-size:15.5px;font-weight:700;margin:22px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+th{background:#f2f5f9;text-align:left;font:600 11px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 9px;border-bottom:1px solid var(--line)}
+td{padding:7px 9px;border-bottom:1px solid #eef2f6;vertical-align:top}
+td.mono,th.mono{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+tr.cluster td{background:#fdf8ec}
+tr.now td{background:var(--accentbg);font-weight:700}
+.tag{display:inline-block;border-radius:5px;padding:2px 7px;font:600 11px var(--mono)}
+.tag.bull{background:var(--bullbg);color:var(--bull)} .tag.bear{background:var(--bearbg);color:var(--bear)}
+.tag.neut{background:var(--neutbg);color:var(--neut)} .tag.info{background:var(--accentbg);color:var(--accent)}
+.stars{color:#d99a14;letter-spacing:1px;font-size:12px;white-space:nowrap}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid rgba(0,0,0,.12)}
+pre.tree{background:#0f1722;color:#d7e3f0;border-radius:12px;padding:18px;font:12.5px/1.6 var(--mono);overflow-x:auto;margin:12px 0}
+pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b{color:#7ec3ff}
+.warn{border-left:4px solid var(--bear);background:var(--bearbg);border-radius:0 10px 10px 0;padding:12px 16px;margin:10px 0}
+.warn.amber{border-left-color:var(--neut);background:var(--neutbg)}
+.warn.blue{border-left-color:var(--accent);background:var(--accentbg)}
+.warn b.t{display:block;font-size:13.5px;margin-bottom:3px}
+.scen{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden;background:#fff}
+.scen .head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:#f7fafc}
+.scen .head .nm{font-weight:750;font-size:14.5px}
+.scen .body{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;font-size:13px}
+.scen .body .blk b{display:block;font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+.ladder{font:12.5px/1.7 var(--mono);background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;overflow-x:auto;white-space:pre}
+.pb{border:1px solid var(--line);border-radius:12px;background:#fff;margin:12px 0;overflow:hidden}
+.pb-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;background:#f7fafc}
+.pb-head:hover{background:#eef4fa}
+.pb-rank{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;font:700 13px var(--mono);display:flex;align-items:center;justify-content:center}
+.pb-name{font-weight:750;font-size:14.5px;flex:1 1 auto}
+.pb-rr{font:700 12px var(--mono);color:var(--accent);white-space:nowrap}
+.pb-caret{flex:0 0 auto;transition:transform .2s;color:var(--muted);font-size:12px}
+.pb.open .pb-caret{transform:rotate(90deg)}
+.pb-body{display:none;border-top:1px solid var(--line)}
+.pb.open .pb-body{display:block}
+.pb-row{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:10px 16px;border-bottom:1px solid #eef2f6;font-size:13px}
+.pb-row:last-child{border-bottom:none}
+.pb-row .lbl{font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding-top:2px}
+.pb-row.hl{background:var(--accentbg)}
+.tgt{display:inline-block;background:#f2f5f9;border:1px solid var(--line);border-radius:6px;padding:2px 8px;font:600 12px var(--mono);margin:2px 6px 2px 0}
+.tgt.t1{border-color:#e6c9c9;background:var(--bearbg)}
+.foot{margin-top:36px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:640px){h1{font-size:22px}.scen .body{grid-template-columns:1fr}.pb-row{grid-template-columns:1fr;gap:3px}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <div class="kicker">ES1! · CME · PLAN FOR JUN 22/23, 2026 · BUILT JUN 21 ~15:18 ET</div>
+  <h1>ES Trading Plan — Sun ETH &amp; Mon RTH</h1>
+  <div class="sub">Charts: TPO profile (Jun 18 last RTH) + 30-min RTH/ETH + Daily + VX1! (15:13–15:18 ET) · Catalyst: US–Iran interim peace deal + Israel–Hezbollah ceasefire, but durable settlement in doubt (Switzerland talks delayed); Trump warns Iran to halt Lebanon proxies "immediately" or assaults restart · Holiday-thinned week (Juneteenth cash close Fri) · S&amp;P futures lower into the weekend after strongest week since late May</div>
+  <div class="snapshot">
+    <div class="chip">Last <b>7,556.25</b> (daily C; 30m last 7,556.25)</div>
+    <div class="chip">Jun 18 RTH: O <b>7,577.25</b> · H <b>7,581.50</b> · L <b>7,535.50</b> · C <b>7,564.25</b></div>
+    <div class="chip">Jun 18 POC <b>7,561.75</b> · VAH <b>7,571.50</b> · VAL <b>7,549.00</b></div>
+    <div class="chip amber">2D spike base <b>7,496.25</b> · single print <b>7,514.25</b> · weak low <b>7,535.50</b></div>
+    <div class="chip green">vs 20-EMA 7,525.50 <b>+30.75</b> (reclaimed)</div>
+    <div class="chip green">vs 50-EMA 7,398.50 <b>+157.75</b> · ATR <b>106.75</b></div>
+    <div class="chip green">VIX <b>18.50 ▼</b> (low 18.20)</div>
+  </div>
+  <div class="delta"><b class="t">▼ What changed since the Jun 18 plan — the FOMC flush is largely repaired, regime hands off to geopolitics</b>
+  The Jun 17 FOMC trend-day-down (close 7,492.25) <b>has been repaired</b>: Jun 18 RTH opened 7,577.25, built a tight balance and <b>closed 7,564.25 inside value, above POC</b> (VAH 7,571.50 / POC 7,561.75 / VAL 7,549.00) — a quiet day-after-event digestion that reclaimed the daily 20-EMA. Two sessions later price is at <b>7,556.25</b>, sitting <b>+30.75 above the 20-EMA 7,525.50</b> with the full MA stack rising below. The 2D (Jun 17) references that governed last week — spike base <b>7,496.25</b>, single print <b>7,514.25</b>, prior VAL <b>7,463.50</b> — are now <b>~50–90 pts below price and behaving as support shelves</b>, not active battle lines. <b>Catalyst handoff:</b> the hawkish-Warsh-Fed story has cooled; the new swing factor is the <b>US–Iran interim deal</b> and whether a durable settlement holds. Friday's permanent-deal talks in Switzerland were <b>delayed</b> after Israel–Hezbollah clashes (since ceased), and <b>Trump warned Iran to halt Lebanon proxies immediately or face renewed assaults</b>. Oil firmed (Brent +0.9% &gt; $80) and Hormuz transit risk lingers. S&amp;P futures slipped into the weekend after the best week since late May; equities globally edged down 0.2–0.3% from records. <b>VIX 18.50</b> (low 18.20) — still grinding lower, melt regime intact. <b>Thin holiday tape</b> = headline-driven gap risk over the weekend; treat Sunday ETH and the Monday open as event-sensitive. New profile labels read directly: Today RTH Poor High 7,581.50, Today RTH VAH 7,571.50, Today RTH VAL 7,549.00, Today RTH Weak Low 7,535.50; 2D Selling Tail 7,605.75, 2D VAH 7,601.25, 2D Single Print 7,514.25, 2D Spike Base 7,496.25, Previous RTH VAL 7,463.50.</div>
+  <div class="planswitch">
+    <button class="planbtn active" id="btnETH" onclick="setPlan('ETH')">🌙 ETH OVERNIGHT PLAN</button>
+    <button class="planbtn" id="btnRTH" onclick="setPlan('RTH')">☀️ RTH MONDAY PLAN</button>
+  </div>
+</div></header>
+
+<nav class="tabs"><div class="wrap" id="tabbar"></div></nav>
+
+<!-- ==================== ETH PLAN ==================== -->
+<div class="plan" id="plan-ETH">
+<div class="wrap">
+
+<section class="panel" data-tab="1) Top-Down">
+<h2><span class="num">01</span>Top-Down Analysis</h2>
+<div class="lede">Reference: last 7,556.25, sitting ~30 pts above the daily 20-EMA and just under the Jun 18 VAH/poor-high band — the FOMC flush has been fully repaired and price is back inside the prior upper distribution. The overnight question is now a geopolitical headline gate, not a structural one.</div>
+
+<h3>a) Daily — MA stack &amp; drawn levels</h3>
+<div class="card">
+<table>
+<tr><th>MA</th><th class="mono">Value</th><th class="mono">Distance</th><th>Status</th></tr>
+<tr><td><span class="swatch" style="background:#ef5350"></span>20-EMA</td><td class="mono">7,525.50</td><td class="mono" style="color:var(--bull)">+30.75</td><td><span class="tag bull">RECLAIMED</span> — price back above after the FOMC dip; flattening but the day's pivot — accept above = bull intact, lose it = momentum stalls</td></tr>
+<tr><td><span class="swatch" style="background:#ff9800"></span>50-EMA</td><td class="mono">7,398.50</td><td class="mono" style="color:var(--bull)">+157.75</td><td><span class="tag bull">RISING</span> — first major dynamic support far below</td></tr>
+<tr><td><span class="swatch" style="background:#f5e642"></span>100-EMA</td><td class="mono">7,240.25</td><td class="mono" style="color:var(--bull)">+316.00</td><td><span class="tag bull">Rising</span> — no near-term magnet</td></tr>
+<tr><td><span class="swatch" style="background:#43a047"></span>200-EMA</td><td class="mono">7,039.25</td><td class="mono" style="color:var(--bull)">+517.00</td><td><span class="tag bull">Rising</span></td></tr>
+<tr><td><span class="swatch" style="background:#1e54c9"></span>300-EMA</td><td class="mono">6,873.00</td><td class="mono" style="color:var(--bull)">+683.25</td><td><span class="tag bull">Rising</span></td></tr>
+</table>
+<table style="margin-top:10px">
+<tr><th>Drawn level (Daily)</th><th>Color</th><th class="mono">Price</th><th class="mono">Distance</th><th>Note</th></tr>
+<tr><td>Range / ATH-area High (label)</td><td>Label</td><td class="mono">7,694.75</td><td class="mono">+138.50</td><td>Recent swing high / ATH reference</td></tr>
+<tr><td>Pivot line P</td><td><span class="swatch" style="background:#2e9e57"></span>Green</td><td class="mono">7,477.25</td><td class="mono">−79.00</td><td>Prior breakout shelf — first daily support below the 20-EMA</td></tr>
+<tr><td>Volume / value line V</td><td><span class="swatch" style="background:#e53935"></span>Red</td><td class="mono">7,156.00</td><td class="mono">−400.25</td><td>Deeper macro reference (Apr recovery)</td></tr>
+<tr><td>Pivot line P</td><td><span class="swatch" style="background:#2e9e57"></span>Green</td><td class="mono">7,000.75</td><td class="mono">−555.50</td><td>Round-number / 200-EMA-area shelf</td></tr>
+<tr><td>ATR</td><td>Box</td><td class="mono">106.75</td><td class="mono">—</td><td>Full-day budget; recent ranges compressing below 1×</td></tr>
+<tr><td>Range Low (label)</td><td>Label</td><td class="mono">6,415.75</td><td class="mono">−1,140.50</td><td>Macro reference (Apr flush low)</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>Daily narrative:</b> The most recent two daily candles are quiet, overlapping inside bars (today O 7,576.75 / H 7,580 / L 7,520.50 / C 7,556.25, a small-bodied doji-ish print) sitting right under the prior range and just above the reclaimed <b>20-EMA 7,525.50</b>. The post-FOMC V-recovery is complete — price air-pocketed down to 7,472 on Jun 17 and has since clawed all the way back into the prior upper distribution, parking ~140 pts below the <b>7,694.75 ATH</b> reference. The full MA stack (50/100/200/300) is rising well below, so the larger uptrend is fully intact; this is now a <b>consolidation under the highs</b>, not a correction. The tell is whether price <b>accepts above 7,581.50</b> (Jun 18 poor high) to re-challenge the ATH, or rolls back to retest the 20-EMA 7,525.50 / green pivot 7,477.25. The whole zone 7,514–7,581 is now well-traded (value rebuilt), so the thin elevator from last Wednesday no longer exists below ~7,535.</p>
+</div>
+
+<h3>b) 30-Min RTH+ETH — session flow &amp; drawn levels</h3>
+<div class="card">
+<table>
+<tr><th>Session</th><th class="mono">High</th><th class="mono">Low</th><th class="mono">Close≈</th><th>Character</th><th>Value migration</th></tr>
+<tr><td>Jun 15</td><td class="mono">7,648.75</td><td class="mono">~7,560</td><td class="mono">~7,632</td><td>Trend up to range high (poor high 7,648.75)</td><td>▲ sharp</td></tr>
+<tr><td>Jun 16</td><td class="mono">7,632.25</td><td class="mono">~7,578</td><td class="mono">~7,600</td><td>Balance under highs</td><td>≈ flat 7,578–7,632</td></tr>
+<tr><td>Jun 17 RTH</td><td class="mono">7,604.25</td><td class="mono">7,472.25</td><td class="mono">7,492.25</td><td>FOMC trend-day-down −112; spike-base close</td><td>▼ value collapse</td></tr>
+<tr><td><b>Jun 18 RTH</b></td><td class="mono"><b>7,581.50</b></td><td class="mono"><b>7,535.50</b></td><td class="mono"><b>7,564.25</b></td><td><b>Day-after-event repair:</b> opened 7,577.25, tight balance, closed inside value above POC — V-recovery completed</td><td>▲ value rebuilt 7,549–7,571</td></tr>
+<tr><td>Jun 19</td><td class="mono">~7,578</td><td class="mono">~7,527</td><td class="mono">~7,556</td><td>Rotational chop, holding the repaired value</td><td>≈ overlapping 7,527–7,578</td></tr>
+<tr><td>Jun 20/21 ETH (now)</td><td class="mono">~7,567</td><td class="mono">~7,540</td><td class="mono">7,556.25</td><td>Quiet, thin pre-holiday drift; slipping into the weekend</td><td>Balanced around 7,556</td></tr>
+</table>
+<table style="margin-top:12px">
+<tr><th>Drawn level (30-min)</th><th>Color</th><th class="mono">Price</th><th class="mono">Dist</th></tr>
+<tr><td>ATH (label)</td><td><span class="swatch" style="background:#e53935"></span>Red</td><td class="mono">7,694.00</td><td class="mono">+137.75</td></tr>
+<tr><td>Upper stack</td><td>Black</td><td class="mono">7,673.50 / 7,654.50 / 7,648.75(H) / 7,632.25</td><td class="mono">+76→+118</td></tr>
+<tr><td>Fib extend</td><td><span class="swatch" style="background:#e57373"></span>Red</td><td class="mono">7,621.75</td><td class="mono">+65.50</td></tr>
+<tr><td>Black band</td><td>Black</td><td class="mono">7,605.50 / 7,591.50 / 7,578.25</td><td class="mono">+22→+49</td></tr>
+<tr><td>Fib extend / line</td><td><span class="swatch" style="background:#e53935"></span>Red</td><td class="mono">7,565.00</td><td class="mono">+8.75</td></tr>
+<tr class="now"><td><b>Current / blue dotted</b></td><td><span class="swatch" style="background:#1463a8"></span>Blue</td><td class="mono">7,556.25</td><td class="mono">0</td></tr>
+<tr class="cluster"><td>Pivot pair</td><td>Black</td><td class="mono">7,550.50 / 7,527.50</td><td class="mono">−5.75→−28.75</td></tr>
+<tr><td>Daily 20-EMA</td><td><span class="swatch" style="background:#ef5350"></span>Red</td><td class="mono">7,525.50</td><td class="mono">−30.75</td></tr>
+<tr><td>Pivot</td><td>Black</td><td class="mono">7,508.25</td><td class="mono">−48.00</td></tr>
+<tr><td>Pivot</td><td>Black</td><td class="mono">7,491.50</td><td class="mono">−64.75</td></tr>
+<tr><td>Pivot</td><td>Black</td><td class="mono">7,469.50</td><td class="mono">−86.75</td></tr>
+<tr><td>Green zone</td><td><span class="swatch" style="background:#bfe3c5"></span>Green box</td><td class="mono">≈7,440.00–7,455.00 (7,448.50)</td><td class="mono">−101→−116</td></tr>
+<tr><td>Low (label)</td><td>Label</td><td class="mono">7,429.00</td><td class="mono">−127.25</td></tr>
+<tr><td>Pivot / green zone (lower)</td><td><span class="swatch" style="background:#bfe3c5"></span>Black / Green</td><td class="mono">7,421.25 / ≈7,400–7,410</td><td class="mono">−135→−146</td></tr>
+<tr><td>Fib extend</td><td><span class="swatch" style="background:#e53935"></span>Red</td><td class="mono">7,396.50</td><td class="mono">−159.75</td></tr>
+<tr><td>Lower band</td><td>Black</td><td class="mono">7,366.25</td><td class="mono">−190.00</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>30-min narrative:</b> After the Jun 17 one-time-frame flush to 7,472, the tape V-recovered and has spent four sessions <b>rebuilding overlapping value</b> in the 7,527–7,578 band. Price now sits at 7,556.25, sandwiched between the immediate <b>7,565 fib line / 7,578.25 black</b> overhead and the <b>7,550.50 / 7,527.50</b> pivots plus the <b>20-EMA 7,525.50</b> below. The single prints and spike base from Wednesday have been fully back-filled, so the structure below 7,535 is now solid support rather than air. Above 7,578 sits a cleaner void back toward the 7,605–7,632 black band and the 7,648.75 poor high. The whole week reads as a <b>balance under the highs</b> — quiet, two-sided, waiting on the Iran headline to break it one way.</p>
+</div>
+
+<h3>c) Market Profile — Jun 18 (most recent RTH) session</h3>
+<div class="card">
+<table>
+<tr><th>Metric</th><th class="mono">Value</th><th>Read</th></tr>
+<tr><td>OPEN / CLOSE</td><td class="mono">7,577.25 / 7,564.25</td><td>Opened at the highs → closed −13 inside value, above POC — quiet digestion, constructive</td></tr>
+<tr><td>HIGH / LOW</td><td class="mono">7,581.50 / 7,535.50</td><td>46-pt range (0.43× ATR) — a tight day-after-FOMC inside session</td></tr>
+<tr><td>VAH / POC / VAL</td><td class="mono">7,571.50 / <b>7,561.75</b> / 7,549.00</td><td>Narrow, balanced value; close above POC = buyers in control of the rebuild</td></tr>
+<tr><td>Close location / VA shift</td><td class="mono">Inside VA &gt; POC · Overlap Lower</td><td>Healthy close; value overlapped slightly lower vs Jun 17 (still digesting the flush, not extending)</td></tr>
+<tr><td><b>Today RTH Poor High (labeled)</b></td><td class="mono"><b>7,581.50</b></td><td>Unfinished business overhead — pulls price back up to repair on a push</td></tr>
+<tr><td><b>Today RTH Weak Low (labeled)</b></td><td class="mono"><b>7,535.50</b></td><td>Soft low — a clean break invites a quick probe of the 20-EMA 7,525.50</td></tr>
+<tr><td>Shape</td><td class="mono">Compact normal (D-shape) inside the prior upper balance</td><td>Balanced acceptance — the repair held all of Jun 18</td></tr>
+</table>
+<table style="margin-top:10px">
+<tr><th>Prior session (2D = Jun 17, FOMC)</th><th class="mono">Value</th></tr>
+<tr><td>Open / High / Low / Close</td><td class="mono">7,595.75 / 7,604.25 / 7,472.25 / 7,492.25</td></tr>
+<tr><td>VAH / POC / VAL</td><td class="mono">7,601.25 / 7,581.00 / 7,541.25</td></tr>
+<tr><td>Selling tail / single print / spike base</td><td class="mono">7,605.75 / 7,514.25 / 7,496.25</td></tr>
+<tr><td>Close location / VA shift</td><td class="mono">Below VA · Overlap Lower</td></tr>
+</table>
+</div>
+<div class="grid2">
+<div class="ladder"><b>STRUCTURE MAP (current 7,556.25 vs profile)</b>
+7,605.75 ── 2D <b>SELLING TAIL</b>
+7,601.25 ── 2D VAH
+7,581.50 ── <b>POOR HIGH</b> (Jun 18 H)  ◄ repair magnet above
+7,581.00 ── 2D POC
+7,578.25 ── 30m black line
+7,571.50 ── <b>VAH</b> (Jun 18)
+7,565.00 ── fib extend (red)
+7,561.75 ── <b>POC</b> (Jun 18)
+7,556.25 ◄◄ <b>YOU ARE HERE</b>
+7,550.50 ── 30m pivot
+7,549.00 ── <b>VAL</b> (Jun 18)  ◄ first support
+7,541.25 ── 2D VAL
+7,535.50 ── <b>WEAK LOW</b> (Jun 18)  ◄ soft — break = 20-EMA probe
+7,527.50 ── 30m pivot
+7,525.50 ── daily 20-EMA  ◄ the pivot
+7,514.25 ── 2D <b>SINGLE PRINT</b> (back-filled)
+7,508.25 ── 30m pivot
+7,496.25 ── 2D <b>SPIKE BASE</b>  ◄ deeper shelf
+7,477.25 ── daily green pivot P
+7,463.50 ── PREVIOUS RTH VAL
+7,448.50 ── green zone
+7,429.00 ── 30m low / 7,421.25 pivot
+7,396.50 ── fib extend</div>
+<div>
+<p style="font-size:13px"><b>Profile narrative:</b> Jun 18 was a textbook <b>day-after-event repair</b>: a compact, balanced D-shape that opened at the highs, held a tight 46-pt range, and closed inside value above the POC — the buyers ratified the V-recovery. Value sits 7,549–7,571 with price 7,556.25 right in its core (between POC 7,561.75 and VAL 7,549.00). The two structural flags are the <b>poor high 7,581.50</b> (unfinished business — magnet on any push higher) and the <b>weak low 7,535.50</b> (soft — a clean break invites a quick 20-EMA 7,525.50 test). Below that, the Jun 17 single print 7,514.25 and spike base 7,496.25 are now <b>back-filled shelves</b>, not air. The bias from the profile is <b>balanced-constructive</b>: price is parked in fair value with a slight upward pull toward the poor-high repair, and well-defended support underneath — the Iran headline is what tips it.</p>
+<h3>d) VIX + macro context</h3>
+<p style="font-size:13px"><b>VX1! 18.50</b> (low 18.20), grinding lower from the April ~31 highs — a steady, multi-month bleed that keeps the <b>melt regime technically alive</b>. Sub-19 vol on a tape that just had its strongest week since late May says the market is comfortable, not braced. <b>Macro:</b> the hawkish-Warsh FOMC story has cooled; the active swing factor is the <b>US–Iran interim peace deal</b>. Relief over the ceasefire is giving way to doubt about a <b>durable</b> settlement — Friday's permanent-deal talks in Switzerland were <b>delayed</b> after Israel–Hezbollah clashes (since ceased via ceasefire), and <b>Trump warned Iran to halt Lebanon proxies "immediately" or assaults restart</b>. Oil firmed (Brent +0.9% &gt; $80), Hormuz transit risk lingers (Tehran says vessels need its permission). Global equities edged down 0.2–0.3% from records; <b>S&amp;P futures slipped into the weekend</b>. The asymmetry into thin holiday-week liquidity: a <b>constructive Iran headline / confirmed durable deal</b> is squeeze fuel back toward the 7,581 poor high and the ATH; a <b>breakdown of talks / renewed strikes</b> is the gap-down risk that re-tests the 20-EMA and the deeper shelves. Liquidity is thin — a single headline moves more than usual.</p>
+</div>
+</div>
+</section>
+
+<section class="panel" data-tab="2) Key Levels">
+<h2><span class="num">02</span>Unified Key Levels (ref 7,556.25)</h2>
+<div class="card">
+<table>
+<tr><th>Zone</th><th class="mono">Price</th><th>Source</th><th>Type</th><th class="mono">Dist</th><th>★</th></tr>
+<tr><td>R9</td><td class="mono">7,694.00–7,694.75</td><td>D+30m</td><td>ATH / range high</td><td class="mono">+138</td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>R8 🔗</td><td class="mono">7,648.75–7,654.50</td><td>30m</td><td><b>Poor high 7,648.75</b> + line 7,654.50</td><td class="mono">+93→+98</td><td class="stars">★★★★</td></tr>
+<tr><td>R7</td><td class="mono">7,632.25 / 7,673.50</td><td>30m</td><td>Swing pivots</td><td class="mono">+76/+117</td><td class="stars">★★★</td></tr>
+<tr><td>R6</td><td class="mono">7,621.75</td><td>30m</td><td>Fib extend (red)</td><td class="mono">+65.50</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R5 🔗</td><td class="mono">7,601.25–7,605.75</td><td>MP</td><td><b>2D VAH 7,601.25 + 2D selling tail 7,605.75</b></td><td class="mono">+45→+49</td><td class="stars">★★★★</td></tr>
+<tr><td>R4</td><td class="mono">7,591.50</td><td>30m</td><td>Black line</td><td class="mono">+35.25</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R3 🔗</td><td class="mono">7,578.25–7,581.50</td><td>MP+30m</td><td><b>Poor high 7,581.50 + 2D POC 7,581 + line 7,578.25</b> — repair magnet</td><td class="mono">+22→+25</td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>R2 🔗</td><td class="mono">7,561.75–7,571.50</td><td>MP</td><td><b>POC 7,561.75 + VAH 7,571.50</b> — value ceiling overhead</td><td class="mono">+5.5→+15</td><td class="stars">★★★★</td></tr>
+<tr><td>R1</td><td class="mono">7,565.00</td><td>30m</td><td>Fib extend (red) — immediate cap</td><td class="mono">+8.75</td><td class="stars">★★★</td></tr>
+<tr class="now"><td>NOW</td><td class="mono">7,556.25 (in value, POC 7,561.75 just above)</td><td>D+30m</td><td>Balanced inside Jun 18 value</td><td class="mono">0</td><td class="stars">—</td></tr>
+<tr class="cluster"><td>S1 🔗</td><td class="mono">7,549.00–7,550.50</td><td>MP+30m</td><td><b>VAL 7,549 + pivot 7,550.50</b> — first support / value floor</td><td class="mono">−5.75→−7.25</td><td class="stars">★★★★</td></tr>
+<tr><td>S2</td><td class="mono">7,541.25</td><td>MP</td><td>2D VAL — secondary value floor</td><td class="mono">−15.00</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>S3 🔗</td><td class="mono">7,535.50–7,527.50</td><td>MP+30m</td><td><b>Weak low 7,535.50 + pivot 7,527.50</b> — break = 20-EMA probe</td><td class="mono">−20.75→−28.75</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S4 🔗</td><td class="mono">7,514.25–7,525.50</td><td>D+MP</td><td><b>Daily 20-EMA 7,525.50 + 2D single print 7,514.25</b> — the pivot</td><td class="mono">−30.75→−42</td><td class="stars">★★★★★</td></tr>
+<tr><td>S5</td><td class="mono">7,508.25</td><td>30m</td><td>Pivot</td><td class="mono">−48.00</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>S6 🔗</td><td class="mono">7,491.50–7,496.25</td><td>MP+30m</td><td><b>2D spike base 7,496.25 + pivot 7,491.50</b> — polarity shelf</td><td class="mono">−60→−64.75</td><td class="stars">★★★★</td></tr>
+<tr><td>S7</td><td class="mono">7,477.25</td><td>D</td><td>Daily green pivot P — major support</td><td class="mono">−79.00</td><td class="stars">★★★★</td></tr>
+<tr><td>S8</td><td class="mono">7,463.50–7,469.50</td><td>MP+30m</td><td>Previous RTH VAL 7,463.50 + pivot</td><td class="mono">−86.75→−92.75</td><td class="stars">★★★</td></tr>
+<tr><td>S9</td><td class="mono">7,440.00–7,455.00</td><td>30m</td><td>Green zone (7,448.50) — deep dip-buy</td><td class="mono">−101→−116</td><td class="stars">★★★</td></tr>
+<tr><td>S10</td><td class="mono">7,398.50</td><td>D</td><td>50-EMA — major dynamic support</td><td class="mono">−157.75</td><td class="stars">★★★★</td></tr>
+</table>
+<div class="warn amber"><b class="t">⚑ Controlling clusters into the new week</b>
+<b>7,549–7,550.50</b> (VAL + pivot — first support / value floor where price sits) · <b>7,561.75–7,571.50</b> (POC + VAH — the value ceiling overhead) · <b>7,578–7,581.50</b> (poor high + 2D POC — the repair magnet; acceptance unlocks the upper void) · <b>7,514–7,525.50</b> (20-EMA + single print — the bull pivot; lose it and the digestion turns into a deeper retrace) · <b>7,496.25</b> (spike base — polarity shelf below).</div>
+</div>
+</section>
+
+<section class="panel" data-tab="3) Context">
+<h2><span class="num">03</span>Context Summary — Jun 18 (most recent RTH)</h2>
+<div class="card">
+<table>
+<tr><th>Dimension</th><th>Reading</th><th>Implication</th></tr>
+<tr><td>Day type</td><td><span class="tag neut">Balanced inside / day-after-event repair</span> (compact D-shape)</td><td>Repair held; balance under the highs continues until a fresh catalyst</td></tr>
+<tr><td>Settlement location</td><td class="mono">7,564.25 inside VA, above POC 7,561.75; now 7,556.25</td><td>Constructive close — buyers ratified the V-recovery; price parked in fair value</td></tr>
+<tr><td>Profile shape</td><td>Compact normal; poor high 7,581.50, weak low 7,535.50</td><td>Two unfinished references frame the range; poor high pulls up, weak low is the soft floor</td></tr>
+<tr><td>Value migration</td><td class="mono">VA overlap-lower vs Jun 17, but close above POC</td><td>Digesting the flush sideways, not extending down — neutral-constructive</td></tr>
+<tr><td>Price vs POC</td><td class="mono">−5.5 below Jun 18 POC 7,561.75 (in value)</td><td>Fair value — no extension risk either way; mean-revert to POC is the small pull</td></tr>
+<tr><td>Daily MA context</td><td class="mono">+30.75 above reclaimed 20-EMA 7,525.50; +158 above rising 50-EMA</td><td>20-EMA = the day's binary; broader uptrend intact and rising below</td></tr>
+<tr><td>ATR / range</td><td class="mono">ATR 106.75; Jun 18 range 46 (0.43×)</td><td>Compressed regime — coiling; a range expansion is overdue and headline-triggered</td></tr>
+<tr><td>VIX</td><td class="mono">18.50, low 18.20, grinding lower</td><td>Comfortable/melt regime; sub-19 supports the upside-drift base case</td></tr>
+<tr><td>Macro overhang</td><td>US–Iran interim deal; durable settlement in doubt; Trump proxy warning; thin holiday tape</td><td>Headline gate — constructive news = squeeze to poor high/ATH; breakdown = gap-down test of 20-EMA</td></tr>
+<tr><td>Flows / tape</td><td class="mono">S&amp;P futures slipped into the weekend after best week since late May</td><td>Mild profit-taking into the holiday; thin liquidity amplifies the next headline</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="4) Scenarios">
+<h2><span class="num">04</span>What-If Scenarios — ETH (Sun open → Mon)</h2>
+
+<div class="scen"><div class="head"><span class="nm">N1 · Constructive Drift — Poor-High Repair to 7,581 / Push at the Void</span><span class="tag bull">BULL base</span><span class="stars">★★★★ 30%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>ETH holds above VAL 7,549 / POC 7,561.75 and grinds up; constructive Iran headline or simply quiet melt.</div>
+<div class="blk"><b>Narrative</b>The poor high 7,581.50 is unfinished business — price repairs up to it through the 7,565 fib and 7,571.50 VAH. Acceptance above 7,581 opens the upper void to the 7,601–7,605 2D VAH/tail and beyond.</div>
+<div class="blk"><b>Setup</b>Long 7,549–7,557 on holds of VAL/POC · Stop 7,539 (under weak low) · T1 7,571.50 VAH (+15→+22) · T2 7,581.50 poor high (+25→+33) · T3 7,601.25 (+44→+52) · <b>R:R 1.5→3.0</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: 30-min closes hold ≥ 7,549. Invalid: close &lt; 7,535.50 → N3.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N2 · Value Balance — Rotate 7,535–7,581</span><span class="tag neut">NEUTRAL fade</span><span class="stars">★★★ 26%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>No fresh headline; thin holiday tape keeps price coiling inside the Jun 18 value + weak-low/poor-high bracket.</div>
+<div class="blk"><b>Narrative</b>Quietest path: two-sided rotation between the weak low 7,535.50 and the poor high 7,581.50, value overlapping around POC 7,561.75. Fade the edges; the breakout waits for Monday's headline/open.</div>
+<div class="blk"><b>Setup</b>Fade edges: short 7,576–7,582 stop 7,589 → T 7,561/7,549; long 7,537–7,543 stop 7,529 → T 7,556/7,565 · <b>R:R ~1.6→2.8 per rotation</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: two failed pushes through 7,581 / 7,535. Invalid: 30-min close outside 7,535–7,581.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N3 · Weak-Low Break — Probe 20-EMA 7,525.50</span><span class="tag bear">BEAR-shallow</span><span class="stars">★★★ 20%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>ETH loses the weak low 7,535.50; mild risk-off (delayed Iran talks, soft Asia) pulls price to the moving average.</div>
+<div class="blk"><b>Narrative</b>The soft floor gives way and price probes the 7,527.50 pivot / 20-EMA 7,525.50 — the line that defines the repair. A hold there is a dip-buy; acceptance below opens the single-print 7,514.25 area.</div>
+<div class="blk"><b>Setup</b>Prefer the long: buy 7,524–7,528 at the 20-EMA, stop 7,514, T1 7,535.50 (+8) · T2 7,549 (+22) · T3 7,561.75 (+35) · <b>R:R 1.4→3.4</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: 20-EMA holds with a wick. Invalid for the dip-long: 30-min close &lt; 7,514.25 → N4.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N4 · Deeper Retrace — Spike-Base 7,496 / Green-Pivot 7,477 Buy</span><span class="tag bear">BEAR rotation</span><span class="stars">★★ 12%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>20-EMA / single print 7,514 fails on a harder risk-off headline; the digestion deepens.</div>
+<div class="blk"><b>Narrative</b>Price retraces toward the back-filled 2D spike base 7,496.25 and the daily green pivot 7,477.25 — major responsive-buy shelves where the broader uptrend is defended.</div>
+<div class="blk"><b>Setup</b>Responsive long 7,496–7,500 (spike base) or 7,477–7,482 (green pivot) · Stop 7,488 / 7,468 · T1 7,514 · T2 7,525.50 · T3 7,549 · <b>R:R 2.0→5.0</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: VIX still ≤ 21 (orderly). Invalid: 30-min close &lt; 7,463.50 → N5.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N5 · Geopolitical Gap-Down — Talks Break / Strikes Resume</span><span class="tag bear">BEAR tail</span><span class="stars">★ 6%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>A weekend headline (Iran talks collapse, renewed strikes, Hormuz escalation) gaps the thin tape lower.</div>
+<div class="blk"><b>Narrative</b>Risk-off air-pocket through 7,463.50 → green zone 7,448.50 → 7,421.25 / fib 7,396.50, worst case toward the rising 50-EMA 7,398.50. Oil spikes, VIX pops.</div>
+<div class="blk"><b>Setup</b>No fresh shorts into the hole. Pre-stage responsive longs 7,448–7,455 (green zone) and 7,398–7,408 (fib + 50-EMA) · Stop 7,438 / 7,388 · T1 +20 · T2 +40 · <b>R:R 2.0→4.5</b> — only if the tape stabilizes</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: oil ripping, VIX &gt; 22. Invalid: 50-EMA fails → stand down, 7,360 next.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">N6 · Durable-Deal Squeeze — Reclaim 7,605, Run at ATH</span><span class="tag bull">BULL outlier</span><span class="stars">★ 6%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Confirmed durable US–Iran settlement / risk-on weekend headline; VIX breaks under 18.</div>
+<div class="blk"><b>Narrative</b>Price one-time-frames up through the poor high 7,581.50 → 2D VAH/tail 7,601–7,605 → 7,632 → the 7,648.75 poor high → the 7,694 ATH. The whole consolidation resolves up.</div>
+<div class="blk"><b>Setup</b>Don't chase; buy the first 30-min pullback holding 7,581 from above · Stop 7,571 · T1 7,605 · T2 7,632 · T3 7,648.75 · <b>R:R 1.5→4.5</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: volume expansion on the headline. Invalid: back under 7,565.</div>
+</div></div>
+</section>
+
+<section class="panel" data-tab="5) Probability">
+<h2><span class="num">05</span>Probability Matrix — ETH</h2>
+<div class="card">
+<table>
+<tr><th>Rank</th><th>Scenario</th><th>Direction</th><th>Prob</th><th>★</th></tr>
+<tr><td>1</td><td>N1 Constructive drift → poor-high repair 7,581</td><td><span class="tag bull">Bull-base</span></td><td class="mono">30%</td><td class="stars">★★★★</td></tr>
+<tr><td>2</td><td>N2 Value balance → rotate 7,535–7,581</td><td><span class="tag neut">Neutral</span></td><td class="mono">26%</td><td class="stars">★★★</td></tr>
+<tr><td>3</td><td>N3 Weak-low break → 20-EMA 7,525.50 probe</td><td><span class="tag bear">Bear-shallow</span></td><td class="mono">20%</td><td class="stars">★★★</td></tr>
+<tr><td>4</td><td>N4 Deeper retrace → 7,496 / 7,477 buy</td><td><span class="tag bear">Bear-rotation</span></td><td class="mono">12%</td><td class="stars">★★</td></tr>
+<tr><td>5</td><td>N5 Geopolitical gap-down → 7,448 / fib 7,396</td><td><span class="tag bear">Bear tail</span></td><td class="mono">6%</td><td class="stars">★</td></tr>
+<tr><td>6</td><td>N6 Durable-deal squeeze → reclaim 7,605 / ATH</td><td><span class="tag bull">Bull outlier</span></td><td class="mono">6%</td><td class="stars">★</td></tr>
+</table>
+<table><tr><th>Combined</th><th class="mono" style="color:var(--bull)">Bull 36%</th><th class="mono" style="color:var(--bear)">Bear 38%</th><th class="mono">Neutral 26%</th></tr></table>
+<div class="warn blue"><b class="t">Base case (ETH)</b>Constructive coil: price holds the Jun 18 value (VAL 7,549 / POC 7,561.75) and drifts up toward the <b>poor high 7,581.50</b> repair, with the weak low 7,535.50 / 20-EMA 7,525.50 as the downside line and the upside gated by the Iran headline. Reasoning: price closed above POC, the FOMC flush is fully repaired, VIX is sub-19, and the MA stack is rising — the path of least resistance is a quiet upward drift. The counterweight is the <b>thin holiday tape + unresolved Iran deal</b>: a single weekend headline can gap the market either way, so respect the weak low and don't oversize ahead of Monday's open.</div>
+</div>
+</section>
+
+<section class="panel" data-tab="6) Decision Map">
+<h2><span class="num">06</span>Decision Map — ETH</h2>
+<pre class="tree">ETH @ 7,556.25 (POC 7,561.75 above · VAL 7,549 · weak low 7,535.50 · 20-EMA 7,525.50)
+│
+├─► HOLDS ≥ 7,549 VAL (constructive — base case)
+│     ├─ pushes &gt; 7,565 → <span class="g">VAH 7,571.50 → poor high 7,581.50</span>
+│     │      ├─ rejected at 7,581 → <span class="y">N2 balance</span> fade back to 7,561/7,549
+│     │      └─ <span class="g">accepts &gt; 7,581 → N1/N6</span> → 2D VAH 7,601 → 7,632 → 7,648.75
+│     └─ stalls under 7,565 → <span class="y">N2 rotation 7,549–7,581</span>
+│
+└─► LOSES 7,549 → tests <span class="y">weak low 7,535.50</span>
+      ├─ holds 7,535 → range intact, rotation only
+      └─ <span class="r">closes &lt; 7,535.50 → N3</span> → probe <span class="y">20-EMA 7,525.50 / 7,527.50</span>
+            ├─ <span class="g">20-EMA BOUGHT (preferred long)</span> → back to 7,549/7,565
+            └─ <span class="r">7,514.25 single print fails → N4</span> → <span class="y">spike base 7,496 / green pivot 7,477</span>
+                  ├─ cluster holds → strong responsive dip-buy
+                  └─ <span class="r">7,463.50 fails (headline) → N5</span> → 7,448 → <span class="r">fib 7,396.50 / 50-EMA 7,398</span></pre>
+<div class="card">
+<table>
+<tr><th class="mono">Level</th><th>Holds</th><th>Breaks</th></tr>
+<tr><td class="mono">7,581.50 poor high</td><td>Repair complete — fade the first tag (N2)</td><td>Upper void opens: 7,601 → 7,632 → 7,648.75</td></tr>
+<tr><td class="mono">7,561.75–7,571.50 POC/VAH</td><td>Capped in value — rotate down to VAL</td><td>Run at the poor high 7,581.50</td></tr>
+<tr><td class="mono">7,549–7,550.50 VAL</td><td>Value floor holds — buy dips</td><td>Weak low 7,535.50 next</td></tr>
+<tr><td class="mono">7,535.50 weak low</td><td>Soft floor holds — range continues</td><td>20-EMA 7,525.50 probe (N3)</td></tr>
+<tr><td class="mono">7,514.25–7,525.50 (20-EMA+SP)</td><td><b>Repair intact — core dip-buy</b></td><td>Deeper retrace to 7,496 spike base (N4)</td></tr>
+<tr><td class="mono">7,496.25 spike base</td><td>Polarity shelf holds — responsive long</td><td>7,477 green pivot → 7,463.50 prev VAL</td></tr>
+<tr><td class="mono">7,463.50 prev RTH VAL</td><td>Last shelf before the green zone</td><td>Geopolitical regime: 7,448 → 7,421 → fib 7,396.50</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="7) Bias Flips">
+<h2><span class="num">07</span>Bias Flip Conditions — ETH</h2>
+<div class="card">
+<table>
+<tr><th>Starting bias</th><th>Flip to</th><th class="mono">Trigger</th><th>Action</th></tr>
+<tr><td><span class="tag neut">Neutral-constructive (default)</span></td><td><span class="tag bull">Bull-repair</span></td><td class="mono">Acceptance &gt; 7,571.50 VAH → run at poor high</td><td>Hold longs to 7,581/7,601; trail under 7,549</td></tr>
+<tr><td><span class="tag bull">Bull-repair</span></td><td><span class="tag bull">Strong bull</span></td><td class="mono">Acceptance &gt; 7,581.50 (poor high cleared)</td><td>Extend to 7,601/7,632/7,648.75; trail under 7,571</td></tr>
+<tr><td><span class="tag neut">Neutral</span></td><td><span class="tag bear">Bear-shallow</span></td><td class="mono">30-min close &lt; 7,535.50 (weak low)</td><td>Flatten longs; bid the 20-EMA 7,525.50</td></tr>
+<tr><td><span class="tag bear">Bear-shallow</span></td><td><span class="tag bear">Bear-rotation</span></td><td class="mono">Close &lt; 7,514.25 (single print / 20-EMA lost)</td><td>Stand aside to 7,496 spike base / 7,477 pivot; responsive longs only</td></tr>
+<tr><td><span class="tag bear">Any bear</span></td><td><span class="tag bull">Repair restored</span></td><td class="mono">Reclaim 7,549 VAL after any dip</td><td>Value re-bid — resume drift-up longs toward POC/VAH</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="8) Playbook">
+<h2><span class="num">08</span>Tactical Playbook — ETH top 3</h2>
+<div class="lede">Click a trade to expand. Ranked by edge for the overnight session into Monday.</div>
+
+<div class="pb open">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#1</div><div class="pb-name">VAL/POC Hold — Poor-High Repair Long (N1)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 3.0R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,549–7,557</b> on holds of VAL 7,549 / POC 7,561.75 (or a deeper buy 7,537–7,543 on a weak-low wick)</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,539 — under the weak low 7,535.50 · risk 10–18 pts (or 7,529 from the deeper entry)</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,571.50 VAH (+15→+22)</span><span class="tgt">T2 7,581.50 poor high (+25→+33)</span><span class="tgt">T3 7,601.25 (+44→+52)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 (VAH = first rejection risk) · ¼ at the poor high (unfinished business — take it) · runner above 7,581 only on acceptance</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.5R / 2.2R / 3.0R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,535.50 → out; switch to the 20-EMA buy (#2)</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#2</div><div class="pb-name">20-EMA / Single-Print Dip-Buy at 7,514–7,528 (N3 resolution)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 3.4R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,524–7,528</b> at the 20-EMA / pivot (or 7,514–7,517 at the back-filled single print) on a weak-low break that holds — the highest-quality dip location of the night</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,508 — below the 7,508.25 pivot / single-print band · risk 6–16 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,535.50 (+8→+12)</span><span class="tgt">T2 7,549 (+22→+25)</span><span class="tgt">T3 7,561.75 (+34→+38)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at VAL 7,549 · runner to POC, trail under 7,535.50</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.3R / 2.4R / 3.4R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,514.25 → exit; next bid is the 7,496 spike base, not before</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#3</div><div class="pb-name">Spike-Base / Green-Pivot Responsive Long 7,477–7,500 (N4)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 5.0R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,496–7,500</b> at the 2D spike base, or <b>7,477–7,482</b> at the daily green pivot — only on an orderly (non-headline) flush</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,488 (spike base) / 7,468 (green pivot) · risk 8–14 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,514 (+14→+18)</span><span class="tgt">T2 7,525.50 (+25→+29)</span><span class="tgt">T3 7,549 (+49→+53)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at the 20-EMA · runner to VAL, trail under 7,508</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">2.0R / 3.3R / 5.0R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,463.50 OR a risk-off headline → no longs until 7,448 green zone / fib 7,396.50</div></div>
+</div>
+</div>
+
+<div class="warn blue"><b class="t">Position size vs ATR — applies to all three</b>ATR 106.75 but recent ranges are compressed (Jun 18 = 0.43×) into a thin holiday tape: <b>50–60% size on the value-hold long, 60–70% on the 20-EMA / spike-base responsive buys</b>. No shorts as primary trades — the only shorts are tactical N2 edge-fades at the poor high 7,581. Hard rule: a fresh Iran/risk-off headline = flat first, read later — the gap risk over a thin weekend is the dominant tail. Respect the poor-high 7,581 rejection on the first tag.</div>
+</section>
+
+<section class="panel" data-tab="9) Warnings">
+<h2><span class="num">09</span>Structural Warnings</h2>
+<div class="warn amber"><b class="t">⚠ Poor high 7,581.50 — unfinished business overhead</b>Jun 18 left a weak/poor high. It acts as a magnet on any push higher AND a high-probability rejection on the first tag. Trade it as a take-profit / fade zone, not a breakout — only acceptance (2× 30-min closes above 7,581) confirms the upper void is open toward 7,601/7,632.</div>
+<div class="warn amber"><b class="t">⚠ Weak low 7,535.50 — soft floor</b>The Jun 18 low is unsecured. A clean break invites a fast probe of the 20-EMA 7,525.50 / single print 7,514.25. Don't assume the value floor holds on the first test — structure stops below 7,535, not at it.</div>
+<div class="warn blue"><b class="t">ℹ Spike base 7,496.25 + single print 7,514.25 — now back-filled support</b>Last Wednesday's flush structure has been fully repaired and now reads as <b>support shelves</b>, not air. They are responsive-buy locations on a deeper retrace, not active speed zones — the thin-elevator risk from the FOMC day is gone.</div>
+<div class="warn"><b class="t">⚠ Thin holiday tape = gap risk</b>Cash markets were closed Friday (Juneteenth) and liquidity is light into the new week. A single weekend Iran headline (talks collapse, renewed strikes, Hormuz escalation) can gap the open well beyond the labeled levels. Size down ahead of Sunday's reopen; the first 30 minutes Monday can be a look-below/above-and-fail.</div>
+<div class="warn amber"><b class="t">⚠ Iran deal is the swing factor — two-sided headline risk</b>A confirmed durable settlement is squeeze fuel (N6) toward the poor high / ATH; a breakdown of the Switzerland talks or renewed strikes is the gap-down (N5). Oil (Brent &gt; $80) and the VIX are the real-time tells — watch them more than the tape.</div>
+<div class="warn blue"><b class="t">ℹ VIX 18.50 — regime gate</b>Sub-19 keeps the melt/drift regime alive and supports the constructive base case. A break back above 21 (likely only on an Iran escalation) flips the template defensive regardless of price — at that point only responsive longs at deep shelves, no chasing.</div>
+</section>
+
+<section class="panel" data-tab="10) Transition">
+<h2><span class="num">10</span>Session Transition — ETH → Monday RTH open</h2>
+<div class="card">
+<table>
+<tr><th>If price at zone into RTH open</th><th>Implication</th><th>Likely day type</th></tr>
+<tr><td class="mono">&gt; 7,581.50 (above poor high)</td><td>Repair complete, upper void open — risk-on / durable-deal read</td><td>Trend/normal-up; buy dips to 7,571, target 7,601/7,632</td></tr>
+<tr><td class="mono">7,561.75–7,581.50</td><td>In the upper value, pressing the poor high</td><td>Normal-variation up; fade the 7,581 first tag, buy 7,561 holds</td></tr>
+<tr><td class="mono">7,549–7,561.75 (in value)</td><td>Balanced at POC — coil continues</td><td>Two-sided; trade the VAL 7,549 / POC 7,561.75 polarity</td></tr>
+<tr><td class="mono">7,535.50–7,549</td><td>At the value floor / weak low — mild soft open</td><td>Rotational; defend 7,535.50, dip-buy toward POC</td></tr>
+<tr><td class="mono">7,514–7,535.50</td><td>Weak low broken; testing the 20-EMA / single print</td><td>Repair-test day; 20-EMA 7,525.50 must hold for the bull case</td></tr>
+<tr><td class="mono">&lt; 7,514 (below single print / 20-EMA)</td><td>Digestion turning into a deeper retrace — headline-driven</td><td>Defensive; responsive longs only at 7,496 / 7,477, watch for trend-down to 7,463/7,448</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="11) Summary">
+<h2><span class="num">11</span>Final Summary — ETH</h2>
+<div class="card">
+<table>
+<tr><th>Item</th><th>Call</th></tr>
+<tr><td>Macro bias</td><td><span class="tag bull">BULL (intact)</span> — full MA stack rising below price; FOMC flush repaired, price back inside the prior upper distribution</td></tr>
+<tr><td>Intermediate bias</td><td><span class="tag neut">NEUTRAL-CONSTRUCTIVE / balancing under the highs</span> — poor high 7,648 / 7,581 unfinished; needs to clear 7,581 to re-challenge the ATH</td></tr>
+<tr><td>Overnight bias</td><td><span class="tag neut">DRIFT-UP in value — buy holds of VAL/POC, fade the poor-high first tag, respect the thin-tape gap risk</span></td></tr>
+<tr><td>Base case</td><td>Constructive coil: hold 7,549–7,561.75, drift to the poor high 7,581.50, first tag fades; weak low 7,535.50 / 20-EMA 7,525.50 the downside line</td></tr>
+<tr><td>Primary trade</td><td><b>Long 7,549–7,557</b> (VAL/POC hold), stop 7,539, targets 7,571.50 / 7,581.50 / 7,601.25</td></tr>
+<tr><td>Best-location alternate</td><td><b>Long 7,524–7,528</b> at the 20-EMA on a weak-low break, stop 7,508 → 7,535 / 7,549 / 7,561.75</td></tr>
+<tr><td>Key bull level</td><td class="mono">7,581.50 poor high → 7,601.25 (acceptance = repair complete, ATH back in play)</td></tr>
+<tr><td>Key bear level</td><td class="mono">7,514.25–7,525.50 (20-EMA + single print; loss opens 7,496 → 7,477 → 7,463.50)</td></tr>
+<tr><td>Biggest risk</td><td>Thin holiday tape + unresolved Iran deal: a weekend headline gaps the open beyond the labeled levels in either direction</td></tr>
+<tr><td>Night-type expectation</td><td>Drift-up to the poor high (≈30%) · value balance 7,535–7,581 (≈26%) · weak-low break to 20-EMA (≈20%) · deeper retrace (≈18%) · durable-deal squeeze (≈6%)</td></tr>
+</table>
+</div>
+</section>
+
+</div>
+</div>
+
+<!-- ==================== RTH PLAN ==================== -->
+<div class="plan" id="plan-RTH" style="display:none">
+<div class="wrap">
+
+<section class="panel" data-tab="1) Top-Down">
+<h2><span class="num">01</span>Top-Down Analysis — RTH Focus</h2>
+<div class="lede">Monday Jun 23 RTH. Jun 18 left a balanced day-after-event repair (close 7,564.25 inside value above POC, 20-EMA reclaimed); the open's location vs Jun 18 value (7,549–7,571.50) and the poor high 7,581.50 / 2D VAH 7,601.25 sets the entire day's character.</div>
+
+<h3>a) Daily — what matters for the cash session</h3>
+<div class="card">
+<table>
+<tr><th>Factor</th><th class="mono">Level</th><th>RTH read</th></tr>
+<tr><td>ATH / swing high</td><td class="mono">7,694.00–7,694.75</td><td>+138 — upside stretch target on a durable-deal squeeze; first tag = fade-then-break decision</td></tr>
+<tr><td>Poor high (Jun 18) + 2D POC</td><td class="mono">7,581.50 / 7,581.00</td><td>+25.25 — the day's bull target AND the prime first-tag-fade zone (unfinished business)</td></tr>
+<tr><td>2D Selling tail + 2D VAH</td><td class="mono">7,605.75 / 7,601.25</td><td>+49.5 / +45 — full-repair ceiling; acceptance above opens the upper void to 7,632 / 7,648.75</td></tr>
+<tr><td>VAH + POC (Jun 18)</td><td class="mono">7,571.50 / 7,561.75</td><td>+15.25 / +5.5 — value ceiling to reclaim to control the day</td></tr>
+<tr class="now"><td>Current / open ref</td><td class="mono">7,556.25</td><td>0 — re-anchor to cash open</td></tr>
+<tr><td>VAL (Jun 18) + 2D VAL</td><td class="mono">7,549.00 / 7,541.25</td><td>−7.25 / −15 — value floor / secondary floor; losing VAL = first dip-buy shelf</td></tr>
+<tr><td>Weak low (Jun 18)</td><td class="mono">7,535.50</td><td>−20.75 — soft floor; clean break = 20-EMA probe</td></tr>
+<tr><td>20-EMA (reclaimed)</td><td class="mono">7,525.50</td><td>−30.75 — the day's binary; accept above = bull, lose = retrace to spike base 7,496.25</td></tr>
+<tr><td>2D Single print</td><td class="mono">7,514.25</td><td>−42 — back-filled support shelf, core dip-buy</td></tr>
+<tr><td>2D Spike base</td><td class="mono">7,496.25</td><td>−60 — polarity shelf / deeper responsive long</td></tr>
+<tr><td>Daily green pivot P</td><td class="mono">7,477.25</td><td>−79 — major daily support below the 20-EMA</td></tr>
+<tr><td>Prev RTH VAL</td><td class="mono">7,463.50</td><td>−92.75 — last shelf before the gap-fill path</td></tr>
+<tr><td>50-EMA (rising)</td><td class="mono">7,398.50</td><td>−157.75 — major dynamic support, only in play on a multi-day reversal</td></tr>
+<tr><td>ATR / range</td><td class="mono">106.75 / Jun 18 = 46 (0.43×)</td><td>Compressed regime — coiling; a wider RTH bar is likely; directional resolution overdue</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>Daily read for RTH:</b> Full bull MA stack rising below price (+30.75 above the reclaimed 20-EMA 7,525.50, +157.75 above the rising 50-EMA), and the Jun 17 FOMC flush has been fully repaired — price sits back inside the prior upper distribution, ~138 pts below the ATH 7,694 reference. This is now a <b>consolidation under the highs</b>, not a correction. The RTH binary is the <b>20-EMA 7,525.50</b>: accept above and the day is a buy-dips rotation toward the poor high 7,581.50 / 2D VAH 7,601.25; close below it and the digestion rolls toward the spike base 7,496.25 / green pivot 7,477.25. The single print 7,514.25 has been back-filled, so structure below 7,535 is now solid — the thin-elevator risk from the FOMC day is gone. ATR 106.75 with compressed recent ranges (Jun 18 = 0.43×) = a coiled regime; the RTH bar likely expands and resolves the repair-vs-retrace question.</p>
+</div>
+
+<h3>b) 30-Min — RTH structure into the open</h3>
+<div class="card">
+<table>
+<tr><th>Drawn level</th><th class="mono">Price</th><th class="mono">Dist</th><th>RTH role</th></tr>
+<tr><td>ATH / 30m upper stack</td><td class="mono">7,694.00 / 7,673.50 / 7,654.50 / 7,648.75 / 7,632.25</td><td class="mono">+76 → +138</td><td>Stretch targets — only on a durable-deal / risk-on squeeze</td></tr>
+<tr><td>2D Selling tail</td><td class="mono">7,605.75</td><td class="mono">+49.50</td><td>Full-repair ceiling above VAH</td></tr>
+<tr><td>2D VAH</td><td class="mono">7,601.25</td><td class="mono">+45.00</td><td>Acceptance above = upper void open</td></tr>
+<tr><td>Fib extend (30m)</td><td class="mono">7,621.75</td><td class="mono">+65.50</td><td>Upper void mid-pivot</td></tr>
+<tr><td>Black line</td><td class="mono">7,591.50</td><td class="mono">+35.25</td><td>Mid-void resistance</td></tr>
+<tr><td>Poor high (Jun 18) + 2D POC</td><td class="mono">7,581.50 / 7,581.00</td><td class="mono">+25.25</td><td><b>Repair magnet — first tag fades</b></td></tr>
+<tr><td>Black line</td><td class="mono">7,578.25</td><td class="mono">+22.00</td><td>Just under the poor high</td></tr>
+<tr><td>VAH (Jun 18)</td><td class="mono">7,571.50</td><td class="mono">+15.25</td><td>Value ceiling — reclaim = run at poor high</td></tr>
+<tr><td>Fib extend</td><td class="mono">7,565.00</td><td class="mono">+8.75</td><td>Immediate cap</td></tr>
+<tr><td>POC (Jun 18)</td><td class="mono">7,561.75</td><td class="mono">+5.50</td><td>Reclaim = bull control of the day</td></tr>
+<tr class="now"><td><b>Current / open ref</b></td><td class="mono"><b>7,556.25</b></td><td class="mono">0</td><td><b>Re-anchor to cash open</b></td></tr>
+<tr class="cluster"><td>VAL + 30m pivot</td><td class="mono">7,549.00 / 7,550.50</td><td class="mono">−5.75 → −7.25</td><td><b>First dip-buy / value floor</b></td></tr>
+<tr><td>2D VAL</td><td class="mono">7,541.25</td><td class="mono">−15.00</td><td>Secondary value floor</td></tr>
+<tr><td>Weak low (Jun 18)</td><td class="mono">7,535.50</td><td class="mono">−20.75</td><td>Soft floor; break = 20-EMA probe</td></tr>
+<tr><td>30m pivot</td><td class="mono">7,527.50</td><td class="mono">−28.75</td><td>Just above the 20-EMA</td></tr>
+<tr><td>20-EMA (daily)</td><td class="mono">7,525.50</td><td class="mono">−30.75</td><td><b>The day's binary pivot</b></td></tr>
+<tr><td>2D Single print</td><td class="mono">7,514.25</td><td class="mono">−42.00</td><td>Back-filled support — core dip-buy</td></tr>
+<tr><td>30m pivot</td><td class="mono">7,508.25</td><td class="mono">−48.00</td><td>Below the single print</td></tr>
+<tr class="cluster"><td>2D Spike base</td><td class="mono">7,496.25</td><td class="mono">−60.00</td><td><b>Polarity shelf — deeper responsive long</b></td></tr>
+<tr><td>30m pivot</td><td class="mono">7,491.50</td><td class="mono">−64.75</td><td>Spike-base reinforcement</td></tr>
+<tr><td>30m pivot</td><td class="mono">7,469.50</td><td class="mono">−86.75</td><td>Above the green pivot</td></tr>
+<tr><td>Daily green pivot P</td><td class="mono">7,477.25</td><td class="mono">−79.00</td><td>Major daily support</td></tr>
+<tr><td>Prev RTH VAL</td><td class="mono">7,463.50</td><td class="mono">−92.75</td><td>Last shelf before gap-fill path</td></tr>
+<tr><td>Green zone (30m)</td><td class="mono">7,440.00–7,455.00 (7,448.50)</td><td class="mono">−101 → −116</td><td>Deep dip-buy band</td></tr>
+<tr><td>30m pivot / 30m low</td><td class="mono">7,421.25 / 7,429.00</td><td class="mono">−127 → −135</td><td>Deep pivot / week low</td></tr>
+<tr><td>Fib extend / 50-EMA</td><td class="mono">7,396.50 / 7,398.50</td><td class="mono">−157.75 → −160</td><td>Deep responsive long / 50-EMA defense</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>30-min read for RTH:</b> After the Jun 17 one-time-frame flush to 7,472, the tape V-recovered and has spent four sessions rebuilding overlapping value in the 7,527–7,578 band. The RTH-open ladder above is dense — 7,565 fib → VAH 7,571.50 → poor high 7,581.50 → 2D POC 7,581 → 7,591.50 → 2D VAH 7,601.25 → selling tail 7,605.75 → 7,632.25 → poor high 7,648.75 → ATH 7,694 — the day must grind through each level to reach the highs, so expect the first push to stall. The RTH-open ladder below is well-spaced and value-backed — VAL 7,549 → 2D VAL 7,541.25 → weak low 7,535.50 → 20-EMA 7,525.50 → single print 7,514.25 → spike base 7,496.25 → green pivot 7,477.25 → prev VAL 7,463.50 → green zone 7,448.50. That asymmetry (a resistance ladder above vs clean dip-buy shelves below) favors <b>buy pullbacks, fade the first 7,581 tag</b>, and only chase a confirmed break.</p>
+</div>
+
+<h3>c) Market Profile — Jun 18 reference for RTH</h3>
+<div class="card">
+<table>
+<tr><th>Metric</th><th class="mono">Value</th><th>RTH implication</th></tr>
+<tr><td>Jun 18 O / H / L / C</td><td class="mono">7,577.25 / 7,581.50 / 7,535.50 / 7,564.25</td><td>Opened at the highs, tight 46-pt balance, closed inside VA above POC — constructive day-after-event repair</td></tr>
+<tr><td>Jun 18 VAH / POC / VAL</td><td class="mono">7,571.50 / 7,561.75 / 7,549.00</td><td>Open vs VAL 7,549 / VAH 7,571 = rotation; reclaim VAH = run at the poor high 7,581.50</td></tr>
+<tr><td>Today RTH Poor High</td><td class="mono"><b>7,581.50</b></td><td>Unfinished business overhead — first tag rejects; acceptance (2× 30-min closes) opens the upper void to 7,601/7,632</td></tr>
+<tr><td>Today RTH Weak Low</td><td class="mono"><b>7,535.50</b></td><td>Soft floor — clean break invites a fast probe of the 20-EMA 7,525.50 / single print 7,514.25</td></tr>
+<tr><td>2D (Jun 17) VAH / POC / VAL</td><td class="mono">7,601.25 / 7,581.00 / 7,541.25</td><td>The next ceiling above value; selling tail 7,605.75 sits on top of VAH; spike base 7,496.25 below</td></tr>
+<tr><td>2D Selling tail / Single print / Spike base</td><td class="mono">7,605.75 / 7,514.25 / 7,496.25</td><td>Tail = upper ceiling · SP / spike base = now back-filled <b>support</b> (no longer thin air)</td></tr>
+<tr><td>Current (ETH) / yPOC</td><td class="mono">7,556.25 (in value, POC 7,561.75 above)</td><td>Re-anchor to cash open; balanced entry favors two-sided rotation</td></tr>
+</table>
+<p style="font-size:13px;margin-top:6px"><b>Profile read for RTH:</b> Jun 18 was a textbook <b>day-after-event repair</b> — compact, balanced D-shape, opened at the highs, closed inside value above POC. The buyers ratified the V-recovery and the Jun 18 value 7,549–7,571.50 is the day's working frame. The two unfinished references — <b>poor high 7,581.50</b> (magnet overhead) and <b>weak low 7,535.50</b> (soft floor) — bracket the open: an open inside the Jun 18 value is the most likely (rotation); above 7,581 is a constructive-headline read; below 7,535 invites a 20-EMA probe. The profile says: <b>respect 7,581.50 as resistance (first-tag fade) and 7,514.25 / 7,496.25 / 7,477.25 as the dip-buy shelves</b> until one breaks. The 2D VAH 7,601.25 is the next ceiling above value; the single print 7,514.25 and spike base 7,496.25 are no longer air — back-filled support.</p>
+</div>
+
+<h3>d) VIX + macro for RTH</h3>
+<p style="font-size:13px"><b>VX1! 18.50</b> (low 18.20), grinding lower from the April ~31 highs — the melt regime is technically alive. Sub-19 vol on a tape that just had its strongest week since late May is supportive of the drift-up base case into RTH. <b>Macro:</b> the hawkish-Warsh FOMC story has cooled; the Monday-specific swing factor is the <b>US–Iran interim deal</b>. A confirmed durable settlement is squeeze fuel toward the poor high 7,581.50 → 2D VAH 7,601.25 → 7,632 → ATH 7,694; a breakdown of the delayed Switzerland talks or renewed strikes is the gap-down toward the spike base 7,496.25 / green pivot 7,477.25 / 50-EMA 7,398.50. Watch <b>oil (Brent &gt; $80) and the VIX</b> as the real-time risk tells — any move in those is the Iran escalation flag. Thin post-Juneteenth liquidity amplifies every move: size down on the first 30 minutes, let the open bracket set the day's tone, and trade acceptance rather than chase the first push.</p>
+</section>
+
+<section class="panel" data-tab="2) Key Levels">
+<h2><span class="num">02</span>Key Levels — RTH working ladder</h2>
+<div class="lede">Master table on the ETH tab. RTH-critical subset (ref 7,556.25; re-anchor to ON extremes pre-open):</div>
+<div class="card">
+<table>
+<tr><th>Zone</th><th class="mono">Price</th><th>Why it matters Monday</th><th>★</th></tr>
+<tr><td>R6</td><td class="mono">7,694.00 / 7,648.75</td><td>ATH / poor high — stretch target only on a durable-deal squeeze</td><td class="stars">★★★★</td></tr>
+<tr><td>R5</td><td class="mono">7,632.25</td><td>Swing pivot — upper-void target</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R4 🔗</td><td class="mono">7,601.25–7,605.75</td><td><b>2D VAH + selling tail</b> — full-repair ceiling</td><td class="stars">★★★★</td></tr>
+<tr><td>R3</td><td class="mono">7,591.50</td><td>Black line — mid-void resistance</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R2 🔗</td><td class="mono">7,578.25–7,581.50</td><td><b>Poor high + 2D POC — the repair magnet, prime fade-first-tag zone</b></td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>R1 🔗</td><td class="mono">7,561.75–7,571.50</td><td><b>POC + VAH — value ceiling; reclaim = run at the poor high</b></td><td class="stars">★★★★</td></tr>
+<tr class="now"><td>PIVOT</td><td class="mono">7,549.00–7,556.25</td><td><b>VAL + current — the value floor / decision band</b></td><td class="stars">★★★★★</td></tr>
+<tr><td>S1</td><td class="mono">7,535.50–7,541.25</td><td>Weak low + 2D VAL — soft floor; break = 20-EMA probe</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S2 🔗</td><td class="mono">7,514.25–7,525.50</td><td><b>20-EMA + single print — the bull pivot, core dip-buy</b></td><td class="stars">★★★★★</td></tr>
+<tr><td>S3</td><td class="mono">7,496.25–7,508.25</td><td>Spike base + pivot — polarity shelf</td><td class="stars">★★★★</td></tr>
+<tr><td>S4</td><td class="mono">7,477.25 / 7,463.50</td><td>Green pivot P / previous RTH VAL — major support</td><td class="stars">★★★★</td></tr>
+<tr><td>S5</td><td class="mono">7,448.50 / 7,398.50</td><td>Green zone / 50-EMA — deep responsive buy / bull thesis defended</td><td class="stars">★★★</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="3) Context">
+<h2><span class="num">03</span>Context Into the Monday Open</h2>
+<div class="card">
+<table>
+<tr><th>Dimension</th><th>Reading</th><th>Implication</th></tr>
+<tr><td>Prior day type</td><td>Balanced inside / day-after-event repair (Jun 18), then 1–2 days of chop</td><td>Balance-under-highs continues; breakout waits on the Iran headline / range expansion</td></tr>
+<tr><td>Open vs value</td><td class="mono">&gt;7,571.50 press poor high · 7,549–7,571 in value · &lt;7,535.50 soft</td><td>First 30 minutes vs the VAL 7,549 / poor high 7,581.50 bracket sets the template</td></tr>
+<tr><td>Value placement</td><td class="mono">Jun 18 value 7,549–7,571.50 — price in its core</td><td>Fair value; watch the developing VA from the open — extending up = bull, building below 7,535 = retrace</td></tr>
+<tr><td>Inventory</td><td>Longs from the V-recovery 7,472–7,535 in solid profit; little trapped supply nearby</td><td>No heavy overhead until the 7,581 poor high / 7,601 2D VAH — clean air for a repair push</td></tr>
+<tr><td>Day-of-week / event</td><td>Monday, post-holiday, thin liquidity, unresolved Iran deal</td><td>Headline-sensitive open; the ON range may set the day's bracket — fade extremes, trust acceptance</td></tr>
+<tr><td>ATR budget</td><td class="mono">106.75 (ranges compressed) — full-up day ≈ 7,600–7,632; full-down ≈ 7,475–7,500</td><td>Both extremes map onto the 2D VAH and the spike-base/green-pivot shelves</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="4) Scenarios">
+<h2><span class="num">04</span>What-If Scenarios — RTH Monday</h2>
+
+<div class="scen"><div class="head"><span class="nm">F1 · In-Value Open → Poor-High Repair → 7,581 Fade</span><span class="tag bull">BULL-repair base case</span><span class="stars">★★★★ 30%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opens 7,549–7,571 (in value). Early dip to 7,549–7,556 bought, then the run at VAH 7,571.50 / poor high 7,581.50.</div>
+<div class="blk"><b>Narrative</b>Value extends up; price repairs the poor high 7,581.50, where the first tag fades (unfinished business / first-tag rejection). Acceptance above unlocks the 2D VAH 7,601.</div>
+<div class="blk"><b>Setup</b>Long 7,549–7,556 (VAL/value-hold) · Stop 7,539 · T1 7,571.50 (+15→+22) · T2 7,581.50 (+25→+33) · T3 7,601.25 (+44→+52) · <b>R:R 1.5→3.0</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: first 30-min holds &gt; 7,549. Invalid: 30-min close below 7,535.50 → F3.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F2 · Durable-Deal Gap-and-Go → Reclaim 7,601 / Run at ATH</span><span class="tag bull">BULL reversal</span><span class="stars">★★★ 14%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opens &gt; 7,581 on a constructive Iran headline / confirmed durable deal; VIX &lt; 18.</div>
+<div class="blk"><b>Narrative</b>Poor high cleared at the bell; one-time-frame up through 7,601 to 7,632 → poor high 7,648.75 → ATH 7,694; the consolidation resolves up.</div>
+<div class="blk"><b>Setup</b>Long first pullback holding 7,581 from above · Stop 7,571 · T1 7,601.25 · T2 7,632 · T3 7,648.75 · <b>R:R 1.5→4.5</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: gap holds first 30 min. Invalid: re-entry below 7,565 = fade-back risk to VAL 7,549.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F3 · Weak-Low Break → 20-EMA Test → Responsive Buy</span><span class="tag neut">RETRACE then BULL</span><span class="stars">★★★ 22%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opens/breaks below 7,535.50 — soft floor gives way on mild risk-off (delayed talks, soft Asia).</div>
+<div class="blk"><b>Narrative</b>Price tests the 20-EMA 7,525.50 / single print 7,514.25; buyers respond there (the repair line) or at the 7,496 spike base; afternoon recovery back toward value.</div>
+<div class="blk"><b>Setup</b>Core trade: <b>long 7,524–7,528 or 7,514–7,517</b> on the responsive turn · Stop 7,508 · T1 7,535.50 · T2 7,549 · T3 7,561.75 · <b>R:R up to 3.4</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: orderly test, VIX ≤ 21. Invalid: close &lt; 7,496.25 → F5.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F4 · Poor-High Rejection → Range Day 7,535–7,581</span><span class="tag neut">NEUTRAL fade</span><span class="stars">★★★ 22%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Morning tags 7,571–7,581, rejects; but 7,535–7,549 holds every test below.</div>
+<div class="blk"><b>Narrative</b>Monday bracket 7,535–7,581: fade both edges; value overlaps inside the prior range as thin-tape digestion continues. Constructive as long as the value floor holds.</div>
+<div class="blk"><b>Setup</b>Short 7,576–7,582 stop 7,589 → T 7,561/7,549; Long 7,537–7,543 stop 7,529 → T 7,556/7,565 · <b>R:R 1.6→2.8 per rotation</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: two failed edge-breaks by midday. Invalid: 30-min close outside 7,535–7,581.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F5 · Geopolitical Risk-Off → 7,477 Pivot / 50-EMA</span><span class="tag bear">BEAR tail</span><span class="stars">★★ 8%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Iran talks collapse / renewed strikes; 20-EMA and spike base 7,496 fail.</div>
+<div class="blk"><b>Narrative</b>Risk-off continuation: green pivot 7,477.25 → prev VAL 7,463.50 → green zone 7,448.50 → fib 7,396.50 / 50-EMA 7,398.50, worst case. Oil spikes, VIX pops.</div>
+<div class="blk"><b>Setup</b>Short 7,494 on loss of 7,496 · Stop 7,505 · T1 7,477 (+17) · T2 7,463.50 (+30) · T3 7,448 (+46) · <b>R:R 2.0→4.6</b>. Then responsive long 7,448–7,455 / 7,398–7,408 if VIX &lt; 22.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: oil ripping, headline-driven volume. Invalid: reclaim 7,514.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">F6 · Holiday Chop-and-Drift (overlay)</span><span class="tag neut">LATE-DAY pattern</span><span class="stars">★ 4%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Quiet, thin post-holiday day, no fresh catalyst; price oscillates around POC / VAL.</div>
+<div class="blk"><b>Narrative</b>Classic thin-tape digestion: low conviction, tight rotations 7,549–7,571, value building around POC 7,561.75. Scalps only; size down.</div>
+<div class="blk"><b>Setup</b>Trade the band edges only: long 7,549 / short 7,571, ~10-pt targets, tight stops · <b>R:R ~1.5</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: VIX flat sub-19, no expansion. Invalid: 30-min close outside 7,535–7,581 → F1/F3.</div>
+</div></div>
+</section>
+
+<section class="panel" data-tab="5) Probability">
+<h2><span class="num">05</span>Probability Matrix — RTH</h2>
+<div class="card">
+<table>
+<tr><th>Rank</th><th>Scenario</th><th>Direction</th><th>Prob</th><th>★</th></tr>
+<tr><td>1</td><td>F1 In-value open → poor-high repair → 7,581 fade</td><td><span class="tag bull">Bull-repair</span></td><td class="mono">30%</td><td class="stars">★★★★</td></tr>
+<tr><td>2</td><td>F3 Weak-low break → 20-EMA → responsive buy</td><td><span class="tag neut">Retrace→Bull</span></td><td class="mono">22%</td><td class="stars">★★★</td></tr>
+<tr><td>3</td><td>F4 Poor-high rejection → range 7,535–7,581</td><td><span class="tag neut">Neutral</span></td><td class="mono">22%</td><td class="stars">★★★</td></tr>
+<tr><td>4</td><td>F2 Durable-deal gap-and-go → reclaim 7,601 / ATH</td><td><span class="tag bull">Bull</span></td><td class="mono">14%</td><td class="stars">★★★</td></tr>
+<tr><td>5</td><td>F5 Geopolitical risk-off → 7,477 / 50-EMA</td><td><span class="tag bear">Bear</span></td><td class="mono">8%</td><td class="stars">★★</td></tr>
+<tr><td>6</td><td>F6 Holiday chop-and-drift (overlay)</td><td><span class="tag neut">Late-day</span></td><td class="mono">4%</td><td class="stars">★</td></tr>
+</table>
+<table><tr><th>Combined</th><th class="mono" style="color:var(--bull)">Bull/repair 66%</th><th class="mono" style="color:var(--bear)">Bear 8%</th><th class="mono">Neutral 26%</th></tr></table>
+<div class="warn blue"><b class="t">Base case (RTH)</b>In-value open, early dip into <b>7,549–7,556</b> bought, value extends up toward the <b>poor high 7,581.50</b> where the first tag fades (unfinished business + the 2D VAH 7,601 ceiling above). Reasoning: price closed above POC, the flush is fully repaired, VIX is sub-19, the MA stack is rising, and there is little trapped supply below the poor high — clean air for a repair push. The bear path (F5) needs a fresh Iran/risk-off catalyst — price alone drifts up first. But this is a <b>repair into the poor high, not a confirmed breakout</b>: take 7,581 profits, only trust acceptance above 7,581 (2× 30-min closes) for the ATH run.</div>
+</div>
+</section>
+
+<section class="panel" data-tab="6) Decision Map">
+<h2><span class="num">06</span>Decision Map — RTH</h2>
+<pre class="tree">MONDAY RTH OPEN vs VALUE (POC 7,561.75 · VAL 7,549 · poor high 7,581.50 · weak low 7,535.50)
+│
+├─► OPEN &gt; 7,581.50 (poor high cleared — durable-deal read)
+│     ├─ holds 7,581 retest → <span class="g">F2</span> → 7,601 → 7,632 → 7,648.75
+│     └─ fails back into value → range 7,535–7,581 (F4)
+│
+├─► OPEN 7,549–7,581.50 (in value — most likely)
+│     ├─ dip 7,549–7,556 BOUGHT → <span class="g">F1 long</span> → 7,571.50 → <span class="y">poor high 7,581.50</span>
+│     │      ├─ accepted &gt; 7,581 → 7,601 → 7,632
+│     │      └─ rejected ×2 → <span class="y">F4 range</span> fade edges 7,549↔7,581
+│     └─ <span class="r">30-min close &lt; 7,535.50</span> → weak low broken → F3
+│            └─ 20-EMA 7,525.50 / single print 7,514 → <span class="g">BUY responsive turn</span>
+│                   └─ <span class="r">7,496 spike base fails (headline) → F5</span> → 7,477 → <span class="r">7,463.50 / 50-EMA 7,398</span>
+│
+└─► OPEN &lt; 7,535.50 (soft open below the weak low)
+      ├─ look-below-and-fail, reclaims 7,549 → <span class="g">strong long</span> → 7,561/7,571
+      └─ acceptance lower → F3 path → 20-EMA / spike-base buy; afternoon recovery attempt
+
+WATCH: oil (Brent &gt; $80) &amp; VIX — Iran escalation = F5, durable deal = F2</pre>
+<div class="card">
+<table>
+<tr><th class="mono">Level</th><th>Holds</th><th>Breaks</th></tr>
+<tr><td class="mono">7,581.50 poor high</td><td>Repair complete — fade (F1/F4 cap)</td><td>Run at 2D VAH 7,601 → 7,632 → 7,648.75</td></tr>
+<tr><td class="mono">7,561.75–7,571.50 POC/VAH</td><td>Capped — fade back to VAL</td><td>Run at the poor high 7,581.50</td></tr>
+<tr><td class="mono">7,549 VAL</td><td><b>Value floor — core dip-buy</b></td><td>Weak low 7,535.50 next</td></tr>
+<tr><td class="mono">7,535.50 weak low</td><td>Soft floor holds — range continues</td><td>20-EMA 7,525.50 probe (F3)</td></tr>
+<tr><td class="mono">7,514.25–7,525.50</td><td>Repair line holds — responsive long</td><td>Spike base 7,496 → green pivot 7,477</td></tr>
+<tr><td class="mono">7,496.25 spike base</td><td>Polarity shelf holds — last responsive buy</td><td>Risk-off regime → 7,477 → 7,463.50 → fib 7,396.50 / 50-EMA</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="7) Bias Flips">
+<h2><span class="num">07</span>Bias Flip Conditions — RTH</h2>
+<div class="card">
+<table>
+<tr><th>Starting bias</th><th>Flip to</th><th class="mono">Trigger</th><th>Action</th></tr>
+<tr><td><span class="tag neut">Constructive (default)</span></td><td><span class="tag bull">Bull-repair confirm</span></td><td class="mono">Two 30-min closes &gt; 7,581.50 (poor high cleared)</td><td>Hold runners 7,601/7,632; trail under 7,565</td></tr>
+<tr><td><span class="tag bull">Bull-repair</span></td><td><span class="tag neut">Neutral / capped</span></td><td class="mono">Rejection at poor high 7,581.50 ×2</td><td>Fade back to VAL 7,549 / POC; take profits</td></tr>
+<tr><td><span class="tag neut">Constructive</span></td><td><span class="tag bear">Retrace</span></td><td class="mono">30-min close &lt; 7,535.50 (weak low)</td><td>Flatten longs; bid the 20-EMA 7,525.50 / single print 7,514</td></tr>
+<tr><td><span class="tag bear">Retrace</span></td><td><span class="tag bear">Risk-off bear</span></td><td class="mono">30-min close &lt; 7,496.25 (esp. oil/VIX up)</td><td>F5 short to 7,477/7,463.50; no longs until green zone 7,448 / 50-EMA</td></tr>
+<tr><td><span class="tag bear">Any bear</span></td><td><span class="tag neut">Stabilizing</span></td><td class="mono">Reclaim 7,549 VAL + VIX &lt; 21</td><td>Responsive long 7,549–7,556, half size</td></tr>
+<tr><td><span class="tag neut">Any</span></td><td><span class="tag bull">Squeeze</span></td><td class="mono">Durable-deal headline → accept &gt; 7,581</td><td>F2: ride to 7,601 / 7,632 / ATH</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="8) Playbook">
+<h2><span class="num">08</span>Tactical Playbook — RTH top 3</h2>
+<div class="lede">Click a trade to expand. Ranked by edge for Monday's day session.</div>
+
+<div class="pb open">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#1</div><div class="pb-name">Value-Hold → Poor-High Repair Long (F1)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 3.0R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,549–7,556</b> on the first dip into VAL / value that holds (after an in-value open or a hold of the floor)</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,539 — below the weak low 7,535.50 · risk 10–17 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,571.50 VAH (+15→+22)</span><span class="tgt">T2 7,581.50 poor high (+25→+33)</span><span class="tgt">T3 7,601.25 (+44→+52)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at the poor high (unfinished business — take it) · runner above 7,581 only on acceptance</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.5R / 2.2R / 3.0R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,535.50 → out, re-bid lower per #2</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#2</div><div class="pb-name">20-EMA / Single-Print Responsive Long 7,514–7,528 (F3 core)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 3.4R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,524–7,528</b> at the 20-EMA / pivot (or 7,514–7,517 at the back-filled single print) on a weak-low break that holds — the best-location dip-buy of the day</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,508 — under the 7,508.25 pivot / single-print band · risk 6–16 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,535.50 (+8→+12)</span><span class="tgt">T2 7,549 (+22→+25)</span><span class="tgt">T3 7,561.75/7,571.50 (+34→+44)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at VAL 7,549 (reclaim = add-back) · runner to POC/VAH, trail under 7,535.50</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.3R / 2.4R / 3.4R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,496.25 → exit; next bid is the 7,477 green pivot, not before</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#3</div><div class="pb-name">Poor-High Fade Short 7,578–7,582 (F1/F4 reversal)</div>
+  <span class="tag bear">SHORT</span><span class="pb-rr">up to 2.8R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Short 7,578–7,582</b> at the poor high on the FIRST tag, only with a rejection wick (unfinished business + the 2D VAH 7,601 ceiling above)</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,589 — above the 7,591.50 line · risk 9–13 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,571.50 (+8→+11)</span><span class="tgt">T2 7,561.75 (+18→+21)</span><span class="tgt">T3 7,549 (+31→+33)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at POC · runner to VAL; this is a fade, not a trend short — cover into the value floor</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.0R / 2.0R / 2.8R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>Two 30-min closes &gt; 7,581.50 → repair won, exit and flip to F2 long</div></div>
+</div>
+</div>
+
+<div class="warn blue"><b class="t">Position size vs ATR — applies to all three</b>ATR 106.75 but compressed ranges into a thin holiday tape: <b>55–65% size</b>, ¼-size on the F3 poor-high fade short. Longs are the higher-conviction side (repair-up in a rising-MA regime with little overhead supply); the poor-high fade is a tactical scalp at unfinished business, NOT a core position — cover into 7,561/7,549. Hard rule: any Iran/risk-off headline = flat longs first, reassess — the thin-tape gap risk is the dominant tail.</div>
+</section>
+
+<section class="panel" data-tab="9) Warnings">
+<h2><span class="num">09</span>Structural Warnings — RTH</h2>
+<div class="warn amber"><b class="t">⚠ Poor high 7,581.50 — repair magnet AND first-tag rejection</b>Unfinished business overhead pulls price up but rejects on the first tag. Trade it as a fade/take-profit zone; only acceptance (2× 30-min closes above 7,581) confirms the upper void is open toward 7,601/7,632. Don't chase the first push.</div>
+<div class="warn amber"><b class="t">⚠ Weak low 7,535.50 — soft floor</b>The Jun 18 low is unsecured. A clean break invites a fast probe of the 20-EMA 7,525.50 / single print 7,514.25. Structure stops below 7,535, not at it; the value floor may not hold the first test.</div>
+<div class="warn blue"><b class="t">ℹ Spike base 7,496.25 + single print 7,514.25 — back-filled support, not air</b>The Jun 17 flush structure is fully repaired and now reads as responsive-buy shelves on a deeper retrace. The thin-elevator/speed-zone risk from the FOMC day is gone — these are entries, not danger zones.</div>
+<div class="warn"><b class="t">⚠ Thin holiday liquidity = amplified moves &amp; gap risk</b>Post-Juneteenth, light liquidity means a single Iran headline moves more than usual. The Monday open can be a look-below/above-and-fail off the ON range; let the first 30 minutes set the bracket before committing size.</div>
+<div class="warn amber"><b class="t">⚠ Iran deal is the swing factor — two-sided</b>A confirmed durable settlement is squeeze fuel (F2) toward the poor high / 2D VAH / ATH; a breakdown of the delayed Switzerland talks or renewed strikes is the gap-down (F5). Watch oil (Brent &gt; $80) and the VIX as the real-time tells.</div>
+<div class="warn blue"><b class="t">ℹ VIX gate</b>&lt; 19 = orderly drift/melt regime (favor F1/F3 longs) · 19–21 = two-sided · &gt; 21 = drift template suspended (Iran escalation), F5 in play, responsive longs only at deep shelves.</div>
+</section>
+
+<section class="panel" data-tab="10) Transition">
+<h2><span class="num">10</span>Session Transition — Monday close → Tuesday</h2>
+<div class="card">
+<table>
+<tr><th>If Monday closes at…</th><th>Implication</th><th>Next-day lean</th></tr>
+<tr><td class="mono">&gt; 7,601 (above 2D VAH)</td><td>Poor high cleared, upper void filled — durable-deal/risk-on read</td><td>Bull breakout: 7,632 → poor high 7,648.75 → ATH 7,694 in play</td></tr>
+<tr><td class="mono">7,581–7,601</td><td>Repaired the poor high, capped at 2D VAH</td><td>Buy-dips toward 7,571; 7,601 is the pivot for the ATH run</td></tr>
+<tr><td class="mono">7,561–7,581 (in upper value)</td><td>Pressing the poor high — constructive coil</td><td>Two-sided; fade 7,581 first tag, buy 7,561 holds</td></tr>
+<tr><td class="mono">7,549–7,561 (at POC)</td><td>Balanced — digestion mode</td><td>Coiling; direction off Tuesday's open vs VAL 7,549</td></tr>
+<tr><td class="mono">7,514–7,549</td><td>Soft — repair tested but holding the 20-EMA</td><td>Two-sided; 7,514/7,525.50 must hold; retrace below</td></tr>
+<tr><td class="mono">&lt; 7,514 (below 20-EMA/single print)</td><td>Digestion rolling into a deeper retrace — likely headline-driven</td><td>Defensive: 7,496 → 7,477 → 7,463.50; responsive longs only</td></tr>
+</table>
+</div>
+</section>
+
+<section class="panel" data-tab="11) Summary">
+<h2><span class="num">11</span>Final Summary — RTH Monday</h2>
+<div class="card">
+<table>
+<tr><th>Item</th><th>Call</th></tr>
+<tr><td>Macro bias</td><td><span class="tag bull">BULL (intact)</span> — MA stack rising below price; FOMC flush fully repaired, price back inside the prior upper distribution</td></tr>
+<tr><td>Intermediate bias</td><td><span class="tag neut">NEUTRAL-CONSTRUCTIVE / consolidating under highs</span> — poor high 7,581.50 / 7,648.75 unfinished; must clear 7,581 to re-challenge the ATH, hold 7,514 to keep the repair alive</td></tr>
+<tr><td>Intraday bias</td><td><span class="tag neut">DRIFT-UP in value — buy structured dips, fade the poor-high first tag, respect the thin-tape gap risk</span></td></tr>
+<tr><td>Base case</td><td>In-value open → dip to 7,549–7,556 bought → value extends to the poor high 7,581.50 → first tag fades</td></tr>
+<tr><td>Primary trade</td><td><b>Long 7,549–7,556</b>, stop 7,539, targets 7,571.50 / 7,581.50 / 7,601.25 (F1)</td></tr>
+<tr><td>Best-location alternate</td><td><b>Long 7,524–7,528</b> at the 20-EMA on a weak-low break, stop 7,508 → 7,535 / 7,549 / 7,561.75 (F3)</td></tr>
+<tr><td>Key bull level</td><td class="mono">7,581.50 poor high → 7,601.25 2D VAH — acceptance opens the ATH 7,694 run</td></tr>
+<tr><td>Key bear level</td><td class="mono">7,514.25–7,525.50 (20-EMA + single print) — close below on a risk-off headline re-opens 7,496 → 7,477 → 7,463.50</td></tr>
+<tr><td>Biggest risk</td><td>Thin holiday liquidity + unresolved Iran deal: a headline gaps the open beyond the labeled levels; the poor high fades a chased breakout</td></tr>
+<tr><td>Day-type expectation</td><td>Repair to the poor high / fade (≈30%) · weak-low break then buy (≈22%) · poor-high range (≈22%) · durable-deal gap-up (≈14%) · geopolitical risk-off (≈8%) · chop (≈4%)</td></tr>
+</table>
+</div>
+</section>
+
+</div>
+</div>
+
+<div class="wrap"><div class="foot">ES Plan for Jun 22/23, 2026 (ETH + RTH) · built Jun 21 ~15:18 ET from TPO (Jun 18 last RTH) + 30-min + Daily + VX1! charts · Last 7,556.25 · Jun 18 RTH: O 7,577.25 / H 7,581.50 / L 7,535.50 / C 7,564.25 · POC 7,561.75 / VAH 7,571.50 / VAL 7,549.00 · Poor high 7,581.50 · Weak low 7,535.50 · 2D spike base 7,496.25 / single print 7,514.25 / prev VAL 7,463.50 · 20-EMA 7,525.50 (reclaimed) · Catalyst: US–Iran interim deal (durable settlement in doubt; Trump proxy warning) · Thin holiday tape · VIX 18.50 · Not financial advice. Re-anchor to overnight extremes pre-open.</div></div>
+
+<script>
+const TABS=["1) Top-Down","2) Key Levels","3) Context","4) Scenarios","5) Probability","6) Decision Map","7) Bias Flips","8) Playbook","9) Warnings","10) Transition","11) Summary"];
+let curPlan='ETH', curTab=0;
+const tabbar=document.getElementById('tabbar');
+TABS.forEach((t,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');b.textContent=t;b.onclick=()=>setTab(i);tabbar.appendChild(b);});
+function render(){
+  document.getElementById('plan-ETH').style.display=curPlan==='ETH'?'block':'none';
+  document.getElementById('plan-RTH').style.display=curPlan==='RTH'?'block':'none';
+  document.getElementById('btnETH').classList.toggle('active',curPlan==='ETH');
+  document.getElementById('btnRTH').classList.toggle('active',curPlan==='RTH');
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',i===curTab));
+  ['ETH','RTH'].forEach(p=>{
+    document.querySelectorAll('#plan-'+p+' .panel').forEach((s,i)=>s.classList.toggle('active',i===curTab));
+  });
+}
+function setTab(i){curTab=i;render();window.scrollTo({top:document.querySelector('nav.tabs').offsetTop,behavior:'smooth'});}
+function setPlan(p){curPlan=p;render();}
+render();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0f62e543e7ef81c',t:'MTc4MjA3ODEyNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
