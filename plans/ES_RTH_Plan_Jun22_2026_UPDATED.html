@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ES RTH Plan — Jun 22, 2026 — UPDATED 05:40 ET</title>
+<style>
+:root{
+  --bg:#fafbfc; --card:#ffffff; --ink:#15212e; --muted:#5d6b7a; --line:#e4e9ef;
+  --navy:#0f3a5f; --bull:#0d7a45; --bullbg:#e8f6ee; --bear:#c0392b; --bearbg:#fceae7;
+  --neut:#8a6d1a; --neutbg:#fbf3da; --accent:#1463a8; --accentbg:#eaf3fb;
+  --mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;padding-bottom:80px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+header.top{background:linear-gradient(180deg,#ffffff,#f3f7fb);border-bottom:1px solid var(--line);padding:26px 0 18px}
+.kicker{font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:27px;font-weight:750;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--muted);font-size:13.5px}
+.snapshot{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;font:12.5px var(--mono)}
+.chip b{font-weight:700}
+.chip.red b{color:var(--bear)} .chip.green b{color:var(--bull)} .chip.amber b{color:var(--neut)}
+.delta{border:1px solid #e6cfcf;background:var(--bearbg);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:13.5px}
+.delta b.t{display:block;font-size:14px;margin-bottom:4px;color:var(--bear)}
+nav.tabs{position:sticky;top:0;z-index:50;background:rgba(250,251,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto;padding:8px 18px}
+.tab{white-space:nowrap;cursor:pointer;border:none;background:transparent;color:var(--muted);font:600 12.5px/1 inherit;padding:9px 12px;border-radius:7px}
+.tab.active{background:var(--accentbg);color:var(--accent)}
+section.panel{display:none;padding:26px 0 10px}
+section.panel.active{display:block}
+h2{font-size:20px;font-weight:750;letter-spacing:-.01em;margin-bottom:4px}
+h2 .num{font:700 12px var(--mono);color:var(--accent);vertical-align:3px;margin-right:8px}
+.lede{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+h3{font-size:15.5px;font-weight:700;margin:22px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+th{background:#f2f5f9;text-align:left;font:600 11px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 9px;border-bottom:1px solid var(--line)}
+td{padding:7px 9px;border-bottom:1px solid #eef2f6;vertical-align:top}
+td.mono,th.mono{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+tr.cluster td{background:#fdf8ec}
+tr.now td{background:var(--accentbg);font-weight:700}
+.tag{display:inline-block;border-radius:5px;padding:2px 7px;font:600 11px var(--mono)}
+.tag.bull{background:var(--bullbg);color:var(--bull)} .tag.bear{background:var(--bearbg);color:var(--bear)}
+.tag.neut{background:var(--neutbg);color:var(--neut)} .tag.info{background:var(--accentbg);color:var(--accent)}
+.stars{color:#d99a14;letter-spacing:1px;font-size:12px;white-space:nowrap}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid rgba(0,0,0,.12)}
+pre.tree{background:#0f1722;color:#d7e3f0;border-radius:12px;padding:18px;font:12.5px/1.6 var(--mono);overflow-x:auto;margin:12px 0}
+pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b{color:#7ec3ff}
+.warn{border-left:4px solid var(--bear);background:var(--bearbg);border-radius:0 10px 10px 0;padding:12px 16px;margin:10px 0}
+.warn.amber{border-left-color:var(--neut);background:var(--neutbg)}
+.warn.blue{border-left-color:var(--accent);background:var(--accentbg)}
+.warn b.t{display:block;font-size:13.5px;margin-bottom:3px}
+.scen{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden;background:#fff}
+.scen .head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:#f7fafc}
+.scen .head .nm{font-weight:750;font-size:14.5px}
+.scen .body{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;font-size:13px}
+.scen .body .blk b{display:block;font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+.ladder{font:12.5px/1.7 var(--mono);background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;overflow-x:auto;white-space:pre}
+.pb{border:1px solid var(--line);border-radius:12px;background:#fff;margin:12px 0;overflow:hidden}
+.pb-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;background:#f7fafc}
+.pb-head:hover{background:#eef4fa}
+.pb-rank{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;font:700 13px var(--mono);display:flex;align-items:center;justify-content:center}
+.pb-name{font-weight:750;font-size:14.5px;flex:1 1 auto}
+.pb-rr{font:700 12px var(--mono);color:var(--accent);white-space:nowrap}
+.pb-caret{flex:0 0 auto;transition:transform .2s;color:var(--muted);font-size:12px}
+.pb.open .pb-caret{transform:rotate(90deg)}
+.pb-body{display:none;border-top:1px solid var(--line)}
+.pb.open .pb-body{display:block}
+.pb-row{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:10px 16px;border-bottom:1px solid #eef2f6;font-size:13px}
+.pb-row:last-child{border-bottom:none}
+.pb-row .lbl{font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding-top:2px}
+.pb-row.hl{background:var(--accentbg)}
+.tgt{display:inline-block;background:#f2f5f9;border:1px solid var(--line);border-radius:6px;padding:2px 8px;font:600 12px var(--mono);margin:2px 6px 2px 0}
+.tgt.t1{border-color:#bfe3c5;background:var(--bullbg)}
+.foot{margin-top:36px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:640px){h1{font-size:22px}.scen .body{grid-template-columns:1fr}.pb-row{grid-template-columns:1fr;gap:3px}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <div class="kicker">ES1! · CME · RTH PLAN · MONDAY JUN 22, 2026 · UPDATED 05:40 ET (PRE-OPEN)</div>
+  <h1>ES RTH Plan — Updated for the Overnight (Iran Wobble)</h1>
+  <div class="sub">Charts: 30-min RTH+ETH (05:29) · TPO with ON levels (05:39) · price-map / volume profile (05:41) · Baseline (weekend plan): Jun 18 value 7,549–7,571.50 / FOMC void 7,514/7,496 below</div>
+  <div class="snapshot">
+    <div class="chip">Last <b>7,562.25–7,563.25</b> (pressing yPOC)</div>
+    <div class="chip">ON range <b>~7,518 → 7,563.50</b></div>
+    <div class="chip amber">ON value: VAH <b>7,557.75</b> · POC <b>7,536–7,541.25</b> · VAL <b>7,524.50</b></div>
+    <div class="chip red">Entire ON value <b>BELOW yVAL 7,548.50</b> — softer than Thu's repair</div>
+    <div class="chip">yPOC <b>7,563.00</b> / yVAH <b>7,570.75</b> = the cap directly overhead</div>
+    <div class="chip">20-EMA <b>7,525.50</b> — ON VAL sits right on it</div>
+    <div class="chip red">VIX <b>18.50</b> · ATR <b>106.75</b> · Iran deal <b>WOBBLING ⚠</b></div>
+  </div>
+  <div class="delta"><b class="t">▼ What the overnight did (vs the weekend plan) — bought a risk-off dip, but value rebuilt BELOW yesterday's, capped under yPOC</b>
+  The weekend plan's base case was a quiet digestion around 7,549–7,571.50. Instead the <b>Iran deal cracked over the weekend</b>: Tehran re-closed the Strait of Hormuz over the Lebanon dispute, the Switzerland talks were suspended after Trump threatened fresh strikes, and Sunday-night futures gapped lower — ES dipped to <b>~7,518</b> (right to the 20-EMA / Jun-21 low) before responsive buyers reclaimed it. The bounce rebuilt a fresh overnight balance but, crucially, <b>parked it BELOW yesterday's value</b>: <b>ON VAH 7,557.75 / ON POC 7,536–7,541.25 (split) / ON VAL 7,524.50</b>, versus Jun 18's <b>yVAL 7,548.50 / yPOC 7,563.00 / yVAH 7,570.75</b>. So unlike Thursday's repair (which docked ON value AT yVAL), this overnight is a <b>weaker, lower-value rebuild</b> — price has climbed back to press <b>yPOC 7,563 / fib 7,565</b> from below, but the whole ON distribution sits underneath supply. The RTH question is: <b>does price accept back INTO yesterday's value above yPOC 7,563 → yVAH 7,570.75, or reject there and roll back through ON value to the 20-EMA 7,525.50 / ON VAL 7,524.50.</b> This is the <b>third</b> session of post-FOMC chop (7,520–7,580) and the Iran headline is now the live bear catalyst. New annotations: ON VAH/POC/VAL band; split ON POC 7,536/7,541.25; deep volume shelf 7,481–7,496 (price-map).</div>
+</div></header>
+
+<nav class="tabs"><div class="wrap" id="tabbar"></div></nav>
+
+<div class="wrap">
+
+<!-- 01 -->
+<section class="panel" data-tab="1) Top-Down">
+<h2><span class="num">01</span>Top-Down — re-based at 7,562.25</h2>
+
+<h3>a) Daily context (carried; no fresh Daily this round)</h3>
+<div class="card">
+<table>
+<tr><th>Reference</th><th class="mono">Value</th><th class="mono">Distance</th><th>Status</th></tr>
+<tr><td>20-EMA</td><td class="mono">7,525.50</td><td class="mono">+37</td><td><span class="tag bull">HELD</span> — Sunday-night Iran dip tagged it (~7,518) and reclaimed; the swing line, now close beneath</td></tr>
+<tr><td>50-EMA</td><td class="mono">7,398.50</td><td class="mono">+164</td><td><span class="tag bull">Rising support</span> — far below; major dynamic floor</td></tr>
+<tr><td>100-EMA</td><td class="mono">7,240.25</td><td class="mono">+322</td><td><span class="tag bull">Deep support</span></td></tr>
+<tr><td>ATR</td><td class="mono">106.75</td><td class="mono">—</td><td>ON used ~45 pts; a directional RTH has well over half ATR of budget left</td></tr>
+</table>
+<p style="font-size:13px"><b>Read:</b> The full MA stack (20&gt;50&gt;100&gt;200&gt;300) is still rising and price is back <b>+37 above the 20-EMA</b> after the Sunday-night Iran flush bought the line. The larger uptrend never broke — the Jun 17 FOMC day plus this weekend's wobble read as a <b>multi-session digestion</b>, not a reversal, as long as 7,525.50 holds on a closing basis. But the repair is <b>unconfirmed</b>: a daily close back above <b>yPOC 7,563 → yVAH 7,570.75</b> re-opens the upper structure (7,591 → 7,605.50 → poor high 7,648.75 → ATH 7,694), while a close back under <b>ON VAL 7,524.50 / 20-EMA 7,525.50</b> — most likely on an Iran-headline escalation — would print a failed-reclaim and open the deep volume shelf at 7,496/7,481.</p>
+</div>
+
+<h3>b) 30-Min — overnight flow &amp; updated levels</h3>
+<div class="card">
+<table>
+<tr><th>Segment (Sun Jun 21 18:00 → Mon Jun 22 05:39 ET)</th><th>Action</th></tr>
+<tr><td>18:00–21:00</td><td>Iran risk-off: Hormuz re-closed + Switzerland talks suspended → gap-down drive to <b>~7,518</b> (20-EMA / Jun-21 low), oil up, futures −0.2%</td></tr>
+<tr><td>21:00–02:00</td><td>Responsive buy: reclaimed the 20-EMA, rebuilt value up to <b>ON POC 7,536–7,541.25</b>, then pushed to ON VAH 7,557.75</td></tr>
+<tr><td>02:00–05:39</td><td>Coiling under supply: balancing 7,541–7,558, now <b>7,562.25</b> pressing fib 7,565 / yPOC 7,563 with yVAH 7,570.75 overhead</td></tr>
+</table>
+<table style="margin-top:12px">
+<tr><th>Drawn level (30-min, updated)</th><th>Color</th><th class="mono">Price</th><th class="mono">Dist</th></tr>
+<tr><td>ATH (label)</td><td><span class="swatch" style="background:#e53935"></span>Red</td><td class="mono">7,694.00</td><td class="mono">+131.75</td></tr>
+<tr><td>Upper stack</td><td>Black</td><td class="mono">7,673.50 / 7,654.50 / 7,648.75(poor H) / 7,632.25</td><td class="mono">+70→+111</td></tr>
+<tr><td>Fib extend</td><td><span class="swatch" style="background:#e57373"></span>Red</td><td class="mono">7,621.75</td><td class="mono">+59.5</td></tr>
+<tr><td>Line / broken value</td><td>Black</td><td class="mono">7,605.50 / 7,591.50</td><td class="mono">+29→+43</td></tr>
+<tr><td>Line</td><td>Black</td><td class="mono">7,578.25</td><td class="mono">+16</td></tr>
+<tr class="cluster"><td><b>yVAH — full-repair ceiling</b></td><td><span class="swatch" style="background:#e53935"></span>Red</td><td class="mono">7,570.75</td><td class="mono">+8.5</td></tr>
+<tr class="cluster"><td><b>fib + yPOC — THE WALL (at price)</b></td><td><span class="swatch" style="background:#1e88e5"></span>Blue/Red</td><td class="mono">7,565.00 / 7,563.00</td><td class="mono">+1→+3</td></tr>
+<tr class="now"><td><b>CURRENT — pressing yPOC from below</b></td><td><span class="swatch" style="background:#bfe3c5"></span></td><td class="mono">7,562.25 (ON 7,524.50–7,557.75)</td><td class="mono">0</td></tr>
+<tr><td>ON VAH</td><td>MP</td><td class="mono">7,557.75</td><td class="mono">−4.5</td></tr>
+<tr class="cluster"><td>ON POC (split) + line</td><td>MP/Black</td><td class="mono">7,550.50 / 7,541.25 / 7,536.00</td><td class="mono">−12→−26.25</td></tr>
+<tr class="cluster"><td><b>yVAL — polarity edge</b></td><td><span class="swatch" style="background:#e53935"></span>Red</td><td class="mono">7,548.50</td><td class="mono">−13.75</td></tr>
+<tr class="cluster"><td><b>ON VAL + 20-EMA — overnight floor</b></td><td><span class="swatch" style="background:#ef5350"></span>MP/Red</td><td class="mono">7,524.50 / 7,525.50</td><td class="mono">−37→−38</td></tr>
+<tr><td>Line</td><td>Black</td><td class="mono">7,527.50 / 7,508.25</td><td class="mono">−35→−54</td></tr>
+<tr class="cluster"><td>Deep volume shelf (price-map)</td><td><span class="swatch" style="background:#5cb85c"></span>Green/Red</td><td class="mono">7,496.25 / 7,486.25 / 7,481.25</td><td class="mono">−66→−81</td></tr>
+<tr><td>FOMC spike base / yLow region</td><td>MP</td><td class="mono">7,491.50 / 7,469.50</td><td class="mono">−71→−93</td></tr>
+<tr><td>Green zone</td><td><span class="swatch" style="background:#bfe3c5"></span>Green</td><td class="mono">7,448.50 (7,440–7,455)</td><td class="mono">−107→−122</td></tr>
+<tr><td>Lower structure</td><td>Black/Red</td><td class="mono">7,421.25 / 7,396.50 fib / 50-EMA 7,398.50</td><td class="mono">−141→−166</td></tr>
+</table>
+</div>
+
+<h3>c) Market Profile — overnight detail</h3>
+<div class="card">
+<table>
+<tr><th>Metric</th><th class="mono">Value</th><th>Read</th></tr>
+<tr><td>ON HIGH / LOW</td><td class="mono">~7,563.50 / ~7,518</td><td>~45-pt range: bought the Iran risk-off dip at the 20-EMA, balanced back up under supply</td></tr>
+<tr><td>ON VAH / POC / VAL</td><td class="mono">7,557.75 / 7,536–7,541.25 / 7,524.50</td><td><b>ON value built BELOW yVAL 7,548.50</b> — a lower, weaker rebuild than Thursday's docked-at-yVAL repair</td></tr>
+<tr><td>Split / twin POC</td><td class="mono">7,541.25 &amp; 7,536.00</td><td>Two-peaked overnight = unsettled, no single fair-value agreement yet — choppy tell</td></tr>
+<tr><td>Position vs yesterday</td><td class="mono">ON entirely under yVAL; price at yPOC 7,563</td><td>Must accept &gt; yPOC to re-enter yesterday's value; otherwise relief-into-supply</td></tr>
+<tr><td>Deep volume shelf (price-map)</td><td class="mono">7,481.25 (308K) / 7,496.25 (281K) / 7,457.25 (249K)</td><td>The heavy-volume floor far below — where a real Iran flush would find responsive buyers</td></tr>
+<tr><td>Open projection</td><td class="mono">~7,550–7,565</td><td>Opens at ON VAH / fib, under yPOC 7,563 — repair-attempt template but pressed against supply with a live bear headline</td></tr>
+</table>
+</div>
+<div class="grid2">
+<div class="ladder"><b>UPDATED STRUCTURE MAP (pre-open)</b>
+7,694 ── ATH
+7,648.75 / 7,632.25 ── poor high + swing
+7,621.75 ── fib extend
+7,605.50 / 7,591.50 ── broken-value lines
+7,578.25 ── line
+7,570.75 ── <b>yVAH — full-repair ceiling</b>
+7,565.00 / 7,563.00 ── <b>fib + yPOC — THE WALL</b>  ◄ <b>YOU ARE HERE (7,562.25)</b>
+7,557.75 ── ON VAH
+7,548.50 ── <b>yVAL — polarity edge</b>
+7,541.25 / 7,536.00 ── <b>ON POC (split)</b>
+7,524.50 / 7,525.50 ── <b>ON VAL + daily 20-EMA — overnight floor</b> ░ Iran-dip low ░
+7,508.25 ── line
+7,496.25 / 7,486.25 / 7,481.25 ── <b>deep volume shelf (281K/308K)</b>
+7,469.50 / 7,448.50 ── yLow region → green zone
+7,421.25 / 7,396.50 fib / 50-EMA …</div>
+<div>
+<p style="font-size:13px"><b>Profile narrative:</b> The overnight did the constructive thing — it bought the Iran risk-off flush at the 20-EMA and rebuilt value — but it did so <b>below</b> yesterday's value and with a <b>split POC</b> (7,536/7,541.25), the signature of an unsettled, two-sided auction rather than a confident repair. Price has rallied back to the underside of <b>yPOC 7,563 / fib 7,565</b>, so the whole ON distribution now sits beneath supply. The auction question for RTH is two-sided and tilts more cautious than Thursday: "can price <b>accept above yPOC 7,563 → yVAH 7,570.75</b> and re-enter yesterday's value?" Acceptance flips the digestion back bullish toward 7,591/7,605. Rejection rolls price back through ON value (7,557.75 → split POC 7,536–7,541.25) to the <b>ON VAL 7,524.50 / 20-EMA 7,525.50 floor</b> — a now well-defined buy zone, unless an Iran-headline escalation breaks it and opens the deep volume shelf 7,496/7,481.</p>
+<p style="font-size:13px;margin-top:8px"><b>VIX/macro:</b> VX1 <b>18.50</b> (carried; sub-19) — vol still low, so the weekend wobble hasn't yet become fear. Macro: the <b>Iran deal is on "life support"</b> — Hormuz re-closed, Switzerland talks suspended after Trump's strike threats, oil up (Brent &gt; $80, WTI +2% ~$78.5), Sunday futures −0.2%. Offsetting bid: <b>Intel +5%</b> overnight on 18A-P chip progress, Asia opened higher (Nikkei led). The hawkish-Fed hangover persists (median dot now one 2026 hike, funds-rate fcst 3.8%, 2-yr ~4.21%). No major US data Monday — the tape trades the <b>Iran headline tape</b>; a VIX pop &gt; 20 is the risk-off confirm.</p>
+</div>
+</div>
+</section>
+
+<!-- 02 -->
+<section class="panel" data-tab="2) Key Levels">
+<h2><span class="num">02</span>Key Levels — updated ladder (ref 7,562.25)</h2>
+<div class="card">
+<table>
+<tr><th>Zone</th><th class="mono">Price</th><th>Source</th><th>Type</th><th>Color</th><th class="mono">Dist</th><th>★</th></tr>
+<tr><td>R8</td><td class="mono">7,694.00</td><td>D</td><td>ATH</td><td><span class="swatch" style="background:#c0392b"></span>red</td><td class="mono">+131.75</td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>R7 🔗</td><td class="mono">7,648.75–7,654.50</td><td>30m</td><td><b>Poor high + line</b></td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">+86→+92</td><td class="stars">★★★★</td></tr>
+<tr><td>R6</td><td class="mono">7,621.75 / 7,632.25</td><td>30m</td><td>Fib extend / swing</td><td><span class="swatch" style="background:#c0392b"></span>red/blk</td><td class="mono">+59.5/+70</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R5 🔗</td><td class="mono">7,591.50–7,605.50</td><td>30m+vol</td><td><b>Broken-value lines</b> (vol V 7,598)</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">+29→+43</td><td class="stars">★★★★</td></tr>
+<tr><td>R4</td><td class="mono">7,578.25</td><td>30m</td><td>Line — first cap above the wall</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">+16</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>R3 🔗</td><td class="mono">7,570.75–7,576.25</td><td>MP+vol</td><td><b>yVAH — full-repair ceiling</b> (vol V 7,576)</td><td><span class="swatch" style="background:#c0392b"></span>red</td><td class="mono">+8.5→+14</td><td class="stars">★★★★★</td></tr>
+<tr class="cluster"><td>R2 🔗</td><td class="mono">7,563.00–7,565.25</td><td>MP+30m+vol</td><td><b>yPOC + fib + vol V — THE WALL (at price)</b></td><td><span class="swatch" style="background:#1463a8"></span>blue/red</td><td class="mono">+1→+3</td><td class="stars">★★★★★</td></tr>
+<tr class="now"><td>NOW</td><td class="mono">7,562.25 (ON VAH 7,557.75)</td><td>—</td><td>Pressing yPOC from below</td><td><span class="swatch" style="background:#1463a8"></span>blue</td><td class="mono">0</td><td class="stars">—</td></tr>
+<tr class="cluster"><td>S1 🔗</td><td class="mono">7,556.25–7,557.75</td><td>MP+vol</td><td>ON VAH + vol P 7,556 (132K) — first support</td><td><span class="swatch" style="background:#5cb85c"></span>blk/grn</td><td class="mono">−4.5→−6</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S2 🔗</td><td class="mono">7,547.25–7,550.50</td><td>30m+MP+vol</td><td><b>yVAL + line + vol V 7,547</b> — polarity edge</td><td><span class="swatch" style="background:#c0392b"></span>red/blk</td><td class="mono">−12→−15.25</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S3 🔗</td><td class="mono">7,536.00–7,541.25</td><td>MP+vol</td><td><b>ON POC (split) + vol P 7,541</b> — overnight value core</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">−21→−26.25</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S4 🔗</td><td class="mono">7,524.50–7,527.25</td><td>MP+D+vol</td><td><b>ON VAL + 20-EMA + vol V 7,527</b> — overnight floor / swing line</td><td><span class="swatch" style="background:#ef5350"></span>red</td><td class="mono">−35→−38</td><td class="stars">★★★★★</td></tr>
+<tr><td>S5</td><td class="mono">7,519.25</td><td>vol</td><td>Vol V — Sunday-night Iran-dip low area</td><td><span class="swatch" style="background:#c0392b"></span>red</td><td class="mono">−43</td><td class="stars">★★★★</td></tr>
+<tr><td>S6</td><td class="mono">7,508.25</td><td>30m</td><td>Line</td><td><span class="swatch" style="background:#333740"></span>black</td><td class="mono">−54</td><td class="stars">★★★</td></tr>
+<tr class="cluster"><td>S7 🔗</td><td class="mono">7,481.25–7,496.25</td><td>vol+MP</td><td><b>Deep volume shelf (281K/308K)</b> — major responsive-buy floor</td><td><span class="swatch" style="background:#5cb85c"></span>green</td><td class="mono">−66→−81</td><td class="stars">★★★★★</td></tr>
+<tr><td>S8</td><td class="mono">7,469.50 / 7,457.25</td><td>30m+vol</td><td>yLow region + vol P 7,457 (249K)</td><td><span class="swatch" style="background:#5cb85c"></span>grn/blk</td><td class="mono">−93→−105</td><td class="stars">★★★★</td></tr>
+<tr class="cluster"><td>S9 🔗</td><td class="mono">7,396.50–7,448.50</td><td>30m+D</td><td>Green zone → fib + 50-EMA 7,398.50 — hawkish/Iran-extension floor</td><td><span class="swatch" style="background:#bfe3c5"></span>green</td><td class="mono">−114→−166</td><td class="stars">★★★★</td></tr>
+</table>
+<div class="warn amber"><b class="t">⚑ Today's controlling structure</b>
+<b>7,563–7,565 (yPOC + fib — THE WALL, at price; the open's first decision)</b> · <b>7,570.75 (yVAH — full-repair ceiling; accept above = digestion back bullish)</b> · <b>7,536–7,548.50 (ON POC/yVAL — first real dip-buy / polarity)</b> · <b>7,524.50–7,525.50 (ON VAL + 20-EMA — overnight floor / swing line; the Iran-dip held here)</b> · <b>7,481–7,496 (deep volume shelf — the line in the sand if Iran escalates)</b>.</div>
+</div>
+</section>
+
+<!-- 03 -->
+<section class="panel" data-tab="3) Context">
+<h2><span class="num">03</span>Context Into the Monday Open</h2>
+<div class="card">
+<table>
+<tr><th>Dimension</th><th>Reading</th><th>Implication</th></tr>
+<tr><td>Overnight character</td><td>Risk-off dip bought at the 20-EMA, then a lower-value rebuild that stalled under yPOC</td><td>Constructive that 7,518 held — but the rebuild is BELOW yesterday's value, not on top of it</td></tr>
+<tr><td>Open location</td><td class="mono">~7,550–7,565 — at ON VAH / fib, under yPOC 7,563</td><td>Opens at the decision level; first 30 min vs 7,563 / ON VAL 7,524.50 sets the day</td></tr>
+<tr><td>ON inventory</td><td><span class="tag neut">Mixed / net-slightly-long</span> (dip-buyers from ~7,518–7,540; chasers from 7,558–7,563 offside under supply)</td><td>Long inventory near the highs to correct on a yPOC rejection — fade the first tag, buy ON VAL dips</td></tr>
+<tr><td>Split-POC structure</td><td class="mono">Twin ON POC 7,536 / 7,541.25</td><td>No single fair value agreed overnight = unsettled; favors two-sided rotation over a clean trend</td></tr>
+<tr><td>Overhead supply</td><td class="mono">yPOC 7,563 / yVAH 7,570.75 + vol V 7,565/7,576</td><td>The wall — yesterday's value lower-half is the first thing to reclaim; expect sellers on the first tag</td></tr>
+<tr><td>Value relationships</td><td class="mono">ON value 7,524.50–7,557.75, entirely below yesterday's 7,548.50–7,570.75</td><td>Must accept &gt; yPOC 7,563 to flip to higher value; stalling = relief-into-supply with an Iran tail</td></tr>
+<tr><td>ATR budget</td><td class="mono">106.75; ON used ~45</td><td>Plenty of range left; a clean Iran headline either way can spend it in one move</td></tr>
+<tr><td>Event clock / catalyst</td><td>Monday, no major US data; <b>Iran deal "on life support"</b></td><td>Headline-driven session; Iran is the swing factor — hawkish-Fed hangover is the slow background drag</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 04 -->
+<section class="panel" data-tab="4) Scenarios">
+<h2><span class="num">04</span>What-If Scenarios — RTH Monday Jun 22 (updated)</h2>
+
+<div class="scen"><div class="head"><span class="nm">G1 · ON-Value Dip Buy → yPOC 7,563 Fade</span><span class="tag bull">BULL base case</span><span class="stars">★★★★ 28%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opens 7,550–7,565; early two-way trade corrects into ON VAH/POC 7,536–7,557 and gets bought.</div>
+<div class="blk"><b>Narrative</b>Value rebuilds at the overnight edge; a push back to fib 7,565 / yPOC 7,563 caps the first attempt where yesterday's value begins and offside longs lighten. The rebuild completing — fade the first yPOC tag, don't assume continuation.</div>
+<div class="blk"><b>Setup</b>Long 7,538–7,548 · Stop 7,522 (under ON VAL 7,524.50) · T1 7,557 (+12) · T2 7,563 (+18) · T3 7,570.75 (+26) · <b>R:R 0.8→2.5</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: first hour holds ≥ 7,536 with no Iran escalation. Invalid: 30-min close &lt; 7,524.50 → G4.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">G2 · yPOC Acceptance → Re-enter Yesterday's Value 7,570 → 7,591</span><span class="tag bull">BULL trend</span><span class="stars">★★★ 17%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Opens &gt; 7,563 and accepts above yPOC (Iran-deal-stabilizes headline / chip-led bid); shallow dips only to 7,557/7,550.</div>
+<div class="blk"><b>Narrative</b>The weekend wobble is dismissed. One-time-frame up through yVAH 7,570.75 to the broken-value lines 7,591.50 → 7,605.50; a genuine de-escalation extends toward 7,621.75/7,632.25.</div>
+<div class="blk"><b>Setup</b>Long 7,565–7,568 on acceptance over yPOC (two 30-min closes &gt; 7,563) · Stop 7,553 · T1 7,570.75 (+5) · T2 7,591.50 (+26) · T3 7,605.50 (+40) · <b>R:R 0.5→3.3</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: VIX sub-18.5, Iran headlines calm. Invalid: re-entry below 7,557 → look-above-and-fail, rotate to 7,548/7,536.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">G3 · Rejection at the Wall → Range Day</span><span class="tag neut">NEUTRAL fade</span><span class="stars">★★★★ 26%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>Morning tags 7,563–7,570.75 and rejects with a wick, but ON VAL 7,524.50 holds below.</div>
+<div class="blk"><b>Narrative</b>Monday bracket 7,524.50–7,570.75: fade the edges. With the Iran deal in limbo and no data, this is the highest-confidence structure — two-sided digestion of the post-FOMC range, constructive only while ON VAL holds.</div>
+<div class="blk"><b>Setup</b>Short 7,563–7,570 stop 7,578 → T 7,548/7,536; Long 7,526–7,536 stop 7,518 → T 7,548/7,557 · <b>R:R 1.5→3.5 per rotation</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: two failed wall-breaks by midday + split POC persists. Invalid: 30-min close outside 7,524–7,571.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">G4 · ON-VAL Failure → 20-EMA / Iran Risk-Off</span><span class="tag bear">BEAR rotation</span><span class="stars">★★★ 18%</span></div>
+<div class="body">
+<div class="blk"><b>Open / context</b>30-min close below ON VAL 7,524.50 / 20-EMA 7,525.50 — typically on an Iran-headline escalation (Hormuz / strikes).</div>
+<div class="blk"><b>Narrative</b>The lower-value rebuild fails and the Sunday-night low ~7,518 breaks; price seeks the deep volume shelf. 7,508 line, then the 281K/308K node at 7,496/7,481 is the responsive-buy magnet.</div>
+<div class="blk"><b>Setup</b>(a) Scalp short 7,522 stop 7,531 → T 7,512/7,500. (b) Core: <b>long 7,481–7,496</b> on the responsive turn at the volume shelf · Stop 7,472 · T1 7,508 · T2 7,525 · T3 7,540 · <b>R:R up to 4.0</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: orderly, VIX ≤ 20. Invalid for longs: 30-min close &lt; 7,481 → G5.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">G5 · Iran Escalation → Volume-Shelf Break / Gap-Fill</span><span class="tag bear">BEAR tail</span><span class="stars">★★ 7%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>A hard Iran-escalation headline (strikes resume / Hormuz hard-closed) breaks the 7,481 volume shelf; VIX pops &gt; 20.</div>
+<div class="blk"><b>Narrative</b>Risk-off cascade: the deep shelf fails, air pocket to the yLow region 7,469.50 → 7,457.25 (vol) → green zone 7,448.50; 50-EMA 7,398.50 the worst case. Day-after-weekend de-risking amplifies it.</div>
+<div class="blk"><b>Setup</b>Short 7,479 on loss of 7,481 · Stop 7,492 · T1 7,469 (−10) · T2 7,457 (−22) · T3 7,448 (−31) · <b>R:R 1.0→3.0</b>. Then responsive long 7,448–7,457 stop 7,438 if VIX &lt; 22.</div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: Iran headline + VIX &gt; 20 + oil ripping. Invalid: reclaim 7,508.</div>
+</div></div>
+
+<div class="scen"><div class="head"><span class="nm">G6 · Headline Chop-and-Drift</span><span class="tag neut">TIME-BASED</span><span class="stars">★ 4%</span></div>
+<div class="body">
+<div class="blk"><b>Zone / context</b>Conflicting Iran headlines, no resolution; price oscillates around the split ON POC 7,536–7,541.</div>
+<div class="blk"><b>Narrative</b>Classic headline-limbo Monday: low conviction, tight rotations 7,536–7,563, value building inside the ON balance. A positioning grind, not a directional day — scalps only, size down, expect whipsaw on every Iran flash.</div>
+<div class="blk"><b>Setup</b>Trade the ON value edges only: long 7,536 / short 7,562, ~14-pt targets, tight stops · <b>R:R ~1.5</b></div>
+<div class="blk"><b>Confirm / invalid</b>Confirm: VIX flat ~18.5, no expansion. Invalid: 30-min close outside 7,524–7,570 → G1/G3/G4.</div>
+</div></div>
+</section>
+
+<!-- 05 -->
+<section class="panel" data-tab="5) Probability">
+<h2><span class="num">05</span>Probability Matrix — updated</h2>
+<div class="card">
+<table>
+<tr><th>Rank</th><th>Scenario</th><th>Direction</th><th>Prob</th><th>★</th></tr>
+<tr><td>1</td><td>G1 ON-value dip buy → yPOC fade</td><td><span class="tag bull">Bull-repair</span></td><td class="mono">28%</td><td class="stars">★★★★</td></tr>
+<tr><td>2</td><td>G3 Wall rejection → range 7,524–7,571</td><td><span class="tag neut">Neutral</span></td><td class="mono">26%</td><td class="stars">★★★★</td></tr>
+<tr><td>3</td><td>G4 ON-VAL failure → 20-EMA / Iran risk-off</td><td><span class="tag bear">Bear-rotation</span></td><td class="mono">18%</td><td class="stars">★★★</td></tr>
+<tr><td>4</td><td>G2 yPOC acceptance → 7,570/7,591</td><td><span class="tag bull">Bull</span></td><td class="mono">17%</td><td class="stars">★★★</td></tr>
+<tr><td>5</td><td>G5 Iran escalation → volume-shelf break</td><td><span class="tag bear">Bear tail</span></td><td class="mono">7%</td><td class="stars">★★</td></tr>
+<tr><td>6</td><td>G6 Headline chop-and-drift</td><td><span class="tag neut">Time-based</span></td><td class="mono">4%</td><td class="stars">★</td></tr>
+</table>
+<table><tr><th>Combined</th><th class="mono" style="color:var(--bull)">Bull 45%</th><th class="mono">Neutral 30%</th><th class="mono" style="color:var(--bear)">Bear 25%</th></tr></table>
+<div class="warn blue"><b class="t">Base case (updated)</b>Open near the fib 7,565 / yPOC 7,563, an early rotation into <b>7,536–7,548</b> (ON POC / yVAL) that gets bought, then a re-test of <b>yPOC 7,563–7,570.75</b> where the first tag rejects more often than it breaks — because the overnight rebuilt value <b>below</b> yesterday's and the Iran deal is unresolved overhead. Net: <b>buy the ON-value dip, take profits generously into yPOC 7,563 / yVAH 7,570.75, and only trust the breakout on two 30-min closes above 7,563.</b> The bear case (G4/G5) needs an Iran-headline escalation; absent that, the floor is ON VAL 7,524.50 / the 20-EMA, with the heavy 7,481–7,496 volume shelf as the deep catch. Slightly more two-sided than Thursday — the split POC and the live geopolitical tail argue for fading edges over chasing.</div>
+</div>
+</section>
+
+<!-- 06 -->
+<section class="panel" data-tab="6) Decision Map">
+<h2><span class="num">06</span>Decision Map — updated</h2>
+<pre class="tree">MONDAY RTH OPEN ~7,550–7,565 (fib 7,565 / yPOC 7,563 at price · ON VAL 7,524.50 / 20-EMA 7,525.50 floor)
+│
+├─► FIRST MOVE DOWN (rotation into the overnight value)
+│     ├─ holds <span class="y">7,536–7,557.75 (ON POC/VAH)</span>
+│     │     └─ <span class="g">G1 LONG</span> → 7,557 → <span class="y">WALL yPOC 7,563 / yVAH 7,570.75</span>
+│     │            ├─ rejected (supply, Iran tail) → <span class="y">G3 range</span> fade 7,524↔7,570
+│     │            └─ <span class="g">accepted 2× closes → G2</span> → 7,591.50 → 7,605.50
+│     └─ <span class="r">30-min close &lt; 7,524.50 (ON VAL / 20-EMA)</span> → G4
+│            └─ Sunday low ~7,518 breaks → <span class="y">deep shelf 7,496/7,481</span>
+│                   ├─ <span class="g">BUY the turn 7,481–7,496 (281K/308K)</span> → back to 7,508/7,525
+│                   └─ <span class="r">7,481 fails (Iran escalation) → G5</span> → 7,469 → 7,457 → <span class="r">7,448.50</span>
+│
+└─► FIRST MOVE UP (drive)
+      ├─ tags wall 7,563–7,570.75, rejects → fade to 7,557/7,548 → reassess as G1/G3
+      └─ <span class="g">acceptance &gt; 7,563 (2× 30-min closes)</span> → <span class="g">G2 repair</span> → 7,570.75 → 7,591.50
+             └─ Iran-calm / chip-led bid → 7,605.50 → 7,621.75 → poor high 7,648.75
+
+WATCH: Iran headlines (Hormuz / strikes / Switzerland talks) &amp; oil — escalation = G4/G5, de-escalation = G2</pre>
+<div class="card">
+<table>
+<tr><th class="mono">Level</th><th>Holds</th><th>Breaks</th></tr>
+<tr><td class="mono">7,570.75 yVAH</td><td>Full-repair ceiling — fade with stop 7,578</td><td>Day unlock → 7,591.50 → 7,605.50; weekend wobble dismissed</td></tr>
+<tr><td class="mono">7,563–7,565 yPOC/fib wall</td><td>Caps the open — rotate to ON value</td><td>Re-enters yesterday's value → 7,570.75 (G2)</td></tr>
+<tr><td class="mono">7,556.25–7,557.75 ON VAH</td><td>Shallow dip — bullish tell</td><td>ON POC 7,536–7,541.25 next</td></tr>
+<tr><td class="mono">7,547.25–7,548.50 yVAL</td><td>Polarity edge held — buy zone</td><td>Split ON POC 7,536–7,541.25 test</td></tr>
+<tr><td class="mono">7,536–7,541.25 ON POC</td><td><b>Primary long trigger</b></td><td>ON VAL 7,524.50 / 20-EMA next</td></tr>
+<tr><td class="mono">7,524.50–7,525.50 ON VAL/20-EMA</td><td>Overnight floor — major dip-buy</td><td>G4: Sunday low 7,518 → 7,508 → 7,496/7,481</td></tr>
+<tr><td class="mono">7,481–7,496 volume shelf</td><td><b>Responsive core long (281K/308K)</b></td><td>G5: Iran cascade → 7,469 → 7,457 → 7,448.50</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 07 -->
+<section class="panel" data-tab="7) Bias Flips">
+<h2><span class="num">07</span>Bias Flip Conditions — updated</h2>
+<div class="card">
+<table>
+<tr><th>Starting bias</th><th>Flip to</th><th class="mono">Trigger</th><th>Action</th></tr>
+<tr><td><span class="tag neut">Repair-at-supply (default)</span></td><td><span class="tag bull">Trend confirm</span></td><td class="mono">Two 30-min closes &gt; 7,563 (yPOC)</td><td>Runners to 7,570.75/7,591.50; trail under 7,557</td></tr>
+<tr><td><span class="tag bull">Bull-repair</span></td><td><span class="tag neut">Range mode</span></td><td class="mono">Clean rejection wick at yPOC/yVAH 7,563–7,570.75</td><td>G3: fade edges 7,524↔7,570, both directions scalps</td></tr>
+<tr><td><span class="tag bull">Bull-repair</span></td><td><span class="tag bear">Neutral / fading</span></td><td class="mono">30-min close &lt; 7,524.50 (ON VAL / 20-EMA)</td><td>Flatten longs; let the Sunday low fill; bid 7,481–7,496</td></tr>
+<tr><td><span class="tag neut">Repair</span></td><td><span class="tag bull">Bull restored</span></td><td class="mono">Reclaim 7,548 (yVAL)</td><td>Resume dip-buy template toward yPOC</td></tr>
+<tr><td><span class="tag neut">Repair</span></td><td><span class="tag bear">Bear</span></td><td class="mono">30-min close &lt; 7,481 (esp. Iran headline)</td><td>G5 toward 7,469/7,457/7,448.50; no longs until those shelves</td></tr>
+<tr><td><span class="tag neut">Any</span></td><td><span class="tag bull">Breakout</span></td><td class="mono">Accept &gt; 7,605.50</td><td>Range-high regime: ride to 7,621/7,632/7,648</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 08 -->
+<section class="panel" data-tab="8) Playbook">
+<h2><span class="num">08</span>Tactical Playbook — updated top 3</h2>
+<div class="lede">Click a trade to expand. Ranked by edge for Monday's session.</div>
+
+<div class="pb open">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#1</div><div class="pb-name">ON-Value Dip Buy → yPOC (G1)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 2.5R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,538–7,548</b> on a rotation into the split ON POC 7,536–7,541.25 / yVAL 7,548.50 — the overnight value core, now value-backed support</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,522 — under ON VAL 7,524.50 / 20-EMA · risk 14–26 pts (size for it)</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,557 ON VAH (+12)</span><span class="tgt">T2 7,563 yPOC (+18)</span><span class="tgt">T3 7,570.75 yVAH (+26)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at T2 (wall — take it on first tag unless breaking) · runner only on acceptance over 7,563</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">0.8R / 1.3R / 1.9R (→2.5R on the break)</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,524.50 → out; re-bid per #3 at the volume shelf</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#2</div><div class="pb-name">yPOC / yVAH First-Tag Fade Short 7,563–7,570.75 (G3)</div>
+  <span class="tag bear">SHORT</span><span class="pb-rr">up to 3.5R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Short 7,563–7,570</b> at the yPOC/yVAH supply on the FIRST tag from below with a clear rejection wick — where yesterday's value begins and offside ON longs lighten</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,578 — above the 7,578.25 line · risk 8–15 pts</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,557 (+8)</span><span class="tgt">T2 7,548 yVAL (+17)</span><span class="tgt">T3 7,536 ON POC (+29)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at T2 · runner to ON POC; this is a fade, not a trend short — cover into the ON balance, don't press unless Iran escalates</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.0R / 1.9R / 3.5R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>Two 30-min closes &gt; 7,563 → repair won (G2), exit and flip long</div></div>
+</div>
+</div>
+
+<div class="pb">
+<div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+  <div class="pb-rank">#3</div><div class="pb-name">Volume-Shelf Responsive Long 7,481–7,496 (G4 resolution)</div>
+  <span class="tag bull">LONG</span><span class="pb-rr">up to 4.0R</span><span class="pb-caret">▶</span>
+</div>
+<div class="pb-body">
+  <div class="pb-row hl"><div class="lbl">Entry</div><div class="mono"><b>Long 7,481–7,496</b> ONLY if the bounce fails — ON VAL lost, Sunday low 7,518 breaks, price flushes to the heavy 281K/308K volume shelf on an Iran headline; the best-location dip-buy if the open disappoints</div></div>
+  <div class="pb-row"><div class="lbl">Stop</div><div class="mono">7,472 — under the shelf / yLow region · risk 9–24 pts (size down)</div></div>
+  <div class="pb-row"><div class="lbl">Targets</div><div><span class="tgt t1">T1 7,508 (+15)</span><span class="tgt">T2 7,525 (+33)</span><span class="tgt">T3 7,541 ON POC (+50)</span></div></div>
+  <div class="pb-row"><div class="lbl">Scaling</div><div>½ at T1 · ¼ at T2 (reclaim 7,525 = add-back) · runner to ON POC; trail under 7,508</div></div>
+  <div class="pb-row"><div class="lbl">R:R</div><div class="mono">1.5R / 3.0R / 4.0R</div></div>
+  <div class="pb-row"><div class="lbl">Kill switch</div><div>30-min close &lt; 7,481 → out; Iran cascade re-arms, next bid is 7,457/7,448.50</div></div>
+</div>
+</div>
+
+<div class="warn blue"><b class="t">Position size vs ATR — applies to all three</b>ATR 106.75; ON used ~45. <b>50–60% size</b>, ¼-size on the G3 yPOC fade-short scalp. The tape is genuinely two-sided and <b>headline-exposed</b> — #1 long and #2 short are both tactical (buy ON value, fade yPOC); #3 is the disappointment / Iran-flush buy at the deep shelf. The yPOC fade is a SCALP at supply, NOT a swing short — cover into the ON balance. <b>Hard rule: any Iran-escalation headline (Hormuz hard-close / strikes) = flat longs first, reassess for G4/G5; any clear de-escalation = the wall likely breaks (G2), don't be short into it.</b></div>
+</section>
+
+<!-- 09 -->
+<section class="panel" data-tab="9) Warnings">
+<h2><span class="num">09</span>Structural Warnings — updated</h2>
+<div class="warn amber"><b class="t">⚠ The wall yPOC 7,563 / yVAH 7,570.75 — first RTH test, and price opens AT it</b>The overnight bounce stalled right under it and the rebuild is below yesterday's value. First tags into supply reject more often than they break — the break needs RTH volume and two 30-min closes above to be tradeable. Don't chase the open through it; fade the first tag.</div>
+<div class="warn amber"><b class="t">⚠ Overnight value rebuilt BELOW yesterday's — weaker than Thursday</b>Unlike Jun 18 (which docked ON value AT yVAL), this ON value sits entirely under yVAL 7,548.50 with a <b>split POC</b> (7,536/7,541.25). That is an unsettled, two-sided auction — the edge is <b>buy ON value / fade yPOC</b>, not chase. Long bias only holds while ON VAL 7,524.50 holds.</div>
+<div class="warn"><b class="t">⚠ Iran deal "on life support" — the live bear catalyst</b>Hormuz re-closed, Switzerland talks suspended after Trump's strike threats, oil up (Brent &gt; $80). This is a genuine headline tail that price structure can't pre-empt. A hard escalation = G4/G5 straight through the 20-EMA to the volume shelf; treat every Iran flash as a potential expansion trigger and keep stops structural.</div>
+<div class="warn blue"><b class="t">ℹ ON VAL 7,524.50 / 20-EMA 7,525.50 — the line the Iran dip already defended</b>Sunday night's flush to ~7,518 was bought right here. It's the overnight floor AND the daily swing line — a high-quality dip-buy on a calm retest, but a close below it (especially on a headline) flips the day to G4 toward 7,496/7,481.</div>
+<div class="warn blue"><b class="t">ℹ Deep volume shelf 7,481–7,496 (281K/308K) — the real floor</b>The heaviest-volume nodes on the price-map sit here, ~70–80 pts below. This is where a genuine Iran flush finds responsive buyers (G4 core long / G5 catch). Above 7,524 it's irrelevant; it only matters if the overnight floor gives way.</div>
+<div class="warn"><b class="t">ℹ VIX gate</b>VIX 18.50, still low = the wobble isn't fear yet. &lt; 18.5 = repair regime (favor G1 long / G3 fade) · 18.5–20 = two-sided · <b>&gt; 20 = Iran risk-off confirmed, G4/G5 in play, repair template suspended.</b></div>
+</section>
+
+<!-- 10 -->
+<section class="panel" data-tab="10) Transition">
+<h2><span class="num">10</span>Session Transition — Monday close → Tuesday</h2>
+<div class="card">
+<table>
+<tr><th>If Monday closes at…</th><th>Implication</th><th>Next-day lean</th></tr>
+<tr><td class="mono">&gt; 7,605 (above broken value)</td><td>Full repair + Iran-calm breakout; weekend wobble fully dismissed</td><td>Range-high regime: 7,621 → 7,632 → poor high 7,648 → ATH 7,694 in view</td></tr>
+<tr><td class="mono">7,570.75–7,605</td><td>Accepted back into yesterday's value above yVAH</td><td>Bull-repair confirmed; buy dips to yPOC 7,563 / 7,557</td></tr>
+<tr><td class="mono">7,557–7,570.75 (under yVAH)</td><td>Re-entered lower value but yPOC/yVAH capped</td><td>Two-sided; yPOC is the pivot — fade tags, buy ON VAH dips</td></tr>
+<tr><td class="mono">7,524.50–7,557 (in ON value)</td><td>Balanced under supply — headline digestion</td><td>Coiling at the overnight value; direction off Tuesday's open vs ON VAL</td></tr>
+<tr><td class="mono">7,496–7,524.50 (lost ON VAL)</td><td>Bounce faded; Iran pressure into the close</td><td>Two-sided/heavy; the volume shelf 7,481–7,496 must hold, ON value is resistance</td></tr>
+<tr><td class="mono">&lt; 7,481</td><td>Volume shelf lost; Iran escalation confirmed</td><td>Bear re-arm: 7,457 → 7,448.50 → fib 7,396.50 / 50-EMA</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 11 -->
+<section class="panel" data-tab="11) Summary">
+<h2><span class="num">11</span>Final Summary — RTH Monday Jun 22 (updated 05:40 ET)</h2>
+<div class="card">
+<table>
+<tr><th>Item</th><th>Call</th></tr>
+<tr><td>Macro bias</td><td><span class="tag bull">BULL (intact)</span> — MA stack rising; 20-EMA held the Sunday Iran dip (+37); post-FOMC pullback still reads as digestion, not reversal</td></tr>
+<tr><td>Intermediate bias</td><td><span class="tag neut">NEUTRAL / repairing into supply</span> — needs acceptance &gt; yPOC 7,563 → yVAH 7,570.75 to confirm; poor high 7,648 still overhead</td></tr>
+<tr><td>Intraday bias</td><td><span class="tag neut">TWO-SIDED, headline-exposed — buy ON-value dips, fade the first yPOC tag; directional-long only above 7,563</span></td></tr>
+<tr><td>Base case</td><td>Open near fib 7,565 / yPOC 7,563 → rotation into ON POC/yVAL 7,536–7,548 bought → re-test of yPOC 7,563–7,570.75 → first tag rejected (value-below + Iran tail)</td></tr>
+<tr><td>Primary trade</td><td><b>Long 7,538–7,548</b>, stop 7,522, targets 7,557 / 7,563 / 7,570.75 (G1)</td></tr>
+<tr><td>Counter-trade</td><td><b>Short 7,563–7,570</b> (yPOC/yVAH first-tag fade) with a rejection wick, stop 7,578 → 7,557 / 7,548 / 7,536 (G3)</td></tr>
+<tr><td>Disappointment-buy</td><td><b>Long 7,481–7,496</b> if the bounce fails through ON VAL on an Iran flush, stop 7,472 → 7,508 / 7,525 / 7,541 (G4)</td></tr>
+<tr><td>Key bull level</td><td class="mono">7,563 yPOC — acceptance (2× closes) re-enters yesterday's value, unlocks 7,570.75 → 7,591.50 → 7,605.50</td></tr>
+<tr><td>Key bear level</td><td class="mono">7,524.50 ON VAL / 20-EMA — close below (esp. Iran headline) → Sunday low 7,518 → 7,496/7,481 shelf; below 7,481 → 7,457/7,448.50</td></tr>
+<tr><td>Biggest risk</td><td>Iran escalation (Hormuz / strikes) breaking the overnight floor through the 20-EMA; or relief-into-supply exhausting at yPOC and rolling back through the split ON POC</td></tr>
+<tr><td>Day-type expectation</td><td>ON-value buy + yPOC fade (≈28%) · wall rejection range (≈26%) · ON-VAL failure / Iran risk-off (≈18%) · yPOC acceptance (≈17%) · Iran escalation (≈7%) · chop (≈4%)</td></tr>
+</table>
+</div>
+</section>
+
+</div>
+
+<div class="wrap"><div class="foot">ES RTH Plan · UPDATED Monday Jun 22, 2026 05:40 ET · Last ~7,562.25 · ON: H ~7,563.50 / L ~7,518 / VAH 7,557.75 / POC 7,536–7,541.25 (split) / VAL 7,524.50 · yPOC 7,563.00 / yVAH 7,570.75 / yVAL 7,548.50 · 20-EMA 7,525.50 · deep vol shelf 7,481–7,496 (281K/308K) · ATH 7,694.75 · ATR 106.75 · VIX 18.50 (carried) · Iran deal on "life support" (Hormuz re-closed, Switzerland talks suspended); oil up, Sunday futures −0.2%; Intel +5% · No major US data Monday · Not financial advice. Verify VIX and final ON extremes at the bell.</div></div>
+
+<script>
+const TABS=["1) Top-Down","2) Key Levels","3) Context","4) Scenarios","5) Probability","6) Decision Map","7) Bias Flips","8) Playbook","9) Warnings","10) Transition","11) Summary"];
+let curTab=0;
+const tabbar=document.getElementById('tabbar');
+TABS.forEach((t,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');b.textContent=t;b.onclick=()=>setTab(i);tabbar.appendChild(b);});
+function render(){
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',i===curTab));
+  document.querySelectorAll('.panel').forEach((s,i)=>s.classList.toggle('active',i===curTab));
+}
+function setTab(i){curTab=i;render();window.scrollTo({top:document.querySelector('nav.tabs').offsetTop,behavior:'smooth'});}
+render();
+</script>
+</body>
+</html>
