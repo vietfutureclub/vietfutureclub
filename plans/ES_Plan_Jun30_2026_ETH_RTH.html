@@ -1075,7 +1075,7 @@ pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b
   <!-- Tab 6: Decision Map -->
   <section class="panel" data-tab="6) Decision Map">
     <h2><span class="num">06</span>Overnight Decision Map &amp; Holds/Breaks Guide</h2>
-    <div class="lede">Visual logic tree mapping the transition from Globex reopen through overnight tests. Use this to determine structural shifts.</div>
+    <div class="lede">Visual logic tree mapping the transition from Globex reopen through overnight tests. Linked directly with your overnight scenarios (E1–E6).</div>
 
     <pre class="tree">
 ═══════════════════════════════════════════════════════════
@@ -1091,15 +1091,16 @@ pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b
           │                    │                    │
           ▼                    ▼                    ▼
      Bull ETH Flow         Range Trade         Test 7,476.75
-     Target: 7,514.25      POC↔Spike Base      (Daily Red Level)
-          │                    │                    │
-          ▼                    ▼                    ▼
-     Target: 7,527.25      Holds all night     Holds? → bounce
-     (Poor Low Fill)       as primary base     Fails? → 7,455 VAL
+     [E1 Spike Hold]       [E2 Fade / E5 POC]  [E3 Breakdown]
+     Target: 7,514.25      POC↔Spike Base           │
+          │                    │                    ▼
+          ▼                    ▼               Holds 7,482?
+     [E4 Melt-up]          Holds all night     [E6 Failed Fade]
+     Target: 7,527.25      as primary base     Fails? → 7,455 VAL
           │                    │                    │
           ▼                    ▼                    ▼
      Set up Bull RTH       Neutral RTH         Set up Bear RTH
-     Open Scenario         Open Likely         Open Scenario
+     Open [R1/R6]          Open [R2]           Open [R3/R4/R5]
     </pre>
 
     <h3>Level-By-Level Holds/Breaks Guide (ETH)</h3>
@@ -1114,28 +1115,28 @@ pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b
       <tbody>
         <tr>
           <td class="mono">7,505.00 (Weak High)</td>
-          <td>Bears cap range; forces consolidation below spike.</td>
-          <td>Triggers repair; quick run to 7,508.25 resistance.</td>
+          <td>Bears cap range; forces consolidation below spike <span class="tag neut">E2/E5</span></td>
+          <td>Triggers repair; quick run to 7,508.25 resistance <span class="tag bull">E1/E4</span></td>
         </tr>
         <tr>
           <td class="mono">7,502.50 (Spike Base)</td>
-          <td>Bulls retain immediate upper hand; overnight continues strong.</td>
-          <td>Confirms spike failure; initiates reversion back to POC gravity.</td>
+          <td>Bulls retain immediate upper hand; overnight continues strong <span class="tag bull">E1/E4</span></td>
+          <td>Confirms spike failure; initiates reversion back to POC gravity <span class="tag neut">E2/E5/E6</span></td>
         </tr>
         <tr>
           <td class="mono">7,493.75 (Today POC)</td>
-          <td>Ensures stable base; market remains rotational.</td>
-          <td>Forces immediate test of the 20-EMA trend support.</td>
+          <td>Ensures stable base; market remains rotational <span class="tag neut">E2/E5</span></td>
+          <td>Forces immediate test of the 20-EMA trend support <span class="tag bear">E3/E6</span></td>
         </tr>
         <tr>
           <td class="mono">7,491.75 (Daily 20-EMA)</td>
-          <td>Maintains intermediate bullish posture; buy-the-dip intact.</td>
-          <td>Triggers short-term breakdown; targets 7,476.75 red level.</td>
+          <td>Maintains intermediate bullish posture; buy-the-dip intact <span class="tag bull">E2/E5/E6</span></td>
+          <td>Triggers short-term breakdown; targets 7,476.75 red level <span class="tag bear">E3</span></td>
         </tr>
         <tr>
           <td class="mono">7,476.75 (Daily Red Level)</td>
-          <td>Strong buyers defend; establishes rotational floor.</td>
-          <td>Deep structural damage; price slides to Today VAL 7,455.50.</td>
+          <td>Strong buyers defend; establishes rotational floor <span class="tag bull">E6</span></td>
+          <td>Deep structural damage; price slides to Today VAL 7,455.50 <span class="tag bear">E3</span></td>
         </tr>
       </tbody>
     </table>
@@ -1160,19 +1161,19 @@ pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b
           <td><span class="tag neut">ETH: Neutral</span></td>
           <td><span class="tag bull">Bullish</span></td>
           <td class="mono">Acceptance above 7,502.50 (2 consecutive 30-min closes)</td>
-          <td>Pivot long, buy pullbacks to spike base targeting 7,514+</td>
+          <td>Pivot long, buy pullbacks to spike base targeting 7,514+ <span class="tag bull">E1</span></td>
         </tr>
         <tr>
           <td><span class="tag neut">ETH: Neutral</span></td>
           <td><span class="tag bear">Bearish</span></td>
           <td class="mono">Clean break and hold below 7,491.75</td>
-          <td>Pivot short, sell pullbacks targeting 7,476.75 then 7,455</td>
+          <td>Pivot short, sell pullbacks targeting 7,476.75 then 7,455 <span class="tag bear">E3</span></td>
         </tr>
         <tr>
           <td><span class="tag bear">ETH: Bearish</span></td>
           <td><span class="tag neut">Neutral</span></td>
           <td class="mono">Reclaim of 7,493.75 (Today POC)</td>
-          <td>Cover shorts, step aside and wait for new balance to form</td>
+          <td>Cover shorts, step aside and wait for new balance to form <span class="tag neut">E6</span></td>
         </tr>
       </tbody>
     </table>
@@ -1181,24 +1182,65 @@ pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b
   <!-- Tab 8: Playbook -->
   <section class="panel" data-tab="8) Playbook">
     <h2><span class="num">08</span>Tactical Playbook — Overnight Setups</h2>
-    <div class="lede">Top overnight setup structured for execution. Always size down during ETH due to thin liquidity.</div>
+    <div class="lede">Top 3 overnight setups structured for execution. Always size down during ETH due to thin liquidity.</div>
 
+    <!-- Trade 1 -->
     <div class="pb">
       <div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
         <div class="pb-rank">1</div>
-        <div class="pb-name">Overnight Rotational Long — POC+20-EMA Defense</div>
+        <div class="pb-name">🏆 OVERNIGHT ROTATIONAL LONG — POC+20-EMA Defense</div>
         <div class="pb-rr">R:R 1:2.5</div>
         <div class="pb-caret">▶</div>
       </div>
       <div class="pb-body">
         <div class="pb-row"><div class="lbl">Entry Zone</div><div class="mono">7,491.75 – 7,494.00 (Today POC + 20-EMA cluster)</div></div>
         <div class="pb-row"><div class="lbl">Entry Type</div><div>Limit buy at 7,493.00 or reversal candle on the 15-min.</div></div>
-        <div class="pb-row"><div class="lbl">Stop Logic</div><div class="mono">Close below 7,485.00 (gives room below the MA filter)</div></div>
+        <div class="pb-row"><div class="lbl">Stop Logic</div><div class="mono">Close below 7,485.00 (protects below the daily 20-EMA support)</div></div>
         <div class="pb-row"><div class="lbl">Stop Size</div><div>6-8 points</div></div>
         <div class="pb-row"><div class="lbl">Scale Plan</div><div>50% at entry, add 50% once 7,497.00 is reclaimed.</div></div>
         <div class="pb-row"><div class="lbl">Targets</div><div>Target 1: 7,502.50 (Spike Base) | Target 2: 7,505.00 (Weak High).</div></div>
         <div class="pb-row"><div class="lbl">Position Size</div><td><span class="tag bear">0.50x normal</span> Sized down for overnight conditions.</td></div>
         <div class="pb-row"><div class="lbl">Worst Case</div><div>Sells through 7,485.00. Cut immediately and wait for RTH.</div></div>
+      </div>
+    </div>
+
+    <!-- Trade 2 -->
+    <div class="pb">
+      <div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="pb-rank">2</div>
+        <div class="pb-name">🥈 FADE THE OVERNIGHT SPIKE REJECTION</div>
+        <div class="pb-rr">R:R 1:2.0</div>
+        <div class="pb-caret">▶</div>
+      </div>
+      <div class="pb-body">
+        <div class="pb-row"><div class="lbl">Entry Zone</div><div class="mono">7,502.00 – 7,505.00 (EOD Spike Base / Weak High zone)</div></div>
+        <div class="pb-row"><div class="lbl">Entry Type</div><div>Sell limit on test or sell on 15-min reversal candle at spike base.</div></div>
+        <div class="pb-row"><div class="lbl">Stop Logic</div><div class="mono">Close above 7,508.25 (clear invalidation above the spike range)</div></div>
+        <div class="pb-row"><div class="lbl">Stop Size</div><div>4-6 points</div></div>
+        <div class="pb-row"><div class="lbl">Scale Plan</div><div>60% initial entry, add 40% if price breaks back below 7,497.00.</div></div>
+        <div class="pb-row"><div class="lbl">Targets</div><div>Target 1: 7,493.75 (Today POC) | Target 2: 7,491.75 (20-EMA).</div></div>
+        <div class="pb-row"><div class="lbl">Position Size</div><td><span class="tag bear">0.30x normal</span> Counter-trend overnight flow; strictly small size.</td></div>
+        <div class="pb-row"><div class="lbl">Worst Case</div><div>Clean break above 7,508.25. Cut immediately and reverse to long.</div></div>
+      </div>
+    </div>
+
+    <!-- Trade 3 -->
+    <div class="pb">
+      <div class="pb-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="pb-rank">3</div>
+        <div class="pb-name">🥉 OVERNIGHT BREAKOUT ABOVE WEAK HIGH</div>
+        <div class="pb-rr">R:R 1:3.0+</div>
+        <div class="pb-caret">▶</div>
+      </div>
+      <div class="pb-body">
+        <div class="pb-row"><div class="lbl">Entry Zone</div><div class="mono">7,505.50 – 7,508.00 on clean breakout retest</div></div>
+        <div class="pb-row"><div class="lbl">Entry Type</div><div>Buy stop above 7,505.00 or limit buy on pullback to 7,505-7,507 after break.</div></div>
+        <div class="pb-row"><div class="lbl">Stop Logic</div><div class="mono">Close below 7,499.00 (protects back inside the spike zone)</div></div>
+        <div class="pb-row"><div class="lbl">Stop Size sandbox</div><div>6-8 points</div></div>
+        <div class="pb-row"><div class="lbl">Scale Plan</div><div>50% initial breakout, add 50% on reclaim of 7,514.25.</div></div>
+        <div class="pb-row"><div class="lbl">Targets</div><div>Target 1: 7,514.25 (Single Print) | Target 2: 7,527.25 (Prev Poor Low repair).</div></div>
+        <div class="pb-row"><div class="lbl">Position Size</div><td><span class="tag bear">0.50x normal</span> Sized for momentum overnight flow.</td></div>
+        <div class="pb-row"><div class="lbl">Worst Case</div><div>Failed breakout, slides back below 7,499.00. Cut immediately.</div></div>
       </div>
     </div>
 
@@ -1248,25 +1290,25 @@ pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b
           <td class="mono">Holds above 7,503.50 VAH</td>
           <td><span class="tag bull">Outside Value (Above)</span></td>
           <td>Strong continuation bias; gap-up risk</td>
-          <td>Buy pullbacks to 7,503.50; target 7,514+</td>
+          <td>Buy pullbacks to 7,503.50; target 7,514+ <span class="tag bull">E1/E4</span></td>
         </tr>
         <tr>
           <td class="mono">Consolidates 7,493.75 – 7,503.50</td>
           <td><span class="tag neut">Inside Value (Upper half)</span></td>
           <td>Rotational; wait for initial balance to break</td>
-          <td>Fade boundaries; buy POC, sell spike base</td>
+          <td>Fade boundaries; buy POC, sell spike base <span class="tag neut">E2/E5</span></td>
         </tr>
         <tr>
           <td class="mono">Consolidates 7,455.50 – 7,491.75</td>
           <td><span class="tag bear">Inside Value (Lower half)</span></td>
           <td>Weakness; sellers starting to accept below POC</td>
-          <td>Sell pullbacks to 7,491.75; target VAL 7,455.50</td>
+          <td>Sell pullbacks to 7,491.75; target VAL 7,455.50 <span class="tag bear">E3</span></td>
         </tr>
         <tr>
           <td class="mono">Breaks below VAL 7,455.50</td>
           <td><span class="tag bear">Outside Value (Below)</span></td>
           <td>Bearish imbalance; potential liquidation drive</td>
-          <td>Short retests of VAL; target buying tail 7,443.50</td>
+          <td>Short retests of VAL; target buying tail 7,443.50 <span class="tag bear">E3</span></td>
         </tr>
       </tbody>
     </table>
@@ -1304,11 +1346,11 @@ pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b
         </tr>
         <tr>
           <td>Primary Long Play</td>
-          <td>Buy POC test 7,491.75-7,493.75; stop 7,485; targets 7,502/7,505</td>
+          <td>Buy POC test 7,491.75-7,493.75; stop 7,485; targets 7,502/7,505 <span class="tag bull">E2/E5</span></td>
         </tr>
         <tr>
           <td>Primary Short Play</td>
-          <td>Sell spike base failure 7,502-7,505 rejection; stop 7,508; targets 7,493/7,482</td>
+          <td>Sell spike base failure 7,502-7,505 rejection; stop 7,508; targets 7,493/7,482 <span class="tag bear">E2</span></td>
         </tr>
         <tr>
           <td>VIX Environment</td>
@@ -2299,7 +2341,7 @@ pre.tree .g{color:#5dd39e}.tree .r{color:#ff8a7a}.tree .y{color:#ffd479}.tree .b
   <!-- Tab 6: Decision Map -->
   <section class="panel" data-tab="6) Decision Map">
     <h2><span class="num">06</span>RTH Decision Map &amp; Holds/Breaks Guide</h2>
-    <div class="lede">Visual logic tree mapping the transition from cash open. Use this to determine structural shifts.</div>
+    <div class="lede">Visual logic tree mapping the transition from cash open. Linked directly with your Tuesday day session scenarios (R1–R6).</div>
 
     <pre class="tree">
 ═══════════════════════════════════════════════════════════
@@ -2315,16 +2357,16 @@ Above 7,508.25          7,493 - 7,508           Below 7,491.75
      │                       │                       │
      ▼                       ▼                       ▼
 RTH Scenario 6          Test Spike Base          RTH Scenario 3
-Skip fill, buy          7,502.50                 Reclaim attempt
-pullback                     │                       │
-     │                 ┌─────┴─────┐           ┌─────┴─────┐
-     ▼                 ▼           ▼           ▼           ▼
+[R6 Squeeze]            7,502.50                 [R3 Bear Gap Fill]
+Skip fill, buy               │                       │
+pullback               ┌─────┴─────┐           ┌─────┴─────┐
+     │                 ▼           ▼           ▼           ▼
 Target: 7,527       HOLDS        FAILS       Reclaims    Fails
-7,538, 7,554        (bull)       (bear)      7,491.75    below 7,476
-                       │           │         (bull long) (short)
+7,538, 7,554        [R1 Bull]    [R4 Fail]   7,491.75    below 7,476
+                       │           │         [R5 Reclaim] [R3 Liquidation]
                        ▼           ▼                       │
                     Target      Target                     ▼
-                    7,514+      7,476, VAL              7,455, 7,443
+                    7,514+      7,493, VAL                 7,455, 7,443
     </pre>
 
     <h3>Level-By-Level Holds/Breaks Guide (RTH)</h3>
@@ -2339,33 +2381,33 @@ Target: 7,527       HOLDS        FAILS       Reclaims    Fails
       <tbody>
         <tr>
           <td class="mono">7,538.50 (Prev POC)</td>
-          <td>Strong overhead resistance; limits intermediate rally.</td>
-          <td>Opens path to previous VAH 7,554.25 (rare expansion).</td>
+          <td>Strong overhead resistance; limits intermediate rally <span class="tag neut">R1/R2</span></td>
+          <td>Opens path to previous VAH 7,554.25 (rare expansion) <span class="tag bull">R6</span></td>
         </tr>
         <tr>
           <td class="mono">7,527.25 (Prev Poor Low)</td>
-          <td>Poor low remains intact; sellers defend range.</td>
-          <td>Triggers repair; acceleration to 7,538.50 fast.</td>
+          <td>Poor low remains intact; sellers defend range <span class="tag neut">R1/R2</span></td>
+          <td>Triggers repair; acceleration to 7,538.50 fast <span class="tag bull">R1/R6</span></td>
         </tr>
         <tr>
           <td class="mono">7,514.25 (Single Print)</td>
-          <td>Single print acts as cap; sellers retain some control.</td>
-          <td>Launches price through speed zone straight to 7,527.25.</td>
+          <td>Single print acts as cap; sellers retain some control <span class="tag bear">R2/R4</span></td>
+          <td>Launches price through speed zone straight to 7,527.25 <span class="tag bull">R1/R6</span></td>
         </tr>
         <tr>
           <td class="mono">7,502.50 (Spike Base)</td>
-          <td>Bulls accept spike; confirms breakout path to 7,514+.</td>
-          <td>Confirms spike failure; initiates mean reversion to POC.</td>
+          <td>Bulls accept spike; confirms breakout path to 7,514+ <span class="tag bull">R1/R6</span></td>
+          <td>Confirms spike failure; initiates mean reversion to POC <span class="tag bear">R2/R4/R5</span></td>
         </tr>
         <tr>
           <td class="mono">7,491.75 (20-EMA)</td>
-          <td>Maintains daily bull structure; dip-buyers defended.</td>
-          <td>Triggers daily trend breakdown; targets 7,476.75 then VAL.</td>
+          <td>Maintains daily bull structure; dip-buyers defended <span class="tag bull">R1/R2/R5</span></td>
+          <td>Triggers daily trend breakdown; targets 7,476.75 then VAL <span class="tag bear">R3/R5</span></td>
         </tr>
         <tr>
           <td class="mono">7,455.50 (VAL)</td>
-          <td>Responsive buyers step in; value area floor holds.</td>
-          <td>Liquidates to Buying Tail base at 7,443.50.</td>
+          <td>Responsive buyers step in; value area floor holds <span class="tag bull">R2/R5</span></td>
+          <td>Liquidates to Buying Tail base at 7,443.50 <span class="tag bear">R3/R5</span></td>
         </tr>
       </tbody>
     </table>
@@ -2390,25 +2432,25 @@ Target: 7,527       HOLDS        FAILS       Reclaims    Fails
           <td><span class="tag bull">RTH: Bullish</span></td>
           <td><span class="tag neut">Neutral</span></td>
           <td class="mono">Failure at 7,502.50 after test</td>
-          <td>Reduce longs, step aside and wait for new IB boundaries</td>
+          <td>Reduce longs, step aside and wait for new IB boundaries <span class="tag neut">R4</span></td>
         </tr>
         <tr>
           <td><span class="tag bull">RTH: Bullish</span></td>
           <td><span class="tag bear">Bearish</span></td>
           <td class="mono">Break and hold below 7,476.75</td>
-          <td>Pivot short, target Today VAL 7,455.50 and buying tail</td>
+          <td>Pivot short, target Today VAL 7,455.50 and buying tail <span class="tag bear">R3/R5</span></td>
         </tr>
         <tr>
           <td><span class="tag bear">RTH: Bearish</span></td>
           <td><span class="tag neut">Neutral</span></td>
           <td class="mono">Reclaim of 7,493.75 (Today POC) from below</td>
-          <td>Cover shorts, flip to rotational long targeting 7,505.00</td>
+          <td>Cover shorts, flip to rotational long targeting 7,505.00 <span class="tag bull">R5</span></td>
         </tr>
         <tr>
           <td><span class="tag neut">RTH: Neutral</span></td>
           <td><span class="tag bull">Bullish</span></td>
           <td class="mono">Break above 7,508.25 with volume</td>
-          <td>Buy breakout, target single print 7,514.25 and 7,527.25</td>
+          <td>Buy breakout, target single print 7,514.25 and 7,527.25 <span class="tag bull">R1/R6</span></td>
         </tr>
       </tbody>
     </table>
@@ -2530,37 +2572,37 @@ Target: 7,527       HOLDS        FAILS       Reclaims    Fails
           <td>Open &gt; 7,514.25 (above single print)</td>
           <td><span class="tag bull">Trend-Day Up Potential</span></td>
           <td>Gap accepted; ETH melt-up continues</td>
-          <td><b>Gap-and-Go Buy</b>; targets 7,527.25 and 7,538.50</td>
+          <td><b>Gap-and-Go Buy</b>; targets 7,527.25 and 7,538.50 <span class="tag bull">R6</span></td>
         </tr>
         <tr>
           <td>Open 7,503.50 – 7,514.25 (above VAH)</td>
           <td><span class="tag bull">Value Gap-Up</span></td>
           <td>Testing the single print zone; immediate momentum check</td>
-          <td>Buy pullbacks to VAH 7,503.50; target 7,527.25</td>
+          <td>Buy pullbacks to VAH 7,503.50; target 7,527.25 <span class="tag bull">R1/R6</span></td>
         </tr>
         <tr>
           <td>Open 7,491.75 – 7,503.50 (Inside Value Upper half)</td>
           <td><span class="tag neut">Inside Value (Upper)</span></td>
           <td>Rotational; at the spike base pivot</td>
-          <td><b>Pivot trade</b>; buy holds of 7,502.50, fade 7,505.00</td>
+          <td><b>Pivot trade</b>; buy holds of 7,502.50, fade 7,505.00 <span class="tag neut">R2/R4</span></td>
         </tr>
         <tr>
           <td>Open 7,455.50 – 7,491.75 (Inside Value Lower half)</td>
           <td><span class="tag bear">Inside Value (Lower)</span></td>
           <td>Rotational; below POC gravity</td>
-          <td><b>Responsive fade</b>; short rallies to POC 7,493.75</td>
+          <td><b>Responsive fade</b>; short rallies to POC 7,493.75 <span class="tag bear">R2/R5(AM)</span></td>
         </tr>
         <tr>
           <td>Open 7,443.50 – 7,455.50 (below VAL)</td>
           <td><span class="tag bear">Value Gap-Down</span></td>
           <td>Testing the Today buying tail; responsive buyers active?</td>
-          <td><b>Look-Below-and-Fail</b>; buy reclaim of 7,455.50</td>
+          <td><b>Look-Below-and-Fail</b>; buy reclaim of 7,455.50 <span class="tag bull">R5(PM)</span></td>
         </tr>
         <tr>
           <td>Open &lt; 7,443.50 (below Buying Tail)</td>
           <td><span class="tag bear">Outside Range (Trend Down)</span></td>
           <td>Severe structural damage; buying tail failed</td>
-          <td><b>Trend-Day Down</b>; sell bounces; target 7,409.00 50-EMA</td>
+          <td><b>Trend-Day Down</b>; sell bounces; target 7,409.00 50-EMA <span class="tag bear">R3</span></td>
         </tr>
       </tbody>
     </table>
@@ -2606,23 +2648,23 @@ Target: 7,527       HOLDS        FAILS       Reclaims    Fails
         </tr>
         <tr>
           <td>Primary long</td>
-          <td><b>Buy Today POC / 20-EMA cluster (7,491-7,494)</b> on pullback; stop 7,485; targets 7,514 and 7,527</td>
+          <td><b>Buy Today POC / 20-EMA cluster (7,491-7,494)</b> on pullback; stop 7,485; targets 7,514 and 7,527 <span class="tag bull">R1/R2/R5</span></td>
         </tr>
         <tr>
           <td>Primary short</td>
-          <td><b>Fade the Spike Base Rejection (7,502-7,505)</b> on open; stop 7,510; targets 7,493 and 7,455</td>
+          <td><b>Fade the Spike Base Rejection (7,502-7,505)</b> on open; stop 7,510; targets 7,493 and 7,455 <span class="tag bear">R4</span></td>
         </tr>
         <tr>
           <td>Key bull level</td>
-          <td><b>7,502.50 (Spike Base)</b> — acceptance above triggers the breakout campaign</td>
+          <td><b>7,502.50 (Spike Base)</b> — acceptance above triggers the breakout campaign <span class="tag bull">R1/R6</span></td>
         </tr>
         <tr>
           <td>Key bear level</td>
-          <td><b>7,491.75 (Daily 20-EMA)</b> — daily close below suggests structural fatigue</td>
+          <td><b>7,491.75 (Daily 20-EMA)</b> — daily close below suggests structural fatigue <span class="tag bear">R3</span></td>
         </tr>
         <tr>
           <td>Biggest risk</td>
-          <td><b>Quarter-end morning rebalancing selling</b> — could slide price down to 7,455 VAL before markup</td>
+          <td><b>Quarter-end morning rebalancing selling</b> — could slide price down to 7,455 VAL before markup <span class="tag neut">R5</span></td>
         </tr>
         <tr>
           <td>Day-type expectation</td>
@@ -2640,19 +2682,19 @@ Target: 7,527       HOLDS        FAILS       Reclaims    Fails
     <pre class="tree" style="color:#d7e3f0;">
 ════════════════════════════════════════════════════════════
 ETH 06/29 RULE CARD:
-  ✓ Above 7,502.50 → Micro-long to 7,514.25
-  ✓ At 7,493-7,497 → Watch; buy 7,491-7,494 cluster
-  ✓ Below 7,491.75 → Short to 7,476.75 (with confirmation)
+  ✓ Above 7,502.50 → Micro-long to 7,514.25 [E1/E4]
+  ✓ At 7,493-7,497 → Watch; buy 7,491-7,494 cluster [E2/E5]
+  ✓ Below 7,491.75 → Short to 7,476.75 with confirmation [E3]
   ✓ No trades inside single print (7,514.25 zone)
   ✓ Size small — ETH low volume = wider stops
 
 RTH 06/30 RULE CARD:
-  ✓ Open above 7,502.50 → Buy dips in 7,502.00-7,505.00 zone
-  ✓ Open at 7,491.00-7,502.00 → Wait for IB to form (first 30 min)
-  ✓ Open below 7,491.75 → Short rallies to 7,489.00-7,491.00
-  ✓ Primary long: 7,491-7,494 → stop 7,485 → target 7,514+
-  ✓ Primary short: Rejection 7,502-7,505 → stop 7,510 → target 7,455
-  ✓ Q2 end: Expect potential PM reversal; don't chase AM moves
+  ✓ Open above 7,502.50 → Buy dips in 7,502.00-7,505.00 zone [R1/R6]
+  ✓ Open at 7,491.00-7,502.00 → Wait for IB to form (first 30 min) [R2]
+  ✓ Open below 7,491.75 → Short rallies to 7,489.00-7,491.00 [R3]
+  ✓ Primary long: 7,491-7,494 → stop 7,485 → target 7,514+ [R1/R2/R5]
+  ✓ Primary short: Rejection 7,502-7,505 → stop 7,510 → target 7,455 [R4]
+  ✓ Q2 end: Expect potential PM reversal; don't chase AM moves [R5]
   ✓ VIX above 20.00 = reduce size / be defensive
   ✓ Single prints (7,514.25) = SPEED ZONES → no stops inside
 ════════════════════════════════════════════════════════════
@@ -2695,5 +2737,5 @@ function setPlan(p){
 }
 render();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a13900040b8a657e',t:'MTc4Mjc3ODc3Mw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1396e5c29861dca',t:'MTc4Mjc4MzI5Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
